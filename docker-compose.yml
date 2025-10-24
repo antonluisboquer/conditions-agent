@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: conditions-agent-db
+    environment:
+      POSTGRES_DB: conditions_agent
+      POSTGRES_USER: conditions_user
+      POSTGRES_PASSWORD: conditions_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U conditions_user -d conditions_agent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Conditions Agent API
+  api:
+    build: .
+    container_name: conditions-agent-api
+    environment:
+      # LangSmith
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY}
+      LANGSMITH_PROJECT: conditions-agent
+      LANGSMITH_TRACING_V2: "true"
+      
+      # Database
+      DATABASE_URL: postgresql://conditions_user:conditions_pass@postgres:5432/conditions_agent
+      
+      # External Services (Mocked)
+      PREDICTED_CONDITIONS_API_URL: http://localhost:8001/api/v1/predicted-conditions
+      RACK_AND_STACK_API_URL: http://localhost:8002/api/v1/rack-and-stack
+      CONDITIONS_AI_API_URL: http://localhost:8003/api/v1/evaluate
+      
+      # Agent Config
+      CONFIDENCE_THRESHOLD: "0.7"
+      MAX_EXECUTION_TIMEOUT_SECONDS: "30"
+      COST_BUDGET_USD_PER_EXECUTION: "5.0"
+      
+      # API Config
+      API_HOST: 0.0.0.0
+      API_PORT: "8000"
+      
+      # Logging
+      LOG_LEVEL: INFO
+      LOG_FORMAT: json
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:
+
