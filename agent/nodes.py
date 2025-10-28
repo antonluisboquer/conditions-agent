@@ -7,10 +7,12 @@ from agent.state import AgentState
 from services.predicted_conditions import predicted_conditions_client
 from services.rack_and_stack import rack_and_stack_client
 from services.conditions_ai import conditions_ai_client
+from services.airflow_client import airflow_client
 from utils.guardrails import guardrails_validator
 from utils.logging_config import get_logger
 from utils.tracing import trace_agent_execution
 from database.repository import db_repository
+from config.settings import settings
 
 logger = get_logger(__name__)
 
@@ -285,12 +287,127 @@ async def store_results_node(state: AgentState) -> Dict[str, Any]:
         logger.info(f"Successfully stored results for execution {execution_id}")
         
         return {
-            "status": "completed"
+            "status": "triggering_airflow"
         }
     except Exception as e:
         logger.error(f"Error storing results: {e}", exc_info=True)
         return {
             "error": f"Failed to store results: {str(e)}",
             "status": "failed"
+        }
+
+
+@trace_agent_execution(name="trigger_airflow")
+async def trigger_airflow_node(state: AgentState) -> Dict[str, Any]:
+    """
+    Trigger Airflow DAG for downstream processing.
+    
+    Args:
+        state: Current agent state
+        
+    Returns:
+        Updated state with Airflow DAG run information
+    """
+    logger.info("Triggering Airflow DAG for downstream processing")
+    
+    try:
+        execution_id = state["execution_metadata"].get("execution_id")
+        loan_guid = state["loan_guid"]
+        
+        # Format conditions for Airflow DAG
+        conditions_list = []
+        for condition in state.get("conditions", []):
+            condition_obj = {
+                "condition": {
+                    "id": getattr(condition, "condition_id", condition.get("condition_id")),
+                    "name": getattr(condition, "condition_text", condition.get("condition_text", "")),
+                    "data": {
+                        "Title": getattr(condition, "condition_text", condition.get("condition_text", "")),
+                        "Category": getattr(condition, "category", condition.get("category", "General")),
+                        "Description": getattr(condition, "description", condition.get("description", ""))
+                    }
+                }
+            }
+            conditions_list.append(condition_obj)
+        
+        # Format S3 PDF paths from uploaded documents
+        s3_pdf_paths = []
+        for doc in state.get("uploaded_docs", []):
+            # Extract S3 path from document metadata
+            s3_path = {
+                "bucket": getattr(doc, "s3_bucket", doc.get("s3_bucket", settings.s3_input_bucket)),
+                "key": getattr(doc, "s3_key", doc.get("s3_key", f"docs/{loan_guid}/{doc.get('doc_id', 'unknown')}.pdf"))
+            }
+            s3_pdf_paths.append(s3_path)
+        
+        # Validate we have data to send
+        if not conditions_list:
+            logger.warning(f"No conditions found for loan {loan_guid}")
+            return {
+                "status": "completed",
+                "airflow_error": "No conditions to process"
+            }
+        
+        if not s3_pdf_paths:
+            logger.warning(f"No documents found for loan {loan_guid}")
+            # Continue anyway - DAG might have default behavior for missing docs
+        
+        # Define output destination in rm-conditions bucket
+        # Note: This is just a path string - Airflow DAG handles the actual S3 write
+        output_destination = f"{settings.s3_output_bucket}/{loan_guid}/conditions_{execution_id}.json"
+        
+        # Build the configuration for Airflow DAG
+        dag_config = {
+            "conditions": conditions_list,
+            "s3_pdf_paths": s3_pdf_paths,
+            "output_destination": output_destination
+        }
+        
+        logger.info(f"Sending to Airflow: {len(conditions_list)} conditions, {len(s3_pdf_paths)} documents")
+        
+        if not s3_pdf_paths:
+            logger.warning("No documents provided - DAG will run with empty document list")
+        
+        # Log the full payload for debugging
+        import json
+        logger.info("=" * 60)
+        logger.info("AIRFLOW DAG PAYLOAD:")
+        logger.info(json.dumps(dag_config, indent=2))
+        logger.info("=" * 60)
+        
+        # Trigger the Airflow DAG with formatted configuration
+        dag_run_result = await airflow_client.trigger_dag_with_config(
+            dag_config=dag_config,
+            execution_id=execution_id
+        )
+        
+        logger.info("=" * 60)
+        logger.info("✅ AIRFLOW DAG TRIGGERED SUCCESSFULLY!")
+        logger.info(f"DAG Run ID: {dag_run_result.get('dag_run_id')}")
+        logger.info(f"State: {dag_run_result.get('state')}")
+        logger.info(f"Output Location: s3://{output_destination}")
+        logger.info("=" * 60)
+        
+        # Store DAG run info in execution metadata
+        metadata = state.get("execution_metadata", {})
+        metadata["airflow_dag_run_id"] = dag_run_result.get("dag_run_id")
+        metadata["airflow_dag_state"] = dag_run_result.get("state")
+        metadata["airflow_execution_date"] = dag_run_result.get("execution_date")
+        metadata["output_destination"] = output_destination
+        
+        return {
+            "execution_metadata": metadata,
+            "airflow_dag_run": dag_run_result,
+            "status": "completed"
+        }
+        
+    except Exception as e:
+        logger.error(f"Error triggering Airflow DAG: {e}", exc_info=True)
+        # Don't fail the entire workflow if Airflow trigger fails
+        # Just log the error and mark as completed
+        logger.warning("Continuing workflow despite Airflow trigger failure")
+        return {
+            "status": "completed",
+            "airflow_error": str(e)
         }
 

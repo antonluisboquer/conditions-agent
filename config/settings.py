@@ -21,6 +21,16 @@ class Settings(BaseSettings):
     rack_and_stack_api_url: str
     conditions_ai_api_url: str
     
+    # Airflow Configuration (for triggering DAG - no S3 access needed by agent)
+    airflow_base_url: str = "https://uat-airflow-llm.cybersoftbpo.ai"
+    airflow_username: str
+    airflow_password: str
+    airflow_dag_id: str = "check_condition_v3"
+    
+    # S3 Bucket Names (strings only - passed to Airflow, agent has no S3 access)
+    s3_output_bucket: str = "rm-conditions"
+    s3_input_bucket: str = "rm-conditions"
+    
     # Agent Configuration
     confidence_threshold: float = 0.7
     max_execution_timeout_seconds: int = 30

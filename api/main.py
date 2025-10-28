@@ -7,6 +7,7 @@ from uuid import UUID
 
 from agent.graph import run_conditions_agent
 from database.repository import db_repository
+from services.airflow_client import airflow_client
 from utils.logging_config import setup_logging, get_logger
 from utils.tracing import tracing_manager
 from config.settings import settings
@@ -60,6 +61,7 @@ class EvaluateConditionsResponse(BaseModel):
     evaluations: List[ConditionEvaluationResponse]
     validation_issues: List[str]
     trace_url: Optional[str] = None
+    airflow_dag_run_id: Optional[str] = None
     metadata: dict
 
 
@@ -77,6 +79,8 @@ class HealthResponse(BaseModel):
     status: str
     version: str
     langsmith_enabled: bool
+    airflow_connected: bool = False
+    airflow_dag_status: Optional[str] = None
 
 
 # Endpoints
@@ -84,10 +88,23 @@ class HealthResponse(BaseModel):
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
     """Health check endpoint."""
+    # Check Airflow connection
+    airflow_connected = False
+    airflow_dag_status = None
+    
+    try:
+        airflow_connected = await airflow_client.check_dag_health()
+        airflow_dag_status = "available" if airflow_connected else "paused or unavailable"
+    except Exception as e:
+        logger.warning(f"Airflow health check failed: {e}")
+        airflow_dag_status = f"error: {str(e)}"
+    
     return HealthResponse(
         status="healthy",
         version="1.0.0",
-        langsmith_enabled=settings.langsmith_tracing_v2
+        langsmith_enabled=settings.langsmith_tracing_v2,
+        airflow_connected=airflow_connected,
+        airflow_dag_status=airflow_dag_status
     )
 
 
@@ -153,11 +170,14 @@ async def evaluate_conditions(request: EvaluateConditionsRequest):
             evaluations=evaluations,
             validation_issues=final_state.get("validation_issues", []),
             trace_url=trace_url,
+            airflow_dag_run_id=final_state["execution_metadata"].get("airflow_dag_run_id"),
             metadata={
                 "total_tokens": final_state["execution_metadata"]["total_tokens"],
                 "cost_usd": float(final_state["execution_metadata"]["cost_usd"]),
                 "latency_ms": final_state["execution_metadata"]["latency_ms"],
-                "model_breakdown": final_state["execution_metadata"]["model_breakdown"]
+                "model_breakdown": final_state["execution_metadata"]["model_breakdown"],
+                "airflow_dag_state": final_state["execution_metadata"].get("airflow_dag_state"),
+                "airflow_execution_date": final_state["execution_metadata"].get("airflow_execution_date")
             }
         )
         

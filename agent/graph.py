@@ -12,7 +12,8 @@ from agent.nodes import (
     apply_guardrails_node,
     confidence_router_node,
     human_review_node,
-    store_results_node
+    store_results_node,
+    trigger_airflow_node
 )
 from utils.logging_config import get_logger
 from utils.tracing import tracing_manager
@@ -38,6 +39,7 @@ def create_conditions_agent_graph():
     workflow.add_node("apply_guardrails", apply_guardrails_node)
     workflow.add_node("human_review", human_review_node)
     workflow.add_node("store_results", store_results_node)
+    workflow.add_node("trigger_airflow", trigger_airflow_node)
     
     # Set entry point
     workflow.set_entry_point("load_conditions")
