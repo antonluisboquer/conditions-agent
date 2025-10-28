@@ -59,9 +59,10 @@ def create_conditions_agent_graph():
         }
     )
     
-    # Both paths lead to store_results, then END
+    # Both paths lead to store_results, then trigger_airflow, then END
     workflow.add_edge("human_review", "store_results")
-    workflow.add_edge("store_results", END)
+    workflow.add_edge("store_results", "trigger_airflow")
+    workflow.add_edge("trigger_airflow", END)
     
     # Compile graph
     app = workflow.compile()

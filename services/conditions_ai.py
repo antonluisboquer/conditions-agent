@@ -1,11 +1,15 @@
 """Conditions AI API client."""
 from typing import List, Dict, Any, Optional
+from datetime import datetime
 from pydantic import BaseModel
 import httpx
 
 from config.settings import settings
 from services.predicted_conditions import Condition
 from services.rack_and_stack import DocumentData
+from utils.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class ConditionEvaluationResult(BaseModel):
@@ -173,6 +177,113 @@ class ConditionsAIClient:
             latency_ms=1850,    # Mock latency
             model_breakdown=model_breakdown
         )
+    
+    async def check_airflow_dag_health(self) -> bool:
+        """
+        Check if the Airflow DAG is available and healthy.
+        
+        Returns:
+            True if DAG is accessible, False otherwise
+        """
+        url = f"{settings.airflow_base_url}/api/v1/dags/{settings.airflow_dag_id}"
+        
+        try:
+            response = await self.client.get(
+                url,
+                auth=(settings.airflow_username, settings.airflow_password)
+            )
+            response.raise_for_status()
+            dag_info = response.json()
+            is_paused = dag_info.get("is_paused", True)
+            
+            if is_paused:
+                logger.warning(f"Airflow DAG {settings.airflow_dag_id} is paused")
+                return False
+            
+            return True
+            
+        except httpx.HTTPError as e:
+            logger.error(f"Error checking Airflow DAG health: {e}")
+            return False
+    
+    async def trigger_airflow_dag(
+        self,
+        dag_config: Dict[str, Any],
+        execution_id: str
+    ) -> Dict[str, Any]:
+        """
+        Trigger the Airflow DAG with custom configuration format.
+        
+        This method sends the configuration to the Airflow DAG after evaluation:
+        {
+            "conf": {
+                "conditions": [...],
+                "s3_pdf_paths": [...],
+                "output_destination": "..."
+            }
+        }
+        
+        Args:
+            dag_config: The configuration dict containing conditions, s3_pdf_paths, and output_destination
+            execution_id: Execution ID for tracking
+            
+        Returns:
+            Dict containing dag_run_id, state, and execution_date
+            
+        Raises:
+            httpx.HTTPError: If the API request fails
+        """
+        logger.info(f"Triggering Airflow DAG {settings.airflow_dag_id} with custom configuration")
+        
+        # API endpoint for triggering DAG
+        url = f"{settings.airflow_base_url}/api/v1/dags/{settings.airflow_dag_id}/dagRuns"
+        
+        # Payload for triggering the DAG
+        payload = {
+            "conf": dag_config,
+            "dag_run_id": f"conditions_agent_{execution_id}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+            "note": f"Triggered by Conditions Agent - execution {execution_id}"
+        }
+        
+        logger.debug(f"Airflow DAG payload: {payload}")
+        
+        try:
+            response = await self.client.post(
+                url,
+                json=payload,
+                auth=(settings.airflow_username, settings.airflow_password),
+                headers={"Content-Type": "application/json"}
+            )
+            response.raise_for_status()
+            result = response.json()
+            
+            logger.info(
+                f"Successfully triggered DAG run: {result.get('dag_run_id')} "
+                f"with state: {result.get('state')}"
+            )
+            logger.info(
+                f"Output destination: s3://{dag_config.get('output_destination')}"
+            )
+            
+            return {
+                "dag_run_id": result.get("dag_run_id"),
+                "state": result.get("state"),
+                "execution_date": result.get("execution_date"),
+                "logical_date": result.get("logical_date"),
+                "conf": result.get("conf")
+            }
+            
+        except httpx.HTTPStatusError as e:
+            logger.error(
+                f"HTTP error triggering Airflow DAG: {e.response.status_code} - {e.response.text}"
+            )
+            raise
+        except httpx.RequestError as e:
+            logger.error(f"Request error triggering Airflow DAG: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error triggering Airflow DAG: {e}", exc_info=True)
+            raise
     
     async def close(self):
         """Close HTTP client."""

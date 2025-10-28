@@ -7,7 +7,7 @@ from uuid import UUID
 
 from agent.graph import run_conditions_agent
 from database.repository import db_repository
-from services.airflow_client import airflow_client
+from services.conditions_ai import conditions_ai_client
 from utils.logging_config import setup_logging, get_logger
 from utils.tracing import tracing_manager
 from config.settings import settings
@@ -93,7 +93,7 @@ async def health_check():
     airflow_dag_status = None
     
     try:
-        airflow_connected = await airflow_client.check_dag_health()
+        airflow_connected = await conditions_ai_client.check_airflow_dag_health()
         airflow_dag_status = "available" if airflow_connected else "paused or unavailable"
     except Exception as e:
         logger.warning(f"Airflow health check failed: {e}")

@@ -7,7 +7,6 @@ from agent.state import AgentState
 from services.predicted_conditions import predicted_conditions_client
 from services.rack_and_stack import rack_and_stack_client
 from services.conditions_ai import conditions_ai_client
-from services.airflow_client import airflow_client
 from utils.guardrails import guardrails_validator
 from utils.logging_config import get_logger
 from utils.tracing import trace_agent_execution
@@ -354,7 +353,15 @@ async def trigger_airflow_node(state: AgentState) -> Dict[str, Any]:
         
         # Define output destination in rm-conditions bucket
         # Note: This is just a path string - Airflow DAG handles the actual S3 write
-        output_destination = f"{settings.s3_output_bucket}/{loan_guid}/conditions_{execution_id}.json"
+        # Use the first document's filename as the output destination
+        if s3_pdf_paths:
+            # Get filename from first document key
+            first_doc_key = s3_pdf_paths[0]["key"]
+            filename = first_doc_key.split('/')[-1]  # Get just the filename
+            output_destination = f"{settings.s3_output_bucket}/{filename}"
+        else:
+            # Fallback if no documents
+            output_destination = f"{settings.s3_output_bucket}/conditions_{execution_id}.json"
         
         # Build the configuration for Airflow DAG
         dag_config = {
@@ -376,7 +383,7 @@ async def trigger_airflow_node(state: AgentState) -> Dict[str, Any]:
         logger.info("=" * 60)
         
         # Trigger the Airflow DAG with formatted configuration
-        dag_run_result = await airflow_client.trigger_dag_with_config(
+        dag_run_result = await conditions_ai_client.trigger_airflow_dag(
             dag_config=dag_config,
             execution_id=execution_id
         )
