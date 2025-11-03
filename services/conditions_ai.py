@@ -1,295 +1,264 @@
-"""Conditions AI API client."""
-from typing import List, Dict, Any, Optional
+"""Conditions AI API client for Airflow v5 with S3 result fetching."""
+import asyncio
+import json
+from typing import Dict, Any
 from datetime import datetime
-from pydantic import BaseModel
 import httpx
+import boto3
+from botocore.exceptions import ClientError
 
 from config.settings import settings
-from services.predicted_conditions import Condition
-from services.rack_and_stack import DocumentData
 from utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
 
-class ConditionEvaluationResult(BaseModel):
-    """Single condition evaluation result."""
-    condition_id: str
-    result: str  # 'satisfied', 'unsatisfied', 'uncertain'
-    confidence: float
-    reasoning: str
-    model_used: str  # e.g., 'gpt-5-mini', 'claude-sonnet-4.5'
-    citations: Optional[List[str]] = None  # Document IDs referenced
-    details: Optional[Dict[str, Any]] = None
-
-
-class EvaluationResponse(BaseModel):
-    """Complete evaluation response from Conditions AI."""
-    evaluations: List[ConditionEvaluationResult]
-    total_tokens: int
-    cost_usd: float
-    latency_ms: int
-    model_breakdown: Dict[str, int]  # Count of evaluations per model
-
-
 class ConditionsAIClient:
-    """Client for Conditions AI API."""
+    """Client for Conditions AI (Airflow v5 check_condition_v5 DAG)."""
     
-    def __init__(self, api_url: str = None):
+    def __init__(
+        self,
+        api_url: str = None,
+        username: str = None,
+        password: str = None
+    ):
         """Initialize client."""
         self.api_url = api_url or settings.conditions_ai_api_url
-        self.client = httpx.AsyncClient(timeout=30.0)
+        self.username = username or settings.airflow_username
+        self.password = password or settings.airflow_password
+        self.http_client = httpx.AsyncClient(timeout=300.0)
+        
+        # Initialize S3 client
+        self.s3_client = boto3.client(
+            's3',
+            aws_access_key_id=settings.aws_access_key_id,
+            aws_secret_access_key=settings.aws_secret_access_key,
+            region_name=settings.aws_region
+        )
     
     async def evaluate(
         self,
-        conditions: List[Condition],
-        documents: List[DocumentData]
-    ) -> EvaluationResponse:
-        """
-        Evaluate if documents satisfy conditions.
-        
-        Args:
-            conditions: List of predicted conditions to evaluate
-            documents: List of uploaded documents with rack & stack data
-            
-        Returns:
-            Evaluation results for each condition
-        """
-        # MOCK IMPLEMENTATION - Replace with actual API call
-        # Real implementation would be:
-        # response = await self.client.post(
-        #     f"{self.api_url}/evaluate",
-        #     json={
-        #         "conditions": [c.model_dump() for c in conditions],
-        #         "documents": [d.model_dump() for d in documents]
-        #     }
-        # )
-        # response.raise_for_status()
-        # return EvaluationResponse(**response.json())
-        
-        return self._mock_evaluate(conditions, documents)
-    
-    def _mock_evaluate(
-        self,
-        conditions: List[Condition],
-        documents: List[DocumentData]
-    ) -> EvaluationResponse:
-        """Mock implementation returning sample evaluation results."""
-        
-        # Simple mock logic based on document types
-        doc_types = {doc.document_type for doc in documents}
-        
-        evaluations = []
-        
-        for condition in conditions:
-            # Mock evaluation logic
-            if condition.condition_id == "cond_001":  # Proof of income
-                if "W-2" in doc_types:
-                    evaluations.append(ConditionEvaluationResult(
-                        condition_id=condition.condition_id,
-                        result="satisfied",
-                        confidence=0.95,
-                        reasoning="W-2 form for 2024 provided showing annual wages of $85,000",
-                        model_used="gpt-5-mini",
-                        citations=["doc_001"],
-                        details={"wages": 85000.00, "year": 2024}
-                    ))
-                else:
-                    evaluations.append(ConditionEvaluationResult(
-                        condition_id=condition.condition_id,
-                        result="unsatisfied",
-                        confidence=0.88,
-                        reasoning="No W-2 or proof of income documents found",
-                        model_used="gpt-5-mini",
-                        citations=[]
-                    ))
-            
-            elif condition.condition_id == "cond_002":  # Employment verification
-                if "Employment Verification Letter" in doc_types:
-                    evaluations.append(ConditionEvaluationResult(
-                        condition_id=condition.condition_id,
-                        result="satisfied",
-                        confidence=0.92,
-                        reasoning="Employment verification letter confirms active employment at ABC Corporation since 2020",
-                        model_used="claude-sonnet-4.5",
-                        citations=["doc_003"]
-                    ))
-                else:
-                    evaluations.append(ConditionEvaluationResult(
-                        condition_id=condition.condition_id,
-                        result="unsatisfied",
-                        confidence=0.85,
-                        reasoning="No employment verification letter provided",
-                        model_used="gpt-5-mini",
-                        citations=[]
-                    ))
-            
-            elif condition.condition_id == "cond_003":  # Bank statements
-                if "Bank Statement" in doc_types:
-                    evaluations.append(ConditionEvaluationResult(
-                        condition_id=condition.condition_id,
-                        result="satisfied",
-                        confidence=0.89,
-                        reasoning="Bank statement for October 2024 provided with ending balance of $15,000",
-                        model_used="gpt-5-mini",
-                        citations=["doc_002"]
-                    ))
-                else:
-                    evaluations.append(ConditionEvaluationResult(
-                        condition_id=condition.condition_id,
-                        result="uncertain",
-                        confidence=0.45,
-                        reasoning="Partial bank information found but complete 3-month statements not confirmed",
-                        model_used="gpt-5",
-                        citations=[]
-                    ))
-            
-            elif condition.condition_id == "cond_004":  # Credit inquiry explanation
-                evaluations.append(ConditionEvaluationResult(
-                    condition_id=condition.condition_id,
-                    result="uncertain",
-                    confidence=0.60,
-                    reasoning="No clear letter of explanation found. Manual review recommended.",
-                    model_used="claude-sonnet-4.5",
-                    citations=[]
-                ))
-            
-            else:
-                # Default uncertain result for unknown conditions
-                evaluations.append(ConditionEvaluationResult(
-                    condition_id=condition.condition_id,
-                    result="uncertain",
-                    confidence=0.50,
-                    reasoning="Unable to evaluate condition with provided documents",
-                    model_used="claude-haiku-4.5",
-                    citations=[]
-                ))
-        
-        # Mock model breakdown
-        model_breakdown = {}
-        for eval_result in evaluations:
-            model_breakdown[eval_result.model_used] = model_breakdown.get(eval_result.model_used, 0) + 1
-        
-        return EvaluationResponse(
-            evaluations=evaluations,
-            total_tokens=2500,  # Mock token count
-            cost_usd=0.15,      # Mock cost
-            latency_ms=1850,    # Mock latency
-            model_breakdown=model_breakdown
-        )
-    
-    async def check_airflow_dag_health(self) -> bool:
-        """
-        Check if the Airflow DAG is available and healthy.
-        
-        Returns:
-            True if DAG is accessible, False otherwise
-        """
-        url = f"{settings.airflow_base_url}/api/v1/dags/{settings.airflow_dag_id}"
-        
-        try:
-            response = await self.client.get(
-                url,
-                auth=(settings.airflow_username, settings.airflow_password)
-            )
-            response.raise_for_status()
-            dag_info = response.json()
-            is_paused = dag_info.get("is_paused", True)
-            
-            if is_paused:
-                logger.warning(f"Airflow DAG {settings.airflow_dag_id} is paused")
-                return False
-            
-            return True
-            
-        except httpx.HTTPError as e:
-            logger.error(f"Error checking Airflow DAG health: {e}")
-            return False
-    
-    async def trigger_airflow_dag(
-        self,
-        dag_config: Dict[str, Any],
-        execution_id: str
+        conditions_ai_input: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
-        Trigger the Airflow DAG with custom configuration format.
+        Complete workflow to evaluate conditions via Airflow v5.
         
-        This method sends the configuration to the Airflow DAG after evaluation:
-        {
-            "conf": {
-                "conditions": [...],
-                "s3_pdf_paths": [...],
-                "output_destination": "..."
-            }
-        }
+        This method:
+        1. Triggers the check_condition_v5 DAG
+        2. Polls for completion
+        3. Fetches results from S3
+        4. Returns the complete evaluation
         
         Args:
-            dag_config: The configuration dict containing conditions, s3_pdf_paths, and output_destination
-            execution_id: Execution ID for tracking
-            
+            conditions_ai_input: Input in format:
+                {
+                    "conf": {
+                        "conditions": [...],
+                        "s3_pdf_paths": [...],
+                        "output_destination": "bucket/path/to/output.json"
+                    }
+                }
+        
         Returns:
-            Dict containing dag_run_id, state, and execution_date
-            
-        Raises:
-            httpx.HTTPError: If the API request fails
+            Complete evaluation output from S3 (conditions_s3_output.json format)
         """
-        logger.info(f"Triggering Airflow DAG {settings.airflow_dag_id} with custom configuration")
+        logger.info("Starting Conditions AI evaluation via Airflow v5")
         
-        # API endpoint for triggering DAG
-        url = f"{settings.airflow_base_url}/api/v1/dags/{settings.airflow_dag_id}/dagRuns"
+        # Step 1: Trigger DAG
+        dag_run = await self.trigger_dag(conditions_ai_input)
+        dag_run_id = dag_run["dag_run_id"]
         
-        # Payload for triggering the DAG
+        # Step 2: Poll for completion
+        await self.poll_until_complete(dag_run_id, max_wait_seconds=600)
+        
+        # Step 3: Fetch results from S3
+        output_destination = conditions_ai_input["conf"]["output_destination"]
+        s3_results = await self.fetch_s3_results(output_destination)
+        
+        logger.info("Conditions AI evaluation complete")
+        return s3_results
+    
+    async def trigger_dag(
+        self,
+        conditions_ai_input: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Trigger the check_condition_v5 DAG.
+        
+        Args:
+            conditions_ai_input: Input configuration for Airflow
+        
+        Returns:
+            DAG run information including dag_run_id
+        """
+        logger.info("Triggering Airflow v5 check_condition_v5 DAG")
+        
+        url = f"{self.api_url}/api/v1/dags/check_condition_v5/dagRuns"
+        
+        # Extract config
+        dag_config = conditions_ai_input.get("conf", conditions_ai_input)
+        
         payload = {
-            "conf": dag_config,
-            "dag_run_id": f"conditions_agent_{execution_id}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
-            "note": f"Triggered by Conditions Agent - execution {execution_id}"
+            "conf": dag_config
         }
         
-        logger.debug(f"Airflow DAG payload: {payload}")
+        logger.debug(f"DAG trigger payload: {json.dumps(payload, indent=2)}")
         
         try:
-            response = await self.client.post(
+            response = await self.http_client.post(
                 url,
-                json=payload,
-                auth=(settings.airflow_username, settings.airflow_password),
-                headers={"Content-Type": "application/json"}
+                auth=(self.username, self.password),
+                json=payload
             )
             response.raise_for_status()
+            
             result = response.json()
+            dag_run_id = result["dag_run_id"]
             
-            logger.info(
-                f"Successfully triggered DAG run: {result.get('dag_run_id')} "
-                f"with state: {result.get('state')}"
-            )
-            logger.info(
-                f"Output destination: s3://{dag_config.get('output_destination')}"
-            )
+            logger.info(f"DAG triggered successfully: {dag_run_id}")
+            logger.info(f"State: {result.get('state')}")
+            logger.info(f"Output destination: {dag_config['output_destination']}")
             
-            return {
-                "dag_run_id": result.get("dag_run_id"),
-                "state": result.get("state"),
-                "execution_date": result.get("execution_date"),
-                "logical_date": result.get("logical_date"),
-                "conf": result.get("conf")
-            }
+            return result
             
         except httpx.HTTPStatusError as e:
-            logger.error(
-                f"HTTP error triggering Airflow DAG: {e.response.status_code} - {e.response.text}"
-            )
-            raise
-        except httpx.RequestError as e:
-            logger.error(f"Request error triggering Airflow DAG: {e}")
-            raise
+            logger.error(f"HTTP error triggering DAG: {e.response.status_code}")
+            logger.error(f"Response: {e.response.text}")
+            raise Exception(f"Failed to trigger Airflow DAG: {e.response.text}")
         except Exception as e:
-            logger.error(f"Unexpected error triggering Airflow DAG: {e}", exc_info=True)
+            logger.error(f"Error triggering DAG: {e}", exc_info=True)
+            raise
+    
+    async def poll_until_complete(
+        self,
+        dag_run_id: str,
+        max_wait_seconds: int = 600,
+        poll_interval: int = 10
+    ):
+        """
+        Poll DAG status until completion or timeout.
+        
+        Args:
+            dag_run_id: DAG run ID to poll
+            max_wait_seconds: Maximum time to wait (default 10 minutes)
+            poll_interval: Seconds between polls (default 10s)
+        
+        Raises:
+            TimeoutError: If DAG doesn't complete in time
+            Exception: If DAG fails
+        """
+        logger.info(f"Polling DAG {dag_run_id} for completion")
+        
+        start_time = datetime.utcnow()
+        elapsed = 0
+        
+        while elapsed < max_wait_seconds:
+            status = await self.check_dag_status(dag_run_id)
+            state = status.get('state')
+            
+            elapsed = (datetime.utcnow() - start_time).total_seconds()
+            
+            logger.info(f"[{elapsed:.0f}s] DAG state: {state}")
+            
+            if state == 'success':
+                duration = status.get('duration')
+                logger.info(f"DAG completed successfully in {duration}s")
+                return
+            
+            elif state == 'failed':
+                error_msg = f"DAG failed: {status}"
+                logger.error(error_msg)
+                raise Exception(error_msg)
+            
+            elif state in ['running', 'queued']:
+                logger.debug(f"DAG still {state}, waiting {poll_interval}s")
+                await asyncio.sleep(poll_interval)
+            
+            else:
+                logger.warning(f"Unknown DAG state: {state}")
+                await asyncio.sleep(poll_interval)
+        
+        raise TimeoutError(f"DAG did not complete within {max_wait_seconds}s")
+    
+    async def check_dag_status(self, dag_run_id: str) -> Dict[str, Any]:
+        """
+        Check the status of a DAG run.
+        
+        Args:
+            dag_run_id: DAG run ID
+        
+        Returns:
+            DAG run status information
+        """
+        url = f"{self.api_url}/api/v1/dags/check_condition_v5/dagRuns/{dag_run_id}"
+        
+        try:
+            response = await self.http_client.get(
+                url,
+                auth=(self.username, self.password)
+            )
+            response.raise_for_status()
+            return response.json()
+            
+        except Exception as e:
+            logger.error(f"Error checking DAG status: {e}")
+            raise
+    
+    async def fetch_s3_results(self, s3_path: str) -> Dict[str, Any]:
+        """
+        Fetch evaluation results from S3.
+        
+        Args:
+            s3_path: S3 path in format "bucket/key/to/file.json"
+        
+        Returns:
+            Parsed JSON results from S3
+        """
+        logger.info(f"Fetching results from S3: {s3_path}")
+        
+        # Parse S3 path
+        if s3_path.startswith('s3://'):
+            s3_path = s3_path[5:]
+        
+        parts = s3_path.split('/', 1)
+        if len(parts) != 2:
+            raise ValueError(f"Invalid S3 path format: {s3_path}")
+        
+        bucket, key = parts
+        
+        try:
+            # Fetch from S3 (synchronous boto3 call)
+            response = await asyncio.to_thread(
+                self.s3_client.get_object,
+                Bucket=bucket,
+                Key=key
+            )
+            
+            # Read and parse JSON
+            content = response['Body'].read().decode('utf-8')
+            results = json.loads(content)
+            
+            logger.info(f"Successfully fetched results from s3://{bucket}/{key}")
+            logger.info(f"Processing status: {results.get('processing_status')}")
+            
+            return results
+            
+        except ClientError as e:
+            error_code = e.response['Error']['Code']
+            if error_code == 'NoSuchKey':
+                logger.error(f"S3 object not found: s3://{bucket}/{key}")
+                raise FileNotFoundError(f"Results not found in S3: {s3_path}")
+            else:
+                logger.error(f"S3 error: {error_code} - {e}")
+                raise
+        except Exception as e:
+            logger.error(f"Error fetching S3 results: {e}", exc_info=True)
             raise
     
     async def close(self):
         """Close HTTP client."""
-        await self.client.aclose()
+        await self.http_client.aclose()
 
 
 # Global client instance
 conditions_ai_client = ConditionsAIClient()
-

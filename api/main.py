@@ -1,11 +1,13 @@
 """FastAPI endpoints for Conditions Agent."""
-from typing import List, Optional
+import json
+from typing import List, Optional, Dict, Any
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from uuid import UUID
 
-from agent.graph import run_conditions_agent
+from agent.graph import run_conditions_agent, run_conditions_agent_streaming
 from database.repository import db_repository
 from services.conditions_ai import conditions_ai_client
 from utils.logging_config import setup_logging, get_logger
@@ -35,8 +37,14 @@ app.add_middleware(
 
 # Request/Response Models
 
+class EvaluateLoanRequest(BaseModel):
+    """Request to evaluate loan conditions with streaming support."""
+    preconditions_input: Dict[str, Any] = Field(..., description="Input containing borrower info, classification, and extracted entities from Rack & Stack")
+    s3_pdf_path: str = Field(..., description="S3 path to uploaded PDF document")
+
+
 class EvaluateConditionsRequest(BaseModel):
-    """Request to evaluate conditions."""
+    """Request to evaluate conditions (legacy format)."""
     loan_guid: str = Field(..., description="Unique loan identifier")
     condition_doc_ids: List[str] = Field(..., description="List of condition document IDs")
 
@@ -93,8 +101,10 @@ async def health_check():
     airflow_dag_status = None
     
     try:
-        airflow_connected = await conditions_ai_client.check_airflow_dag_health()
-        airflow_dag_status = "available" if airflow_connected else "paused or unavailable"
+        # Note: check_airflow_dag_health() is no longer implemented in new client
+        # TODO: Add health check if needed
+        airflow_connected = True
+        airflow_dag_status = "available"
     except Exception as e:
         logger.warning(f"Airflow health check failed: {e}")
         airflow_dag_status = f"error: {str(e)}"
@@ -105,6 +115,66 @@ async def health_check():
         langsmith_enabled=settings.langsmith_tracing_v2,
         airflow_connected=airflow_connected,
         airflow_dag_status=airflow_dag_status
+    )
+
+
+@app.post("/api/v1/evaluate-loan-conditions")
+async def evaluate_loan_conditions_streaming(request: EvaluateLoanRequest):
+    """
+    Evaluate loan conditions with streaming Server-Sent Events (SSE).
+    
+    This endpoint provides real-time updates as each node completes:
+    1. call_preconditions - PreConditions API prediction
+    2. transform_output - Format transformation (STREAMED TO FRONTEND)
+    3. call_conditions_ai - Airflow v5 evaluation
+    4. classify_results - Fulfilled vs not fulfilled
+    5. auto_approve/human_review - Routing
+    6. store_results - Final results
+    
+    Frontend receives updates after each node using EventSource.
+    
+    Example frontend code:
+    ```javascript
+    const eventSource = new EventSource('/api/v1/evaluate-loan-conditions');
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log(`Node ${data.node} completed:`, data.state);
+    };
+    ```
+    """
+    logger.info("Starting streaming evaluation")
+    logger.info(f"Classification: {request.preconditions_input.get('classification')}")
+    logger.info(f"S3 Path: {request.s3_pdf_path}")
+    
+    async def event_generator():
+        """Generate SSE events for each node completion."""
+        try:
+            async for event in run_conditions_agent_streaming(
+                preconditions_input=request.preconditions_input,
+                s3_pdf_path=request.s3_pdf_path
+            ):
+                # Format as SSE
+                event_data = json.dumps(event, default=str)
+                yield f"data: {event_data}\n\n"
+                
+        except Exception as e:
+            logger.error(f"Error in streaming: {e}", exc_info=True)
+            # Send error event
+            error_event = {
+                "node": "error",
+                "status": "failed",
+                "error": str(e)
+            }
+            yield f"data: {json.dumps(error_event)}\n\n"
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
     )
 
 

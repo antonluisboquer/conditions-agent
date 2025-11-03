@@ -1,75 +1,111 @@
-"""Node implementations for Conditions Agent LangGraph."""
-from datetime import datetime
+"""LangGraph node implementations for Conditions Agent."""
 from typing import Dict, Any
+from datetime import datetime
 from uuid import uuid4
 
 from agent.state import AgentState
-from services.predicted_conditions import predicted_conditions_client
-from services.rack_and_stack import rack_and_stack_client
+from services.preconditions import preconditions_client
 from services.conditions_ai import conditions_ai_client
-from utils.guardrails import guardrails_validator
-from utils.logging_config import get_logger
+from utils.transformers import (
+    transform_preconditions_to_conditions_ai,
+    extract_fulfilled_and_not_fulfilled,
+    format_condition_for_frontend
+)
 from utils.tracing import trace_agent_execution
-from database.repository import db_repository
+from utils.logging_config import get_logger
+from database.repository import ConditionsRepository
 from config.settings import settings
 
 logger = get_logger(__name__)
+repository = ConditionsRepository()
 
 
-@trace_agent_execution(name="load_conditions")
-async def load_conditions_node(state: AgentState) -> Dict[str, Any]:
+@trace_agent_execution(name="call_preconditions")
+async def call_preconditions_node(state: AgentState) -> Dict[str, Any]:
     """
-    Load predicted conditions for the loan.
+    Call PreConditions API to predict required conditions.
     
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with loaded conditions
+    Input: preconditions_input (includes Rack & Stack data)
+    Output: preconditions_output (streamed to frontend)
     """
-    logger.info(f"Loading predicted conditions for loan {state['loan_guid']}")
+    logger.info("=" * 50)
+    logger.info("NODE: call_preconditions")
+    logger.info("=" * 50)
+    
+    preconditions_input = state["preconditions_input"]
+    
+    logger.info(f"Calling PreConditions API")
+    logger.info(f"Classification: {preconditions_input.get('classification')}")
+    logger.info(f"Loan Program: {preconditions_input.get('loan_program')}")
     
     try:
-        conditions = await predicted_conditions_client.get_conditions(state["loan_guid"])
-        logger.info(f"Loaded {len(conditions)} predicted conditions")
+        # Call PreConditions LangGraph Cloud API
+        result = await preconditions_client.predict_conditions(preconditions_input)
         
+        logger.info("PreConditions API call successful")
+        logger.info(f"Compartments found: {len(result.get('compartments', []))}")
+        logger.info(f"Deficient conditions: {len(result.get('deficient_conditions', []))}")
+        
+        # Update state with output (will be streamed)
         return {
-            "conditions": conditions,
-            "status": "loading_documents"
+            "preconditions_output": result,
+            "node_outputs": state.get("node_outputs", []) + [{
+                "node": "call_preconditions",
+                "completed_at": datetime.utcnow().isoformat(),
+                "output_summary": f"{len(result.get('deficient_conditions', []))} conditions predicted"
+            }]
         }
+        
     except Exception as e:
-        logger.error(f"Error loading conditions: {e}", exc_info=True)
+        logger.error(f"Error in call_preconditions_node: {e}", exc_info=True)
         return {
-            "error": f"Failed to load conditions: {str(e)}",
+            "error": f"PreConditions API failed: {str(e)}",
             "status": "failed"
         }
 
 
-@trace_agent_execution(name="load_documents")
-async def load_documents_node(state: AgentState) -> Dict[str, Any]:
+@trace_agent_execution(name="transform_output")
+async def transform_output_node(state: AgentState) -> Dict[str, Any]:
     """
-    Load rack and stack results for uploaded documents.
+    Transform PreConditions output to Conditions AI input format.
     
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with loaded documents
+    This is a critical transformation that bridges the two APIs.
+    Output will be streamed to frontend.
     """
-    logger.info(f"Loading documents: {state['condition_doc_ids']}")
+    logger.info("=" * 50)
+    logger.info("NODE: transform_output")
+    logger.info("=" * 50)
+    
+    preconditions_output = state["preconditions_output"]
+    s3_pdf_path = state["s3_pdf_path"]
+    
+    logger.info("Transforming PreConditions output to Conditions AI input format")
     
     try:
-        documents = await rack_and_stack_client.get_document_data(state["condition_doc_ids"])
-        logger.info(f"Loaded {len(documents)} documents")
+        # Transform the output
+        transformed = transform_preconditions_to_conditions_ai(
+            cloud_output=preconditions_output,
+            s3_pdf_path=s3_pdf_path
+        )
         
+        conditions_count = len(transformed["conf"]["conditions"])
+        logger.info(f"Transformation complete: {conditions_count} conditions prepared for AI")
+        logger.info(f"Output destination: {transformed['conf']['output_destination']}")
+        
+        # Update state (will be streamed)
         return {
-            "uploaded_docs": documents,
-            "status": "evaluating"
+            "transformed_input": transformed,
+            "node_outputs": state.get("node_outputs", []) + [{
+                "node": "transform_output",
+                "completed_at": datetime.utcnow().isoformat(),
+                "output_summary": f"{conditions_count} conditions transformed"
+            }]
         }
+        
     except Exception as e:
-        logger.error(f"Error loading documents: {e}", exc_info=True)
+        logger.error(f"Error in transform_output_node: {e}", exc_info=True)
         return {
-            "error": f"Failed to load documents: {str(e)}",
+            "error": f"Transformation failed: {str(e)}",
             "status": "failed"
         }
 
@@ -77,344 +113,243 @@ async def load_documents_node(state: AgentState) -> Dict[str, Any]:
 @trace_agent_execution(name="call_conditions_ai")
 async def call_conditions_ai_node(state: AgentState) -> Dict[str, Any]:
     """
-    Call external Conditions AI API to evaluate conditions.
+    Call Conditions AI (Airflow v5) to evaluate conditions.
     
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with evaluation results
+    This triggers the DAG, polls for completion, and fetches results from S3.
     """
-    logger.info(f"Calling Conditions AI for {len(state['conditions'])} conditions")
+    logger.info("=" * 50)
+    logger.info("NODE: call_conditions_ai")
+    logger.info("=" * 50)
+    
+    transformed_input = state["transformed_input"]
+    
+    logger.info("Calling Conditions AI (Airflow v5)")
+    logger.info(f"Evaluating {len(transformed_input['conf']['conditions'])} conditions")
     
     try:
-        # Call Conditions AI API
-        response = await conditions_ai_client.evaluate(
-            conditions=state["conditions"],
-            documents=state["uploaded_docs"]
-        )
+        # This method handles: trigger -> poll -> fetch S3
+        result = await conditions_ai_client.evaluate(transformed_input)
         
-        logger.info(
-            f"Conditions AI completed: {len(response.evaluations)} evaluations, "
-            f"{response.total_tokens} tokens, ${response.cost_usd:.4f}"
-        )
+        processed_conditions = result.get('processed_conditions', [])
+        api_usage = result.get('api_usage_summary', {})
         
-        # Extract confidence scores
-        confidence_scores = {
-            eval_result.condition_id: eval_result.confidence
-            for eval_result in response.evaluations
-        }
+        logger.info("Conditions AI evaluation complete")
+        logger.info(f"Processed {len(processed_conditions)} conditions")
+        logger.info(f"Status: {result.get('processing_status')}")
         
-        # Update execution metadata
-        metadata = state.get("execution_metadata", {})
-        metadata.update({
-            "total_tokens": response.total_tokens,
-            "cost_usd": response.cost_usd,
-            "latency_ms": response.latency_ms,
-            "model_breakdown": response.model_breakdown
-        })
+        if api_usage:
+            condition_analysis = api_usage.get('condition_analysis', {})
+            logger.info(f"Total tokens: {condition_analysis.get('total_tokens', 0)}")
+            logger.info(f"Total cost: ${condition_analysis.get('total_cost_usd', 0):.4f}")
+            logger.info(f"Total latency: {condition_analysis.get('total_latency_ms', 0)}ms")
         
+        # Update state (will be streamed)
         return {
-            "conditions_ai_response": response,
-            "evaluations": response.evaluations,
-            "confidence_scores": confidence_scores,
-            "execution_metadata": metadata,
-            "status": "applying_guardrails"
+            "conditions_ai_output": result,
+            "node_outputs": state.get("node_outputs", []) + [{
+                "node": "call_conditions_ai",
+                "completed_at": datetime.utcnow().isoformat(),
+                "output_summary": f"{len(processed_conditions)} conditions evaluated"
+            }]
         }
+        
     except Exception as e:
-        logger.error(f"Error calling Conditions AI: {e}", exc_info=True)
+        logger.error(f"Error in call_conditions_ai_node: {e}", exc_info=True)
         return {
-            "error": f"Failed to evaluate conditions: {str(e)}",
+            "error": f"Conditions AI failed: {str(e)}",
             "status": "failed"
         }
 
 
-@trace_agent_execution(name="apply_guardrails")
-async def apply_guardrails_node(state: AgentState) -> Dict[str, Any]:
+@trace_agent_execution(name="classify_results")
+async def classify_results_node(state: AgentState) -> Dict[str, Any]:
     """
-    Apply guardrails and validation to evaluation results.
+    Classify conditions into fulfilled vs not fulfilled.
     
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with validation results
+    Fulfilled conditions will be auto-approved.
+    Not fulfilled conditions need RM review.
     """
-    logger.info("Applying guardrails and validation")
+    logger.info("=" * 50)
+    logger.info("NODE: classify_results")
+    logger.info("=" * 50)
+    
+    conditions_ai_output = state["conditions_ai_output"]
+    
+    logger.info("Classifying evaluation results")
     
     try:
-        # Validate evaluations
-        validated_evaluations, requires_review, issues = guardrails_validator.validate_evaluations(
-            evaluations=state["evaluations"],
-            documents=state["uploaded_docs"],
-            cost_usd=state["execution_metadata"].get("cost_usd", 0.0)
-        )
+        # Extract fulfilled and not fulfilled conditions
+        fulfilled, not_fulfilled = extract_fulfilled_and_not_fulfilled(conditions_ai_output)
         
-        logger.info(
-            f"Guardrails validation complete: requires_review={requires_review}, "
-            f"issues={len(issues)}"
-        )
+        logger.info(f"Fulfilled: {len(fulfilled)} conditions")
+        logger.info(f"Not Fulfilled: {len(not_fulfilled)} conditions")
         
+        # Determine if human review is needed
+        requires_human_review = len(not_fulfilled) > 0
+        
+        # Update state (will be streamed)
         return {
-            "evaluations": validated_evaluations,
-            "requires_human_review": requires_review,
-            "validation_issues": issues,
-            "status": "routing"
+            "fulfilled_conditions": fulfilled,
+            "not_fulfilled_conditions": not_fulfilled,
+            "requires_human_review": requires_human_review,
+            "auto_approved_count": len(fulfilled),
+            "node_outputs": state.get("node_outputs", []) + [{
+                "node": "classify_results",
+                "completed_at": datetime.utcnow().isoformat(),
+                "output_summary": f"{len(fulfilled)} fulfilled, {len(not_fulfilled)} need review"
+            }]
         }
+        
     except Exception as e:
-        logger.error(f"Error applying guardrails: {e}", exc_info=True)
+        logger.error(f"Error in classify_results_node: {e}", exc_info=True)
         return {
-            "error": f"Failed to apply guardrails: {str(e)}",
+            "error": f"Classification failed: {str(e)}",
             "status": "failed"
         }
 
 
 def confidence_router_node(state: AgentState) -> str:
     """
-    Route based on confidence and validation results.
+    Route based on whether human review is needed.
     
-    Args:
-        state: Current agent state
-        
     Returns:
-        Next node name: 'store_results' or 'human_review'
+        - "auto_approve" if all conditions fulfilled
+        - "human_review" if any conditions not fulfilled
     """
-    if state.get("requires_human_review", False):
-        logger.info("Routing to human review")
+    logger.info("=" * 50)
+    logger.info("NODE: confidence_router")
+    logger.info("=" * 50)
+    
+    requires_review = state.get("requires_human_review", False)
+    
+    if requires_review:
+        logger.info("Routing to human_review (some conditions not fulfilled)")
         return "human_review"
     else:
-        logger.info("Routing to store results (auto-approved)")
-        return "store_results"
+        logger.info("Routing to auto_approve (all conditions fulfilled)")
+        return "auto_approve"
+
+
+@trace_agent_execution(name="auto_approve")
+async def auto_approve_node(state: AgentState) -> Dict[str, Any]:
+    """
+    Auto-approve fulfilled conditions.
+    """
+    logger.info("=" * 50)
+    logger.info("NODE: auto_approve")
+    logger.info("=" * 50)
+    
+    fulfilled_conditions = state.get("fulfilled_conditions", [])
+    
+    logger.info(f"Auto-approving {len(fulfilled_conditions)} fulfilled conditions")
+    
+    # Format for frontend
+    formatted_conditions = [
+        format_condition_for_frontend(cond, is_fulfilled=True)
+        for cond in fulfilled_conditions
+    ]
+    
+    return {
+        "node_outputs": state.get("node_outputs", []) + [{
+            "node": "auto_approve",
+            "completed_at": datetime.utcnow().isoformat(),
+            "output_summary": f"{len(fulfilled_conditions)} conditions auto-approved"
+        }]
+    }
 
 
 @trace_agent_execution(name="human_review")
 async def human_review_node(state: AgentState) -> Dict[str, Any]:
     """
-    Flag evaluations for human review.
-    
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with review flag
+    Mark not fulfilled conditions for human review.
     """
-    logger.info("Marking for human review")
+    logger.info("=" * 50)
+    logger.info("NODE: human_review")
+    logger.info("=" * 50)
     
-    # Log which conditions need review
-    low_confidence = [
-        eval_result.condition_id
-        for eval_result in state["evaluations"]
-        if eval_result.confidence < guardrails_validator.confidence_threshold
+    not_fulfilled_conditions = state.get("not_fulfilled_conditions", [])
+    
+    logger.info(f"Marking {len(not_fulfilled_conditions)} conditions for RM review")
+    
+    # Format for frontend
+    formatted_conditions = [
+        format_condition_for_frontend(cond, is_fulfilled=False)
+        for cond in not_fulfilled_conditions
     ]
     
-    logger.info(f"Conditions requiring review: {low_confidence}")
-    
     return {
-        "status": "needs_review"
+        "node_outputs": state.get("node_outputs", []) + [{
+            "node": "human_review",
+            "completed_at": datetime.utcnow().isoformat(),
+            "output_summary": f"{len(not_fulfilled_conditions)} conditions need RM review"
+        }]
     }
 
 
 @trace_agent_execution(name="store_results")
 async def store_results_node(state: AgentState) -> Dict[str, Any]:
     """
-    Store results in PostgreSQL with full audit trail.
-    
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with storage confirmation
+    Store final results to PostgreSQL and prepare final response.
     """
-    logger.info("Storing results in PostgreSQL")
+    logger.info("=" * 50)
+    logger.info("NODE: store_results")
+    logger.info("=" * 50)
     
-    try:
-        # Get execution ID from metadata
-        execution_id = state["execution_metadata"].get("execution_id")
-        
-        if not execution_id:
-            logger.error("No execution_id in metadata")
-            return {
-                "error": "Missing execution_id",
-                "status": "failed"
-            }
-        
-        # Store evaluations
-        evaluation_records = []
-        for eval_result in state["evaluations"]:
-            evaluation_records.append({
-                "condition_id": eval_result.condition_id,
-                "condition_text": next(
-                    (c.condition_text for c in state["conditions"] if c.condition_id == eval_result.condition_id),
-                    ""
-                ),
-                "result": eval_result.result,
-                "confidence": float(eval_result.confidence),
-                "model_used": eval_result.model_used,
-                "reasoning": eval_result.reasoning,
-                "citations": eval_result.citations
-            })
-        
-        db_repository.create_evaluations(execution_id, evaluation_records)
-        
-        # Update execution status
-        metadata = state["execution_metadata"]
-        db_repository.update_execution_status(
-            execution_id=execution_id,
-            status="completed",
-            total_tokens=metadata.get("total_tokens"),
-            cost_usd=metadata.get("cost_usd"),
-            latency_ms=metadata.get("latency_ms")
-        )
-        
-        # Update loan state
-        result_counts = {"satisfied": 0, "unsatisfied": 0, "uncertain": 0}
-        for eval_result in state["evaluations"]:
-            result_counts[eval_result.result] = result_counts.get(eval_result.result, 0) + 1
-        
-        final_status = "needs_review" if state.get("requires_human_review") else "approved"
-        
-        db_repository.upsert_loan_state(
-            loan_guid=state["loan_guid"],
-            current_status=final_status,
-            last_execution_id=execution_id,
-            conditions_count=len(state["evaluations"]),
-            satisfied_count=result_counts["satisfied"],
-            unsatisfied_count=result_counts["unsatisfied"],
-            uncertain_count=result_counts["uncertain"]
-        )
-        
-        logger.info(f"Successfully stored results for execution {execution_id}")
-        
-        return {
-            "status": "triggering_airflow"
-        }
-    except Exception as e:
-        logger.error(f"Error storing results: {e}", exc_info=True)
-        return {
-            "error": f"Failed to store results: {str(e)}",
-            "status": "failed"
-        }
-
-
-@trace_agent_execution(name="trigger_airflow")
-async def trigger_airflow_node(state: AgentState) -> Dict[str, Any]:
-    """
-    Trigger Airflow DAG for downstream processing.
+    fulfilled_conditions = state.get("fulfilled_conditions", [])
+    not_fulfilled_conditions = state.get("not_fulfilled_conditions", [])
+    conditions_ai_output = state.get("conditions_ai_output", {})
+    execution_metadata = state.get("execution_metadata", {})
     
-    Args:
-        state: Current agent state
-        
-    Returns:
-        Updated state with Airflow DAG run information
-    """
-    logger.info("Triggering Airflow DAG for downstream processing")
+    logger.info("Preparing final results")
     
-    try:
-        execution_id = state["execution_metadata"].get("execution_id")
-        loan_guid = state["loan_guid"]
-        
-        # Format conditions for Airflow DAG
-        conditions_list = []
-        for condition in state.get("conditions", []):
-            condition_obj = {
-                "condition": {
-                    "id": getattr(condition, "condition_id", condition.get("condition_id")),
-                    "name": getattr(condition, "condition_text", condition.get("condition_text", "")),
-                    "data": {
-                        "Title": getattr(condition, "condition_text", condition.get("condition_text", "")),
-                        "Category": getattr(condition, "category", condition.get("category", "General")),
-                        "Description": getattr(condition, "description", condition.get("description", ""))
-                    }
-                }
-            }
-            conditions_list.append(condition_obj)
-        
-        # Format S3 PDF paths from uploaded documents
-        s3_pdf_paths = []
-        for doc in state.get("uploaded_docs", []):
-            # Extract S3 path from document metadata
-            s3_path = {
-                "bucket": getattr(doc, "s3_bucket", doc.get("s3_bucket", settings.s3_input_bucket)),
-                "key": getattr(doc, "s3_key", doc.get("s3_key", f"docs/{loan_guid}/{doc.get('doc_id', 'unknown')}.pdf"))
-            }
-            s3_pdf_paths.append(s3_path)
-        
-        # Validate we have data to send
-        if not conditions_list:
-            logger.warning(f"No conditions found for loan {loan_guid}")
-            return {
-                "status": "completed",
-                "airflow_error": "No conditions to process"
-            }
-        
-        if not s3_pdf_paths:
-            logger.warning(f"No documents found for loan {loan_guid}")
-            # Continue anyway - DAG might have default behavior for missing docs
-        
-        # Define output destination in rm-conditions bucket
-        # Note: This is just a path string - Airflow DAG handles the actual S3 write
-        # Use the first document's filename as the output destination
-        if s3_pdf_paths:
-            # Get filename from first document key
-            first_doc_key = s3_pdf_paths[0]["key"]
-            filename = first_doc_key.split('/')[-1]  # Get just the filename
-            output_destination = f"{settings.s3_output_bucket}/{filename}"
-        else:
-            # Fallback if no documents
-            output_destination = f"{settings.s3_output_bucket}/conditions_{execution_id}.json"
-        
-        # Build the configuration for Airflow DAG
-        dag_config = {
-            "conditions": conditions_list,
-            "s3_pdf_paths": s3_pdf_paths,
-            "output_destination": output_destination
-        }
-        
-        logger.info(f"Sending to Airflow: {len(conditions_list)} conditions, {len(s3_pdf_paths)} documents")
-        
-        if not s3_pdf_paths:
-            logger.warning("No documents provided - DAG will run with empty document list")
-        
-        # Log the full payload for debugging
-        import json
-        logger.info("=" * 60)
-        logger.info("AIRFLOW DAG PAYLOAD:")
-        logger.info(json.dumps(dag_config, indent=2))
-        logger.info("=" * 60)
-        
-        # Trigger the Airflow DAG with formatted configuration
-        dag_run_result = await conditions_ai_client.trigger_airflow_dag(
-            dag_config=dag_config,
-            execution_id=execution_id
-        )
-        
-        logger.info("=" * 60)
-        logger.info("✅ AIRFLOW DAG TRIGGERED SUCCESSFULLY!")
-        logger.info(f"DAG Run ID: {dag_run_result.get('dag_run_id')}")
-        logger.info(f"State: {dag_run_result.get('state')}")
-        logger.info(f"Output Location: s3://{output_destination}")
-        logger.info("=" * 60)
-        
-        # Store DAG run info in execution metadata
-        metadata = state.get("execution_metadata", {})
-        metadata["airflow_dag_run_id"] = dag_run_result.get("dag_run_id")
-        metadata["airflow_dag_state"] = dag_run_result.get("state")
-        metadata["airflow_execution_date"] = dag_run_result.get("execution_date")
-        metadata["output_destination"] = output_destination
-        
-        return {
-            "execution_metadata": metadata,
-            "airflow_dag_run": dag_run_result,
-            "status": "completed"
-        }
-        
-    except Exception as e:
-        logger.error(f"Error triggering Airflow DAG: {e}", exc_info=True)
-        # Don't fail the entire workflow if Airflow trigger fails
-        # Just log the error and mark as completed
-        logger.warning("Continuing workflow despite Airflow trigger failure")
-        return {
-            "status": "completed",
-            "airflow_error": str(e)
-        }
-
+    # Format all conditions for frontend
+    all_conditions = []
+    
+    for cond in fulfilled_conditions:
+        all_conditions.append(format_condition_for_frontend(cond, is_fulfilled=True))
+    
+    for cond in not_fulfilled_conditions:
+        all_conditions.append(format_condition_for_frontend(cond, is_fulfilled=False))
+    
+    # Calculate totals
+    api_usage = conditions_ai_output.get('api_usage_summary', {})
+    condition_analysis = api_usage.get('condition_analysis', {})
+    
+    final_results = {
+        "execution_id": execution_metadata.get("execution_id"),
+        "trace_id": execution_metadata.get("trace_id"),
+        "status": "completed",
+        "timestamp": datetime.utcnow().isoformat(),
+        "summary": {
+            "total_conditions": len(all_conditions),
+            "fulfilled": len(fulfilled_conditions),
+            "not_fulfilled": len(not_fulfilled_conditions),
+            "auto_approved": len(fulfilled_conditions),
+            "requires_review": len(not_fulfilled_conditions)
+        },
+        "conditions": all_conditions,
+        "usage": {
+            "total_tokens": condition_analysis.get('total_tokens', 0),
+            "total_cost_usd": condition_analysis.get('total_cost_usd', 0),
+            "total_latency_ms": condition_analysis.get('total_latency_ms', 0),
+            "avg_latency_ms": condition_analysis.get('avg_latency_ms', 0)
+        },
+        "workflow_info": conditions_ai_output.get('workflow_info', {})
+    }
+    
+    logger.info(f"Final results prepared: {len(all_conditions)} total conditions")
+    logger.info(f"Auto-approved: {len(fulfilled_conditions)}")
+    logger.info(f"Needs review: {len(not_fulfilled_conditions)}")
+    
+    # TODO: Store to PostgreSQL
+    # await repository.store_execution(...)
+    
+    return {
+        "final_results": final_results,
+        "status": "completed",
+        "node_outputs": state.get("node_outputs", []) + [{
+            "node": "store_results",
+            "completed_at": datetime.utcnow().isoformat(),
+            "output_summary": "Results stored successfully"
+        }]
+    }

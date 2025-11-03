@@ -2,10 +2,6 @@
 from typing import TypedDict, List, Dict, Any, Optional
 from datetime import datetime
 
-from services.predicted_conditions import Condition
-from services.rack_and_stack import DocumentData
-from services.conditions_ai import EvaluationResponse, ConditionEvaluationResult
-
 
 class ExecutionMetadata(TypedDict, total=False):
     """Metadata about the execution."""
@@ -19,36 +15,45 @@ class ExecutionMetadata(TypedDict, total=False):
     model_breakdown: Dict[str, int]
 
 
+class NodeOutput(TypedDict, total=False):
+    """Track completion of each node for streaming."""
+    node: str
+    completed_at: str
+    output_summary: Optional[str]
+
+
 class AgentState(TypedDict, total=False):
     """
-    State for Conditions Agent LangGraph.
+    State for Conditions Agent LangGraph with streaming support.
     
     This state flows through the graph nodes and accumulates
-    data as the agent progresses through the workflow.
+    data as the agent progresses. Each node updates relevant
+    fields which can be streamed to the frontend.
     """
-    # Input
-    loan_guid: str
-    condition_doc_ids: List[str]
+    # ========== Input (from frontend) ==========
+    preconditions_input: Dict[str, Any]  # Includes borrower_info, classification, extracted_entities
+    s3_pdf_path: str  # Path to uploaded PDF in S3
     
-    # Loaded data
-    conditions: List[Condition]
-    uploaded_docs: List[DocumentData]
+    # ========== Node Outputs (streamed after each node) ==========
+    preconditions_output: Optional[Dict[str, Any]]  # Output from PreConditions API
+    transformed_input: Optional[Dict[str, Any]]  # Transformed input for Conditions AI
+    conditions_ai_output: Optional[Dict[str, Any]]  # Complete output from Conditions AI (S3)
     
-    # Conditions AI response
-    conditions_ai_response: Optional[EvaluationResponse]
+    # ========== Classification Results ==========
+    fulfilled_conditions: List[Dict[str, Any]]  # Conditions that were fulfilled
+    not_fulfilled_conditions: List[Dict[str, Any]]  # Conditions needing RM review
     
-    # Processed results
-    evaluations: List[ConditionEvaluationResult]
-    confidence_scores: Dict[str, float]  # condition_id -> confidence
+    # ========== Final Results ==========
+    final_results: Optional[Dict[str, Any]]  # Consolidated results for frontend
     
-    # Decision flags
-    requires_human_review: bool
-    validation_issues: List[str]
-    
-    # Execution metadata
+    # ========== Execution Tracking ==========
     execution_metadata: ExecutionMetadata
+    node_outputs: List[NodeOutput]  # Track each node completion for streaming
     
-    # Error tracking
+    # ========== Decision Flags ==========
+    requires_human_review: bool
+    auto_approved_count: int
+    
+    # ========== Error Handling ==========
     error: Optional[str]
     status: str  # 'running', 'completed', 'failed', 'needs_review'
-

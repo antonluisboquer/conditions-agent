@@ -11,25 +11,26 @@ class Settings(BaseSettings):
     langsmith_project: str = "conditions-agent"
     langsmith_tracing_v2: bool = True
     
+    # PreConditions API (LangGraph Cloud)
+    preconditions_deployment_url: str
+    preconditions_api_key: str
+    preconditions_assistant_id: str
+    
+    # Conditions AI (Airflow v5)
+    conditions_ai_api_url: str
+    airflow_username: str
+    airflow_password: str
+    
+    # S3 Configuration (for fetching Conditions AI results)
+    aws_access_key_id: str
+    aws_secret_access_key: str
+    aws_region: str = "us-east-1"
+    s3_output_bucket: str
+    
     # Database Configuration
     database_url: str
     database_pool_size: int = 10
     database_max_overflow: int = 20
-    
-    # External Service Endpoints
-    predicted_conditions_api_url: str
-    rack_and_stack_api_url: str
-    conditions_ai_api_url: str
-    
-    # Airflow Configuration (for triggering DAG - no S3 access needed by agent)
-    airflow_base_url: str = "https://uat-airflow-llm.cybersoftbpo.ai"
-    airflow_username: str
-    airflow_password: str
-    airflow_dag_id: str = "check_condition_v3"
-    
-    # S3 Bucket Names (strings only - passed to Airflow, agent has no S3 access)
-    s3_output_bucket: str = "rm-conditions"
-    s3_input_bucket: str = "rm-conditions"
     
     # Agent Configuration
     confidence_threshold: float = 0.7

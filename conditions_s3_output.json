@@ -1,0 +1,51 @@
+{
+    "workflow_info": {
+      "dag_id": "check_condition_v5",
+      "processing_timestamp": "2025-10-27T10:09:59.147384+00:00",
+      "dag_run_id": "manual__2025-10-27T10:09:02.623572+00:00",
+      "task_instance_id": "compile_and_save_results",
+      "input_pdf_paths": [
+        {
+          "bucket": "quick-quote-demo",
+          "key": "mock/Wiring Instructions - demo.pdf"
+        }
+      ],
+      "output_destination": "quick-quote-demo/mock/conditions_1.json"
+    },
+    "api_usage_summary": {
+      "condition_analysis": {
+        "total_calls": 1,
+        "total_tokens": 23911,
+        "total_cost_usd": 0.093645,
+        "total_latency_ms": 23701,
+        "avg_latency_ms": 23701.0
+      }
+    },
+    "processed_conditions": [
+      {
+        "result_document_id": "Wiring Instructions - demo",
+        "condition_id": 2,
+        "title": "Property:  Title Company Documents",
+        "description": "Wiring instructions from Title Company",
+        "category": "Property",
+        "is_relevant": "related",
+        "document_status": "not fulfilled",
+        "document_analysis": "",
+        "document_analysis_thinking": "The user is asking me to analyze a mortgage document against an underwriting condition. The trigger words here include:\n- \"mortgage underwriter\"\n- \"loan documents\"\n- \"Underwriting Condition\"\n- \"Analyze the document\"\n\nThis clearly matches the \"conditions-analyze\" skill. Let me read the skill file first before proceeding.\n\nI need to:\n1. Read the SKILL.md file for conditions-analyze\n2. Follow its instructions exactly\n3. Then analyze the document provided\n\nThe document appears to be wire instructions from a title company (Abraxas Land Associates, Inc.) with banking details.\n\nThe condition to evaluate is: \"Wiring instructions from Title Company\"\n\nLet me first read the skill file.",
+        "analysis_metadata": {
+          "execution_id": "msg_01H19bhCjayecooZ9qpWNZy6",
+          "result_confidence": 1.0,
+          "model_used": "claude-haiku-4-5-20251001",
+          "tokens_used": {
+            "input": 22085,
+            "output": 1826,
+            "total": 23911
+          },
+          "cost_usd": 0.093645,
+          "latency_ms": 23701
+        }
+      }
+    ],
+    "processing_status": "completed",
+    "workflow_version": "3.0"
+  }
