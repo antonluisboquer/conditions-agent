@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # LangSmith Configuration
-    langsmith_api_key: str
+    langsmith_api_key: Optional[str] = None
     langsmith_project: str = "conditions-agent"
     langsmith_tracing_v2: bool = True
 
@@ -21,23 +21,23 @@ class Settings(BaseSettings):
     solver_temperature: float = 0.3
 
     # PreConditions API (LangGraph Cloud)
-    preconditions_deployment_url: str
-    preconditions_api_key: str
-    preconditions_assistant_id: str
+    preconditions_deployment_url: Optional[str] = None
+    preconditions_api_key: Optional[str] = None
+    preconditions_assistant_id: Optional[str] = None
     
     # Conditions AI (Airflow v5)
-    conditions_ai_api_url: str
-    airflow_username: str
-    airflow_password: str
+    conditions_ai_api_url: Optional[str] = None
+    airflow_username: Optional[str] = None
+    airflow_password: Optional[str] = None
     
     # S3 Configuration (for fetching Conditions AI results)
-    aws_access_key_id: str
-    aws_secret_access_key: str
+    aws_access_key_id: Optional[str] = None
+    aws_secret_access_key: Optional[str] = None
     aws_region: str = "us-east-1"
-    s3_output_bucket: str
+    s3_output_bucket: Optional[str] = None
     
     # Database Configuration
-    database_url: str
+    database_url: Optional[str] = None
     database_pool_size: int = 10
     database_max_overflow: int = 20
     
@@ -58,6 +58,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = False
+        extra = "ignore"  # Ignore extra fields in .env file
 
 
 # Global settings instance

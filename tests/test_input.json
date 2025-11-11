@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "loan_program": "Flex Supreme",
+    "classification": "1120 Corporate Tax Return",
+    "borrower_info": {
+      "borrower_type": "Self-Employed",
+      "business_name": "Sunrise Trading Corporation",
+      "email": "miguel.santos@email.com",
+      "first_name": "Miguel",
+      "last_name": "Santos",
+      "middle_name": "R.",
+      "phone_number": "(0917) 555-3829",
+      "ssn": "123-45-6789"
+    },
+    "extracted_entities": {
+      "business_name": "Sunrise Trading Corporation",
+      "ein": "12-3456789",
+      "gross_receipts": "1,250,000",
+      "net_income": "185,000",
+      "tax_year": "2023",
+      "total_assets": "750,000",
+      "total_liabilities": "420,000"
+    }
+  },
+  "s3_pdf_paths": [
+    "s3://quick-quote-demo/mock/tax_return_2023.pdf"
+  ],
+  "instructions": "Evaluate all loan conditions for this corporate tax return and tell me which conditions are fulfilled."
+}
+

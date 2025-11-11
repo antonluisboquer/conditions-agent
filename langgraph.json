@@ -1,0 +1,12 @@
+{
+  "dockerfile_lines": [],
+  "dependencies": [
+    "."
+  ],
+  "graphs": {
+    "conditions_agent": "./agent/rewoo_graph.py:create_rewoo_agent_graph"
+  },
+  "env": ".env",
+  "python_version": "3.11"
+}
+

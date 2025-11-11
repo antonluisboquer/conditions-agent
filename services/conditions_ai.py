@@ -1,4 +1,4 @@
-"""Conditions AI API client for Airflow v5 with S3 result fetching."""
+"""Conditions AI API client for Airflow v3 with S3 result fetching."""
 import asyncio
 import json
 from typing import Dict, Any
@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 
 
 class ConditionsAIClient:
-    """Client for Conditions AI (Airflow v5 check_condition_v5 DAG)."""
+    """Client for Conditions AI (Airflow v3 check_condition_v3 DAG)."""
     
     def __init__(
         self,
@@ -29,22 +29,27 @@ class ConditionsAIClient:
         self.http_client = httpx.AsyncClient(timeout=300.0)
         
         # Initialize S3 client
-        self.s3_client = boto3.client(
-            's3',
-            aws_access_key_id=settings.aws_access_key_id,
-            aws_secret_access_key=settings.aws_secret_access_key,
-            region_name=settings.aws_region
-        )
+        # If credentials are None, boto3 will use IAM role or default credential chain
+        if settings.aws_access_key_id and settings.aws_secret_access_key:
+            self.s3_client = boto3.client(
+                's3',
+                aws_access_key_id=settings.aws_access_key_id,
+                aws_secret_access_key=settings.aws_secret_access_key,
+                region_name=settings.aws_region
+            )
+        else:
+            # Use default credential chain (IAM role, env vars, ~/.aws/credentials)
+            self.s3_client = boto3.client('s3', region_name=settings.aws_region)
     
     async def evaluate(
         self,
         conditions_ai_input: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
-        Complete workflow to evaluate conditions via Airflow v5.
+        Complete workflow to evaluate conditions via Airflow v3.
         
         This method:
-        1. Triggers the check_condition_v5 DAG
+        1. Triggers the check_condition_v3 DAG
         2. Polls for completion
         3. Fetches results from S3
         4. Returns the complete evaluation
@@ -62,7 +67,7 @@ class ConditionsAIClient:
         Returns:
             Complete evaluation output from S3 (conditions_s3_output.json format)
         """
-        logger.info("Starting Conditions AI evaluation via Airflow v5")
+        logger.info("Starting Conditions AI evaluation via Airflow v3")
         
         # Step 1: Trigger DAG
         dag_run = await self.trigger_dag(conditions_ai_input)
@@ -83,7 +88,7 @@ class ConditionsAIClient:
         conditions_ai_input: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
-        Trigger the check_condition_v5 DAG.
+        Trigger the check_condition_v3 DAG.
         
         Args:
             conditions_ai_input: Input configuration for Airflow
@@ -91,9 +96,9 @@ class ConditionsAIClient:
         Returns:
             DAG run information including dag_run_id
         """
-        logger.info("Triggering Airflow v5 check_condition_v5 DAG")
+        logger.info("Triggering Airflow check_condition_v3 DAG")
         
-        url = f"{self.api_url}/api/v1/dags/check_condition_v5/dagRuns"
+        url = f"{self.api_url}/api/v1/dags/check_condition_v3/dagRuns"
         
         # Extract config
         dag_config = conditions_ai_input.get("conf", conditions_ai_input)
@@ -190,7 +195,7 @@ class ConditionsAIClient:
         Returns:
             DAG run status information
         """
-        url = f"{self.api_url}/api/v1/dags/check_condition_v5/dagRuns/{dag_run_id}"
+        url = f"{self.api_url}/api/v1/dags/check_condition_v3/dagRuns/{dag_run_id}"
         
         try:
             response = await self.http_client.get(
