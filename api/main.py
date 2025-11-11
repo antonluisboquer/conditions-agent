@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from uuid import UUID
 
 from agent.graph import run_conditions_agent, run_conditions_agent_streaming
+from agent.rewoo_graph import run_rewoo_agent, run_rewoo_agent_streaming
 from database.repository import db_repository
 from services.conditions_ai import conditions_ai_client
 from utils.logging_config import setup_logging, get_logger
@@ -47,6 +48,14 @@ class EvaluateConditionsRequest(BaseModel):
     """Request to evaluate conditions (legacy format)."""
     loan_guid: str = Field(..., description="Unique loan identifier")
     condition_doc_ids: List[str] = Field(..., description="List of condition document IDs")
+
+
+class ReWOOAgentRequest(BaseModel):
+    """Request payload for the ReWOO agent."""
+    metadata: Dict[str, Any] = Field(..., description="Structured loan metadata (borrower info, classification, etc.)")
+    s3_pdf_paths: List[str] = Field(..., description="List of S3 paths to supporting documents")
+    instructions: Optional[str] = Field(None, description="Optional natural language instructions or questions")
+    output_destination: Optional[str] = Field(None, description="Optional downstream output destination")
 
 
 class ConditionEvaluationResponse(BaseModel):
@@ -89,6 +98,12 @@ class HealthResponse(BaseModel):
     langsmith_enabled: bool
     airflow_connected: bool = False
     airflow_dag_status: Optional[str] = None
+
+
+class ReWOOAgentResponse(BaseModel):
+    """Response returned by the ReWOO agent."""
+    final_results: Dict[str, Any]
+    execution_metadata: Dict[str, Any]
 
 
 # Endpoints
@@ -178,85 +193,62 @@ async def evaluate_loan_conditions_streaming(request: EvaluateLoanRequest):
     )
 
 
-@app.post("/api/v1/evaluate-conditions", response_model=EvaluateConditionsResponse)
-async def evaluate_conditions(request: EvaluateConditionsRequest):
-    """
-    Evaluate if uploaded documents satisfy loan conditions.
-    
-    This endpoint orchestrates the entire conditions evaluation workflow:
-    1. Load predicted conditions
-    2. Load rack & stack document data
-    3. Call Conditions AI for evaluation
-    4. Apply guardrails and validation
-    5. Store results in PostgreSQL
-    
-    Returns evaluation results with LangSmith trace URL.
-    """
-    logger.info(f"Received evaluation request for loan {request.loan_guid}")
-    
-    try:
-        # Run the conditions agent
-        final_state = await run_conditions_agent(
-            loan_guid=request.loan_guid,
-            condition_doc_ids=request.condition_doc_ids
-        )
-        
-        # Check for errors
-        if final_state.get("error"):
-            raise HTTPException(
-                status_code=500,
-                detail=f"Agent execution failed: {final_state['error']}"
-            )
-        
-        # Get trace URL
-        trace_url = tracing_manager.get_trace_url()
-        
-        # Format evaluations
-        evaluations = []
-        for eval_result in final_state.get("evaluations", []):
-            # Find the condition text
-            condition_text = ""
-            for condition in final_state.get("conditions", []):
-                if condition.condition_id == eval_result.condition_id:
-                    condition_text = condition.condition_text
-                    break
-            
-            evaluations.append(ConditionEvaluationResponse(
-                condition_id=eval_result.condition_id,
-                condition_text=condition_text,
-                result=eval_result.result,
-                confidence=eval_result.confidence,
-                reasoning=eval_result.reasoning,
-                model_used=eval_result.model_used,
-                citations=eval_result.citations
-            ))
-        
-        # Build response
-        response = EvaluateConditionsResponse(
-            execution_id=final_state["execution_metadata"]["execution_id"],
-            loan_guid=request.loan_guid,
-            status=final_state["status"],
-            requires_human_review=final_state.get("requires_human_review", False),
-            evaluations=evaluations,
-            validation_issues=final_state.get("validation_issues", []),
-            trace_url=trace_url,
-            airflow_dag_run_id=final_state["execution_metadata"].get("airflow_dag_run_id"),
-            metadata={
-                "total_tokens": final_state["execution_metadata"]["total_tokens"],
-                "cost_usd": float(final_state["execution_metadata"]["cost_usd"]),
-                "latency_ms": final_state["execution_metadata"]["latency_ms"],
-                "model_breakdown": final_state["execution_metadata"]["model_breakdown"],
-                "airflow_dag_state": final_state["execution_metadata"].get("airflow_dag_state"),
-                "airflow_execution_date": final_state["execution_metadata"].get("airflow_execution_date")
-            }
-        )
-        
-        logger.info(f"Successfully completed evaluation for loan {request.loan_guid}")
-        return response
-        
-    except Exception as e:
-        logger.error(f"Error in evaluate_conditions: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/api/v1/evaluate-conditions", summary="ReWOO agent (streaming)")
+async def evaluate_conditions_streaming(request: ReWOOAgentRequest):
+    """Streaming endpoint for the ReWOO agent."""
+    logger.info("Starting ReWOO streaming evaluation")
+
+    async def event_generator():
+        try:
+            async for event in run_rewoo_agent_streaming(
+                metadata=request.metadata,
+                s3_pdf_paths=request.s3_pdf_paths,
+                instructions=request.instructions,
+                output_destination=request.output_destination,
+            ):
+                yield f"data: {json.dumps(event, default=str)}\n\n"
+        except Exception as exc:  # pragma: no cover - defensive
+            logger.error("ReWOO streaming error: %s", exc, exc_info=True)
+            error_event = {"node": "error", "stage": "failed", "error": str(exc)}
+            yield f"data: {json.dumps(error_event)}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+@app.post("/api/v1/evaluate-conditions/run", response_model=ReWOOAgentResponse, summary="ReWOO agent (non-streaming)")
+async def evaluate_conditions_run(request: ReWOOAgentRequest):
+    """Run the ReWOO agent and return the final results."""
+    final_state = await run_rewoo_agent(
+        metadata=request.metadata,
+        s3_pdf_paths=request.s3_pdf_paths,
+        instructions=request.instructions,
+        output_destination=request.output_destination,
+    )
+
+    if final_state.get("status") != "completed":
+        raise HTTPException(status_code=500, detail=final_state.get("error", "Agent failed to complete."))
+
+    return ReWOOAgentResponse(
+        final_results=final_state.get("final_results", {}),
+        execution_metadata=final_state.get("execution_metadata", {}),
+    )
+
+
+@app.post("/api/v1/evaluate-conditions/legacy", response_model=EvaluateConditionsResponse)
+async def evaluate_conditions_legacy(_: EvaluateConditionsRequest):
+    """Legacy endpoint placeholder."""
+    raise HTTPException(
+        status_code=410,
+        detail="This endpoint has moved. Use /api/v1/evaluate-loan-conditions (streaming) or /api/v1/evaluate-conditions for the ReWOO agent.",
+    )
 
 
 @app.post("/api/v1/feedback")
