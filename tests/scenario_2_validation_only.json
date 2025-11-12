@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "conditions": [
+      {
+        "condition_id": 1,
+        "condition_name": "Bank Statements - 2 Months",
+        "description": "Provide 2 consecutive months of bank statements showing sufficient funds",
+        "category": "Assets"
+      },
+      {
+        "condition_id": 2,
+        "condition_name": "Credit Report",
+        "description": "Provide current credit report (within 90 days)",
+        "category": "Credit"
+      },
+      {
+        "condition_id": 3,
+        "condition_name": "Property Title Report",
+        "description": "Preliminary title report with 24-month chain of title",
+        "category": "Property"
+      }
+    ]
+  },
+  "instructions": "Check if the uploaded documents satisfy these specific conditions. I already know what conditions are needed, just verify if the documents fulfill them.",
+  "s3_pdf_paths": [
+    "rm-conditions/Bank Statement - August 2025.pdf",
+    "rm-conditions/Credit Report - September 2025.pdf",
+    "rm-conditions/Encompass Docs - Preliminary Title Report dtd 9-4-25.pdf"
+  ]
+}
+

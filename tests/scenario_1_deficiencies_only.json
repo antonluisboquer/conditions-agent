@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "documents": [
+      {
+        "classification": "Bank Statement",
+        "extracted_entities": {
+          "bank": {"name": "CITI BANK N.A"},
+          "accounts": [
+            {
+              "accountType": "Checking",
+              "accountNumber": "42029260439",
+              "endingBalance": "10985.99"
+            }
+          ]
+        }
+      },
+      {
+        "classification": "URLA 1003",
+        "extracted_entities": {
+          "borrowers": [
+            {
+              "lastName": "DAILAMY",
+              "firstName": "RAMIN"
+            }
+          ]
+        }
+      },
+      {
+        "classification": "Credit Report",
+        "extracted_entities": {
+          "applicant1": {
+            "lastName": "Dailamy",
+            "firstName": "Ramin",
+            "last4SSN": "4801"
+          }
+        }
+      }
+    ],
+    "loan_program": "Flex Supreme",
+    "borrower_info": {
+      "last_name": "Fenix",
+      "first_name": "Hannah",
+      "borrower_type": "W2"
+    }
+  },
+  "instructions": "Determine what conditions are deficient for this borrower and loan. I only need to know what might be missing based on the loan program and documents provided.",
+  "s3_pdf_paths": []
+}
+

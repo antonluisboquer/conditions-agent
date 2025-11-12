@@ -1,0 +1,277 @@
+{
+    "documents": [
+      {
+        "classification": "Borrower Certification as to Business Purpose",
+        "extracted_entities": {
+          "borrowers": [
+            {
+              "signed": true,
+              "suffix": "",
+              "lastName": "Delgado",
+              "firstName": "Marisol",
+              "dateSigned": "2025-11-04",
+              "middleName": ""
+            }
+          ],
+          "propertyAddress": {
+            "city": "Riverside",
+            "state": "California",
+            "zipCode": "92501-2932",
+            "address1": "3311 LIME ST",
+            "address2": "",
+            "fullAddress": ""
+          }
+        }
+      },
+      {
+        "classification": "Title Invoice",
+        "extracted_entities": {
+          "borrowers": [
+            {
+              "signed": false,
+              "suffix": "",
+              "lastName": "Rocco",
+              "firstName": "Francis",
+              "dateSigned": "",
+              "middleName": ""
+            }
+          ]
+        }
+      },
+      {
+        "classification": "Bank Statement",
+        "extracted_entities": {
+          "bank": {
+            "name": "CITI BANK N.A"
+          },
+          "accounts": [
+            {
+              "accountType": "Checking",
+              "accountNumber": "42029260439",
+              "endingBalance": "10985.99",
+              "accountHolderTypes": [
+                "",
+                "person"
+              ],
+              "accountHolderTrusts": [],
+              "accountHolderPersons": [
+                {
+                  "suffix": "",
+                  "lastName": "DAILAMY",
+                  "firstName": "RAMIN",
+                  "middleName": ""
+                }
+              ],
+              "accountHolderBusinesses": [],
+              "hasLargeDepositWithdrawal": true
+            },
+            {
+              "accountType": "Savings",
+              "accountNumber": "42029260447",
+              "endingBalance": "175.66",
+              "accountHolderTypes": [
+                "",
+                "person"
+              ],
+              "accountHolderTrusts": [],
+              "accountHolderPersons": [
+                {
+                  "suffix": "",
+                  "lastName": "DAILAMY",
+                  "firstName": "RAMIN",
+                  "middleName": ""
+                }
+              ],
+              "accountHolderBusinesses": [],
+              "hasLargeDepositWithdrawal": false
+            }
+          ],
+          "statementAddress": {
+            "city": "WEST HILLS",
+            "state": "CA",
+            "zipCode": "91307-1425",
+            "address1": "23360 SANDALWOOD ST",
+            "address2": "",
+            "fullAddress": ""
+          },
+          "statementPeriodTo": "2025-08-31",
+          "statementPeriodFrom": "2025-08-01"
+        }
+      },
+      {
+        "classification": "URLA 1003",
+        "extracted_entities": {
+          "a": "",
+          "b": "",
+          "c": "",
+          "d": "",
+          "e": "",
+          "f": "",
+          "g": "",
+          "h": "",
+          "i": "",
+          "j": "",
+          "k": "",
+          "l": "",
+          "m": "",
+          "cost": 0,
+          "banks": [],
+          "total": 0,
+          "amount": 0,
+          "signed": false,
+          "retired": false,
+          "employer": {
+            "name": ""
+          },
+          "position": "",
+          "borrowers": [
+            {
+              "DOB": "",
+              "signed": false,
+              "status": "",
+              "suffix": "",
+              "last4SSN": "",
+              "lastName": "DAILAMY",
+              "position": "",
+              "firstName": "RAMIN",
+              "homePhone": "",
+              "yrsSchool": "",
+              "dateSigned": "",
+              "middleName": "",
+              "mailingAddress": {
+                "city": "",
+                "state": "",
+                "zipCode": "",
+                "address1": "",
+                "address2": "",
+                "fullAddress": ""
+              },
+              "presentAddress": {
+                "city": "",
+                "noYrs": 0,
+                "state": "",
+                "zipCode": "",
+                "address1": "",
+                "address2": "",
+                "noMonths": 0,
+                "ownOrRent": "",
+                "fullAddress": ""
+              },
+              "formerAddresses": []
+            }
+          ],
+          "startDate": "",
+          "employedBy": false,
+          "noOfMonths": "",
+          "properties": [],
+          "coBorrowerA": "",
+          "coBorrowerB": "",
+          "coBorrowerC": "",
+          "coBorrowerD": "",
+          "coBorrowerE": "",
+          "coBorrowerF": "",
+          "coBorrowerG": "",
+          "coBorrowerH": "",
+          "coBorrowerI": "",
+          "coBorrowerJ": "",
+          "coBorrowerK": "",
+          "coBorrowerL": "",
+          "coBorrowerM": "",
+          "liabilities": [],
+          "interestRate": 0,
+          "originalCost": 0,
+          "selfEmployed": false,
+          "yrsOnThisJob": {
+            "years": 0,
+            "months": 0
+          },
+          "borrowerGross": [],
+          "businessPhone": "",
+          "purposeOfLoan": "",
+          "madeOrToBeMade": "",
+          "ownershipShare": "",
+          "propertyWillBe": "",
+          "propertyAddress": {
+            "TBD": false,
+            "city": "CALABASAS",
+            "state": "CA",
+            "zipCode": "91302",
+            "address1": "23675 PARK CAPRI",
+            "address2": "",
+            "fullAddress": ""
+          },
+          "yearLotAcquired": 0,
+          "amortizationType": "",
+          "new1003Borrowers": [],
+          "addressOfEmployer": {
+            "city": "",
+            "state": "",
+            "zipCode": "",
+            "address1": "",
+            "address2": "",
+            "fullAddress": ""
+          },
+          "presentValueOfLot": 0,
+          "signed1003Version": "",
+          "costOfImprovements": 0,
+          "mortgageAppliedFor": "",
+          "purposeOfRefinance": "",
+          "amountExistingLiens": 0,
+          "sourceOfDownPayment": "",
+          "describeImprovements": "",
+          "titleWillBeHeldInWhatNames": [],
+          "borrowerPreviousEmployments": [],
+          "yrsEmployedInThisLineOfWork": "",
+          "mannerInWhichTitleWillBeHeld": ""
+        }
+      },
+      {
+        "classification": "Credit Report",
+        "extracted_entities": {
+          "alerts": [],
+          "scores": [],
+          "address": {
+            "city": "Los Angeles",
+            "state": "California",
+            "zipCode": "91307",
+            "address1": "23360 Sandalwood Street",
+            "address2": "",
+            "fullAddress": ""
+          },
+          "company": {
+            "name": "XACTUS"
+          },
+          "inquiries": [],
+          "applicant1": {
+            "suffix": "",
+            "last4SSN": "4801",
+            "lastName": "Dailamy",
+            "firstName": "Ramin",
+            "middleName": ""
+          },
+          "applicant2": {
+            "suffix": "",
+            "last4SSN": "",
+            "lastName": "",
+            "firstName": "",
+            "middleName": ""
+          },
+          "reportIssued": "2025-09-16",
+          "tradeSummary": [],
+          "publicRecords": [],
+          "mortgageSummary": [],
+          "creditTradeLines": [],
+          "derogatorySummary": [],
+          "collectionAccounts": [],
+          "derogatoryAccounts": [],
+          "aliasesAndAddresses": []
+        }
+      }
+    ],
+    "loan_program": "Flex Supreme",
+    "borrower_info": {
+      "last_name": "Fenix",
+      "first_name": "Hannah",
+      "borrower_type": "W2"
+    }
+  }

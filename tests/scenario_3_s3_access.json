@@ -1,0 +1,9 @@
+{
+  "metadata": {},
+  "instructions": "Verify that you can access these S3 documents and retrieve their metadata. Just confirm the files exist and are readable.",
+  "s3_pdf_paths": [
+    "rm-conditions/Encompass Docs - Preliminary Title Report dtd 9-4-25.pdf",
+    "rm-conditions/Flood Certification - Flood Certificate.pdf"
+  ]
+}
+

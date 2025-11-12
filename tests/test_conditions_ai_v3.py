@@ -4,6 +4,11 @@ Test script to verify Conditions AI v3 DAG integration.
 This script tests calling the check_condition_v3 DAG directly
 to ensure the integration works before running through the full agent.
 """
+import sys
+import os
+# Add parent directory to path so we can import from services/
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import asyncio
 import json
 from datetime import datetime

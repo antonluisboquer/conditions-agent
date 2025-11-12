@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "documents": [
+      {
+        "classification": "Bank Statement",
+        "extracted_entities": {
+          "bank": {"name": "CITI BANK N.A"},
+          "accounts": [
+            {
+              "accountType": "Checking",
+              "accountNumber": "42029260439",
+              "endingBalance": "10985.99",
+              "hasLargeDepositWithdrawal": true
+            }
+          ],
+          "statementPeriodFrom": "2025-08-01",
+          "statementPeriodTo": "2025-08-31"
+        }
+      },
+      {
+        "classification": "URLA 1003",
+        "extracted_entities": {
+          "borrowers": [
+            {
+              "lastName": "DAILAMY",
+              "firstName": "RAMIN",
+              "last4SSN": ""
+            }
+          ],
+          "propertyAddress": {
+            "city": "CALABASAS",
+            "state": "CA",
+            "zipCode": "91302",
+            "address1": "23675 PARK CAPRI"
+          }
+        }
+      },
+      {
+        "classification": "Credit Report",
+        "extracted_entities": {
+          "applicant1": {
+            "lastName": "Dailamy",
+            "firstName": "Ramin",
+            "last4SSN": "4801"
+          },
+          "reportIssued": "2025-09-16"
+        }
+      }
+    ],
+    "loan_program": "Flex Supreme",
+    "borrower_info": {
+      "last_name": "Dailamy",
+      "first_name": "Ramin",
+      "borrower_type": "W2"
+    }
+  },
+  "instructions": "Perform a complete loan conditions evaluation. First predict what conditions might be deficient, then check if the uploaded documents satisfy those conditions.",
+  "s3_pdf_paths": [
+    "rm-conditions/Bank Statement - August 2025.pdf",
+    "rm-conditions/URLA 1003 Application.pdf",
+    "rm-conditions/Credit Report - September 2025.pdf"
+  ]
+}
+

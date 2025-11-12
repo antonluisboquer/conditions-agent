@@ -132,19 +132,56 @@ async def planner_node(state: ReWOOState) -> Dict[str, Any]:
 
     if planner_llm:
         prompt = (
-            "You are orchestrating a loan conditions evaluation workflow.\n"
-            "Available tools:\n"
-            "1. call_preconditions_api(metadata) -> Predict deficient conditions.\n"
-            "2. call_conditions_ai_api(preconditions_output, documents) -> Evaluate documents.\n"
-            "3. retrieve_s3_document(path) -> Fetch additional documents (optional).\n"
-            "4. query_database(query) -> Retrieve historical context (optional).\n\n"
-            "Always produce a JSON object with keys 'summary' and 'steps'. Each step must include "
-            "'id', 'tool', 'description', and 'input'. Ensure the workflow includes the PreConditions "
-            "prediction before evaluating with Conditions AI.\n\n"
-            f"Metadata: {json.dumps(metadata, default=str)}\n"
-            f"Instructions: {instructions}\n"
-            f"Documents: {json.dumps(s3_pdf_paths, default=str)}\n\n"
-            "Respond with JSON only."
+            "You are a smart loan evaluation agent. Analyze the user's instructions and choose the RIGHT tools.\n\n"
+            
+            "AVAILABLE TOOLS:\n"
+            "1. call_preconditions_api(metadata)\n"
+            "   - Use when: User asks to predict/identify deficient conditions or determine what's missing\n"
+            "   - Requires: Loan metadata (borrower info, loan program, documents)\n"
+            "   - Returns: List of predicted deficient conditions\n\n"
+            
+            "2. call_conditions_ai_api(conditions, documents)\n"
+            "   - Use when: User asks to evaluate if documents satisfy specific conditions\n"
+            "   - Requires: List of conditions to check + S3 document paths\n"
+            "   - Returns: Fulfillment status for each condition\n"
+            "   - Note: Can use output from call_preconditions_api or accept conditions directly\n\n"
+            
+            "3. retrieve_s3_document(s3_path)\n"
+            "   - Use when: User asks to check S3 access or retrieve document metadata\n"
+            "   - Requires: S3 path (s3://bucket/key)\n"
+            "   - Returns: Document metadata and access status\n\n"
+            
+            "4. query_database(query)\n"
+            "   - Use when: User asks for historical data or past evaluations\n"
+            "   - Returns: Historical loan evaluation data\n\n"
+            
+            "INSTRUCTIONS FROM USER:\n"
+            f"{instructions}\n\n"
+            
+            "AVAILABLE DATA:\n"
+            f"- Metadata: {json.dumps(metadata, default=str)}\n"
+            f"- Documents: {json.dumps(s3_pdf_paths, default=str)}\n\n"
+            
+            "DECISION RULES:\n"
+            "- If user asks ONLY about deficiencies → call_preconditions_api only\n"
+            "- If user asks ONLY about document validation → call_conditions_ai_api only\n"
+            "- If user asks for FULL evaluation → call_preconditions_api THEN call_conditions_ai_api\n"
+            "- If user asks about S3 access → retrieve_s3_document only\n"
+            "- Always choose the MINIMUM tools needed to answer the user's question\n\n"
+            
+            "Respond with JSON object containing:\n"
+            "{\n"
+            "  \"summary\": \"Brief explanation of your plan\",\n"
+            "  \"steps\": [\n"
+            "    {\n"
+            "      \"id\": \"step_1\",\n"
+            "      \"tool\": \"tool_name\",\n"
+            "      \"description\": \"What this step does\",\n"
+            "      \"input\": {}\n"
+            "    }\n"
+            "  ]\n"
+            "}\n\n"
+            "JSON only, no other text:"
         )
         try:
             response = await planner_llm.ainvoke(prompt)

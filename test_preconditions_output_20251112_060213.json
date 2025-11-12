@@ -1,0 +1,2606 @@
+{
+  "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+  "start_time": 1762927217.6340523,
+  "documents": [
+    {
+      "classification": "Borrower Certification as to Business Purpose",
+      "extracted_entities": {
+        "borrowers": [
+          {
+            "signed": true,
+            "suffix": "",
+            "lastName": "Delgado",
+            "firstName": "Marisol",
+            "dateSigned": "2025-11-04",
+            "middleName": ""
+          }
+        ],
+        "propertyAddress": {
+          "city": "Riverside",
+          "state": "California",
+          "zipCode": "92501-2932",
+          "address1": "3311 LIME ST",
+          "address2": "",
+          "fullAddress": ""
+        }
+      }
+    },
+    {
+      "classification": "Title Invoice",
+      "extracted_entities": {
+        "borrowers": [
+          {
+            "signed": false,
+            "suffix": "",
+            "lastName": "Rocco",
+            "firstName": "Francis",
+            "dateSigned": "",
+            "middleName": ""
+          }
+        ]
+      }
+    },
+    {
+      "classification": "Bank Statement",
+      "extracted_entities": {
+        "bank": {
+          "name": "CITI BANK N.A"
+        },
+        "accounts": [
+          {
+            "accountType": "Checking",
+            "accountNumber": "42029260439",
+            "endingBalance": "10985.99",
+            "accountHolderTypes": [
+              "",
+              "person"
+            ],
+            "accountHolderTrusts": [],
+            "accountHolderPersons": [
+              {
+                "suffix": "",
+                "lastName": "DAILAMY",
+                "firstName": "RAMIN",
+                "middleName": ""
+              }
+            ],
+            "accountHolderBusinesses": [],
+            "hasLargeDepositWithdrawal": true
+          },
+          {
+            "accountType": "Savings",
+            "accountNumber": "42029260447",
+            "endingBalance": "175.66",
+            "accountHolderTypes": [
+              "",
+              "person"
+            ],
+            "accountHolderTrusts": [],
+            "accountHolderPersons": [
+              {
+                "suffix": "",
+                "lastName": "DAILAMY",
+                "firstName": "RAMIN",
+                "middleName": ""
+              }
+            ],
+            "accountHolderBusinesses": [],
+            "hasLargeDepositWithdrawal": false
+          }
+        ],
+        "statementAddress": {
+          "city": "WEST HILLS",
+          "state": "CA",
+          "zipCode": "91307-1425",
+          "address1": "23360 SANDALWOOD ST",
+          "address2": "",
+          "fullAddress": ""
+        },
+        "statementPeriodTo": "2025-08-31",
+        "statementPeriodFrom": "2025-08-01"
+      }
+    },
+    {
+      "classification": "URLA 1003",
+      "extracted_entities": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": "",
+        "e": "",
+        "f": "",
+        "g": "",
+        "h": "",
+        "i": "",
+        "j": "",
+        "k": "",
+        "l": "",
+        "m": "",
+        "cost": 0,
+        "banks": [],
+        "total": 0,
+        "amount": 0,
+        "signed": false,
+        "retired": false,
+        "employer": {
+          "name": ""
+        },
+        "position": "",
+        "borrowers": [
+          {
+            "DOB": "",
+            "signed": false,
+            "status": "",
+            "suffix": "",
+            "last4SSN": "",
+            "lastName": "DAILAMY",
+            "position": "",
+            "firstName": "RAMIN",
+            "homePhone": "",
+            "yrsSchool": "",
+            "dateSigned": "",
+            "middleName": "",
+            "mailingAddress": {
+              "city": "",
+              "state": "",
+              "zipCode": "",
+              "address1": "",
+              "address2": "",
+              "fullAddress": ""
+            },
+            "presentAddress": {
+              "city": "",
+              "noYrs": 0,
+              "state": "",
+              "zipCode": "",
+              "address1": "",
+              "address2": "",
+              "noMonths": 0,
+              "ownOrRent": "",
+              "fullAddress": ""
+            },
+            "formerAddresses": []
+          }
+        ],
+        "startDate": "",
+        "employedBy": false,
+        "noOfMonths": "",
+        "properties": [],
+        "coBorrowerA": "",
+        "coBorrowerB": "",
+        "coBorrowerC": "",
+        "coBorrowerD": "",
+        "coBorrowerE": "",
+        "coBorrowerF": "",
+        "coBorrowerG": "",
+        "coBorrowerH": "",
+        "coBorrowerI": "",
+        "coBorrowerJ": "",
+        "coBorrowerK": "",
+        "coBorrowerL": "",
+        "coBorrowerM": "",
+        "liabilities": [],
+        "interestRate": 0,
+        "originalCost": 0,
+        "selfEmployed": false,
+        "yrsOnThisJob": {
+          "years": 0,
+          "months": 0
+        },
+        "borrowerGross": [],
+        "businessPhone": "",
+        "purposeOfLoan": "",
+        "madeOrToBeMade": "",
+        "ownershipShare": "",
+        "propertyWillBe": "",
+        "propertyAddress": {
+          "TBD": false,
+          "city": "CALABASAS",
+          "state": "CA",
+          "zipCode": "91302",
+          "address1": "23675 PARK CAPRI",
+          "address2": "",
+          "fullAddress": ""
+        },
+        "yearLotAcquired": 0,
+        "amortizationType": "",
+        "new1003Borrowers": [],
+        "addressOfEmployer": {
+          "city": "",
+          "state": "",
+          "zipCode": "",
+          "address1": "",
+          "address2": "",
+          "fullAddress": ""
+        },
+        "presentValueOfLot": 0,
+        "signed1003Version": "",
+        "costOfImprovements": 0,
+        "mortgageAppliedFor": "",
+        "purposeOfRefinance": "",
+        "amountExistingLiens": 0,
+        "sourceOfDownPayment": "",
+        "describeImprovements": "",
+        "titleWillBeHeldInWhatNames": [],
+        "borrowerPreviousEmployments": [],
+        "yrsEmployedInThisLineOfWork": "",
+        "mannerInWhichTitleWillBeHeld": ""
+      }
+    },
+    {
+      "classification": "Credit Report",
+      "extracted_entities": {
+        "alerts": [],
+        "scores": [],
+        "address": {
+          "city": "Los Angeles",
+          "state": "California",
+          "zipCode": "91307",
+          "address1": "23360 Sandalwood Street",
+          "address2": "",
+          "fullAddress": ""
+        },
+        "company": {
+          "name": "XACTUS"
+        },
+        "inquiries": [],
+        "applicant1": {
+          "suffix": "",
+          "last4SSN": "4801",
+          "lastName": "Dailamy",
+          "firstName": "Ramin",
+          "middleName": ""
+        },
+        "applicant2": {
+          "suffix": "",
+          "last4SSN": "",
+          "lastName": "",
+          "firstName": "",
+          "middleName": ""
+        },
+        "reportIssued": "2025-09-16",
+        "tradeSummary": [],
+        "publicRecords": [],
+        "mortgageSummary": [],
+        "creditTradeLines": [],
+        "derogatorySummary": [],
+        "collectionAccounts": [],
+        "derogatoryAccounts": [],
+        "aliasesAndAddresses": []
+      }
+    }
+  ],
+  "loan_program": "Flex Supreme",
+  "borrower_info": {
+    "last_name": "Fenix",
+    "first_name": "Hannah",
+    "borrower_type": "W2"
+  },
+  "compartments": [
+    "Loan & Property Information",
+    "Acknowledgments & Agreements",
+    "Assets & Liabilities",
+    "Continuation / Additional Information",
+    "Declarations",
+    "Employment & Income",
+    "Borrower Information"
+  ],
+  "step1_latency": 11.82856559753418,
+  "filtered_requirements": [
+    {
+      "raw_value": "$3,000,000",
+      "name": "Max Loan Amount",
+      "compartment": "Loan & Property Information",
+      "value": "$3,000,000",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:43",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [],
+        "dependencies": [
+          {
+            "value": "> $2.0M requires 2 appraisals",
+            "target": "Appraisal Requirements"
+          },
+          {
+            "value": "Reserves scale up at loan-amount breakpoints",
+            "target": "Reserves"
+          }
+        ],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          },
+          {
+            "updated_at": null,
+            "name": "DSCR Multi & Mixed",
+            "programId": "P-DSCR-MULTI-AND-MIXED"
+          },
+          {
+            "updated_at": null,
+            "name": "Foreign National",
+            "programId": "P-FOREIGN-NATIONAL"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "$100,000",
+      "name": "Min Loan Amount",
+      "compartment": "Loan & Property Information",
+      "value": "$100,000",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:44",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [],
+        "dependencies": [],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "80%",
+      "name": "Max LTV/CLTV",
+      "compartment": "Loan & Property Information",
+      "value": "80%",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:45",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [],
+        "dependencies": [
+          {
+            "value": "IO: Max 75% LTV and Min FICO 700; must qualify on fully amortizing; FTHB ineligible for IO",
+            "target": "FICO"
+          }
+        ],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "680",
+      "name": "Min FICO",
+      "compartment": "Continuation / Additional Information",
+      "value": "680",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:46",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [
+          {
+            "name": "Credit Score",
+            "value": "The minimum score for additional borrower has increased from 540 to 600 when not the primary wage earner."
+          }
+        ],
+        "dependencies": [],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "\u2022 Min FICO 700 and Max 75% LTV. 10-Yr I/O period.  \n\u2022 Must qualify off fully amortizing payment. FTHB ineligible. ",
+      "name": "Interest Only",
+      "compartment": "Continuation / Additional Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:52",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [
+          {
+            "type": "FICO>700, LTV<75%",
+            "value": "10-Yr I/O period"
+          },
+          {
+            "type": "FTHB",
+            "value": "Ineligible"
+          }
+        ],
+        "dependencies": [
+          {
+            "name": "FICO",
+            "value": "FICO \u2265 700"
+          },
+          {
+            "name": "LTV",
+            "value": "LTV \u2264 75%"
+          }
+        ],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "\u2022 Max 6% OO/SH",
+      "name": "IPCs",
+      "compartment": "Acknowledgments & Agreements",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:55",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 Not permitted ",
+      "name": "Buydown (Purchase Only)",
+      "compartment": "Acknowledgments & Agreements",
+      "value": "Not Permitted",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:57",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "name": "Borrower Eligibility",
+      "compartment": "Borrower Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:61",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 Permitted on 1-Unit: OO after 5%; and SH & NOO after 10% contribution \n\u2022 OO & SH: 100% gift funds for down payment/closing costs when <= 75% LTV. \n\u2022 For NOO, gift funds allowed after 10% contribution regardless of LTV. \n\u2022 Gift funds are not permitted to be used towards reserves \n\u2022 Gifts of Equity are ineligible ",
+      "name": "Gift Funds",
+      "compartment": "Assets & Liabilities",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:75",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 50%",
+      "name": "Max DTI",
+      "compartment": "Continuation / Additional Information",
+      "value": "50%",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:77",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022\u2022 48 Months  /  FTHB 84 Months + Max 43% DTI ",
+      "name": "Credit Event Seasoning",
+      "compartment": "Borrower Information",
+      "value": "48 Months  /  FTHB 84 Months + Max 43% DTI",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:89",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 Primary, Second Homes (1-unit), Investment Properties ",
+      "name": "Occupancy",
+      "compartment": "Continuation / Additional Information",
+      "value": "Primary, Second Homes (1-unit), Investment Properties",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:93",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 <=70 LTV: Unlimited or if >70 LTV: $500,000 \n\u2022 >= 6 mos seasoning from last transaction. Not permitted in declining markets ",
+      "name": "Cash-Out Limits",
+      "compartment": "Continuation / Additional Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:95",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 1-Unit SFR/PUD (1 or more ADUs) \n\u2022 2-4 Units (with 1 ADU) Max 75% LTV - FTHB not permitted \n\u2022 Condo (Warrantable only) Max 75% \n\u2022 Non-Warrantable Condos and Condotels are not permitted \n\u2022 Rural Properties - OO only, Max 70% LTV, Cash-out ineligible (See Guides) \n\u2022 Leasehold not permitted \n\u2022 Max 10 Acres ",
+      "name": "Property Type",
+      "compartment": "Loan & Property Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:97",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 Tradeline requirements are not waived when the Primary has 3 credit scores. All \nborrowers must meet: \n\u2022 3x12 or 2x24 or 2-yrs+ mortgage history ",
+      "name": "Minimum Tradelines",
+      "compartment": "Continuation / Additional Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:100",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "5\u2022 <= $500K = 3 months PITIA\n\u2022 > $500K - $1.5M = 6 months PITIA\n\u2022 > $1.5M - $2.5M = 9 months PITIA\n\u2022 > $2.5M- $3.5M = 12 months PITIA\n\u2022 Cash-out may satisfy reserves\n\u2022 When Asset Utilization is the sole source of income, reserves are not required",
+      "name": "Reserves",
+      "compartment": "Assets & Liabilities",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:110",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 5% LTV reduction off matrix LTV. ",
+      "name": "Declining Markets",
+      "compartment": "Continuation / Additional Information",
+      "value": "5% LTV reduction off matrix LTV.",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:114",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "name": "Prepayment Penalties",
+      "compartment": "Acknowledgments & Agreements",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:115",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "name": "Buydown (Seller Paid)",
+      "compartment": "Acknowledgments & Agreements",
+      "value": "Not permitted",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:163",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 US Citizens \n\u2022 Permanent Resident Alien \n\u2022 Non-Permanent Resident (H1B & L1) Max 75% LTV \n\u2022 Non-Occupant Co-Borrower for OO only to max 43% DTI, C/O not permitted \n\u2022 FTHB: 0x30x24, <= 43% DTI, I/O not permitted, 84 mos cred event seasoning  ",
+      "name": "Borrower Eligibility",
+      "compartment": "Borrower Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:164",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 0x30x12  /  FTHB 0x30x24  ",
+      "name": "Housing/Rental History",
+      "compartment": "Borrower Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:170",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 30-days / Asset Utilization 90-days",
+      "name": "Asset Seasoning",
+      "compartment": "Assets & Liabilities",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:174",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "name": "Gift Funds",
+      "compartment": "Assets & Liabilities",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:177",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "name": "Residual Income",
+      "compartment": "Employment & Income",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:180",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": " \n\u2022 1ppl = $1.5K, 2ppl = $2.5K \n\u2022 +150 per additional household member",
+      "name": "HPML",
+      "compartment": "Continuation / Additional Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:182",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 O/O and 2nd Homes, 660 Minimum Score: up to 80% LTV.\n\u2022 CA: in addition to the above, Min Score 700, if > 80% up to 85% LTV Full Doc/Purchase only 1-Unit.\n\u2022 Business Purpose loans: 660 Minimum Score.",
+      "name": "Escrow Waiver",
+      "compartment": "Acknowledgments & Agreements",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:184",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 Required on NOO only when permitted. See the \u201cBusiness Purpose Licensing & PPP Restrictions\u201d PDF in the Docs Tab in the Client Portal.\n\u2022 No PPP \u2013 Correspondent Only",
+      "name": "Prepayment Penalty",
+      "compartment": "Acknowledgments & Agreements",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:186",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 Full Doc:  Wage Earner W-2 (1-2yrs) \n\u2022 Self-employment requires the most recent consecutive 2 full years in the same \nbusiness. \n\u2022 Full Doc:  Self-Employed (1-2yrs) \n\u2022 Alt Doc:  Personal Bank Statements (1-2yrs) \n\u2022 Alt Doc:  Business/Co-Mingled Bank Statements (1-2yrs) \n\u2022 Alt Doc: Asset Utilization (84 months; standalone only; supplemental income not \npermitted) \n\u2022 Alt Doc: IRS Form 1099 (2-yrs only) \u2013 10% Fixed Exp Ratio \nNOTE: VVOE w/in 10-days and S/E Business existence w/in 30-days ",
+      "name": "Income Doc Types",
+      "compartment": "Employment & Income",
+      "value": "Wage Earner, Self-Employed, or Business Owner documentation required",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:692",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 40-Yr I/O\n\u2022 30-Yr Fixed\n\u2022 5/6 & 7/6 SOFR ARMs (30-Yr Term) Fully Amortizing",
+      "name": "Product Type",
+      "compartment": "Loan & Property Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:759",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "raw_value": "\u2022 1 Appraisal + Review Product if SSR score is > 2.5;\n\u2022 If >2.0M = 2 Appraisals",
+      "name": "Appraisal Requirements",
+      "compartment": "Loan & Property Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:760",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    },
+    {
+      "name": "Loan Purpose",
+      "compartment": "Loan & Property Information",
+      "value": "Purchase, Rate/Term, Cash-Out, Non-Arm's Length, Delayed Financing, Flip Transactions, Cash out refinances in a declining market, TX Refinances, Land Contrast Refinances, and Title held as Tenants in Common",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:922",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0
+    }
+  ],
+  "step2_latency": 13.53670620918274,
+  "ranked_requirements": [
+    {
+      "raw_value": "$3,000,000",
+      "name": "Max Loan Amount",
+      "compartment": "Loan & Property Information",
+      "value": "$3,000,000",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:43",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [],
+        "dependencies": [
+          {
+            "value": "> $2.0M requires 2 appraisals",
+            "target": "Appraisal Requirements"
+          },
+          {
+            "value": "Reserves scale up at loan-amount breakpoints",
+            "target": "Reserves"
+          }
+        ],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          },
+          {
+            "updated_at": null,
+            "name": "DSCR Multi & Mixed",
+            "programId": "P-DSCR-MULTI-AND-MIXED"
+          },
+          {
+            "updated_at": null,
+            "name": "Foreign National",
+            "programId": "P-FOREIGN-NATIONAL"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "$100,000",
+      "name": "Min Loan Amount",
+      "compartment": "Loan & Property Information",
+      "value": "$100,000",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:44",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [],
+        "dependencies": [],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "80%",
+      "name": "Max LTV/CLTV",
+      "compartment": "Loan & Property Information",
+      "value": "80%",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:45",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [],
+        "dependencies": [
+          {
+            "value": "IO: Max 75% LTV and Min FICO 700; must qualify on fully amortizing; FTHB ineligible for IO",
+            "target": "FICO"
+          }
+        ],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "680",
+      "name": "Min FICO",
+      "compartment": "Continuation / Additional Information",
+      "value": "680",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:46",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [
+          {
+            "name": "Credit Score",
+            "value": "The minimum score for additional borrower has increased from 540 to 600 when not the primary wage earner."
+          }
+        ],
+        "dependencies": [],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    },
+    {
+      "raw_value": "\u2022 Min FICO 700 and Max 75% LTV. 10-Yr I/O period.  \n\u2022 Must qualify off fully amortizing payment. FTHB ineligible. ",
+      "name": "Interest Only",
+      "compartment": "Continuation / Additional Information",
+      "_element_id": "4:63fe386f-5b60-4f85-8479-7aeb0a1f7610:52",
+      "_programs": [
+        "Flex Supreme Program"
+      ],
+      "similarity_score": 0.0,
+      "connected_nodes": {
+        "conditions": [
+          {
+            "type": "FICO>700, LTV<75%",
+            "value": "10-Yr I/O period"
+          },
+          {
+            "type": "FTHB",
+            "value": "Ineligible"
+          }
+        ],
+        "dependencies": [
+          {
+            "name": "FICO",
+            "value": "FICO \u2265 700"
+          },
+          {
+            "name": "LTV",
+            "value": "LTV \u2264 75%"
+          }
+        ],
+        "related_requirements": [],
+        "other_nodes": [
+          {
+            "updated_at": null,
+            "name": "Flex Supreme Program",
+            "description": "The Flex Supreme Program is designed for the most qualified borrowers from an income and credit standpoint, with less complex transactions. Refer to the Flex Supreme Matrix for LTVs, minimum and maximum loan amounts, etc. The provided tables detail lending guidelines, outlining eligibility criteria for various loan types (purchase, cash-out refinance, rate/term refinance) across different property types and borrower profiles (primary residence, second home, investment property). Key factors influencing eligibility include credit score, loan-to-value ratio (LTV), debt-to-income ratio (DTI), occupancy type, and the borrower's income documentation (wage earner vs. self-employed). Stricter requirements exist for cash-out refinances and investment properties, often featuring lower maximum LTVs and higher minimum credit score thresholds. Income verification methods vary depending on employment status, with self-employment requiring more extensive documentation.",
+            "id": "<id>",
+            "programId": "P-FLEX-SUPREME"
+          }
+        ]
+      }
+    }
+  ],
+  "step3_latency": 21.766772508621216,
+  "step3_tokens": {
+    "model": "text-embedding-3-large",
+    "estimated_embedding_tokens": 850
+  },
+  "detection_results": {
+    "results": [
+      {
+        "condition_id": "FHA: 3-4 Units -",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition applies to FHA loans with 3-4 unit properties requiring 3 months of reserves and self-sufficiency testing. The submitted loan is for Flex Supreme program, not FHA. Property address shows single-family residential (23675 PARK CAPRI, CALABASAS, CA). This condition does not apply to this loan program.",
+        "checked_fields": [
+          "propertyAddress",
+          "loan_program_type"
+        ],
+        "actionable_instruction": "No action required - condition not applicable to Supreme program",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Income: Short Term Rentals",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition requires documentation of short-term rental verification. The URLA 1003 shows no indication of short-term rental income or business purpose related to rental activities. For a Flex Supreme W2 borrower, this condition would only apply if rental income were being used to qualify. No such income is documented in submitted materials.",
+        "checked_fields": [
+          "purposeOfLoan",
+          "borrowerGross",
+          "properties"
+        ],
+        "actionable_instruction": "No action required - no short-term rental income documented",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Income: Child support - Conventional",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition requires documentation of child support payments. The submitted loan is for Flex Supreme program, not Conventional. No child support liabilities are documented in the credit report or URLA 1003 liabilities section. This condition does not apply to Supreme program or if no child support obligations exist.",
+        "checked_fields": [
+          "liabilities",
+          "loan_program_type"
+        ],
+        "actionable_instruction": "No action required - condition not applicable to Supreme program",
+        "documents_checked": [
+          "URLA 1003",
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Assets: Assets Wired to title",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition requires proof of wire receipt by escrow/title company when assets are wired to title at closing. No documentation in the submitted materials indicates wire transfer of funds to title. Without evidence of this specific transaction occurring, this condition is not applicable.",
+        "checked_fields": [
+          "Bank Statement accounts"
+        ],
+        "actionable_instruction": "No action required - no wire transfers documented",
+        "documents_checked": [
+          "Bank Statement"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Closing: Expiration Dates_VAIRRRL",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition specifically applies to VA IRRRL (Loan Reduction Refinance Loan) transactions. The submitted loan is for Flex Supreme program with a W2 borrower. There is no indication this is a VA loan or VA IRRRL transaction. This condition does not apply.",
+        "checked_fields": [
+          "loan_program_type"
+        ],
+        "actionable_instruction": "No action required - condition applies only to VA IRRRL loans",
+        "documents_checked": [],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Income: Rental (Select Prime)",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition applies to Select Prime loan program only. The submitted loan is for Flex Supreme program. Additionally, no rental income is documented in the URLA 1003 or other materials. This condition does not apply to this Supreme program loan.",
+        "checked_fields": [
+          "loan_program_type",
+          "purposeOfLoan"
+        ],
+        "actionable_instruction": "No action required - condition not applicable to Supreme program",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Credit: Broker Signed 1003",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Initial 1003 disclosed by NP, Inc. signed by the borrower and wet signed by Loan Officer",
+            "issue": "URLA 1003 shows borrower (RAMIN DAILAMY) with signed field = false and dateSigned field empty. Document is not executed by borrower.",
+            "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+            "evidence": "Extracted data shows: signed: false, dateSigned: '' for primary borrower RAMIN DAILAMY"
+          },
+          {
+            "requirement": "URLA 1003 must be signed by Loan Officer",
+            "issue": "No loan officer signature field is populated in the extracted 1003 data. Broker/loan officer sign-off is missing.",
+            "field_checked": "signed1003Version, overall document signature section",
+            "evidence": "No loan officer signature data present in 1003 document extraction"
+          }
+        ],
+        "reasoning": "The URLA 1003 submitted is incomplete and unsigned. The condition requires the initial 1003 to be signed and dated by both the borrower and the loan officer (wet signed). The extracted data clearly shows the borrower signature fields are false/empty, and there is no evidence of loan officer signature. This must be corrected before proceeding.",
+        "checked_fields": [
+          "borrowers[0].signed",
+          "borrowers[0].dateSigned"
+        ],
+        "actionable_instruction": "Obtain fully executed URLA 1003 signed by borrower and loan officer",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Assets: Bank Statements (FHA)",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition applies specifically to FHA loans. The submitted loan is for Flex Supreme program, not FHA. While a bank statement is provided, the FHA-specific requirements (most recent statement with all pages, large deposits sourced per agency guidelines, previous month ending balance) do not apply to Supreme program.",
+        "checked_fields": [
+          "loan_program_type"
+        ],
+        "actionable_instruction": "No action required - condition not applicable to Supreme program",
+        "documents_checked": [
+          "Bank Statement"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "CORR: Collateral",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Collateral Package including Original Note, Bailee Letter and Allonge, True and Certified Copy of the Mortgage/Deed of Trust and all applicable Riders",
+            "issue": "Title Invoice document is present but not signed (signed: false, dateSigned: empty). This appears to be from title company but lacks proper execution. No evidence of Bailee Letter, Allonge, Mortgage/DOT, or Riders in submitted documents.",
+            "field_checked": "Title Invoice - signed, dateSigned",
+            "evidence": "Title Invoice shows borrower Francis Rocco with signed: false and dateSigned: empty"
+          },
+          {
+            "requirement": "Preliminary Title Report to be delivered to Collateral Department",
+            "issue": "No Preliminary Title Report or Title Commitment document is included in submitted materials.",
+            "field_checked": "document_list",
+            "evidence": "Submitted documents do not include Title Commitment or Preliminary Report"
+          }
+        ],
+        "reasoning": "The collateral correction condition requires a complete package of original collateral documents. The Title Invoice is incomplete and unsigned. Critical documents are missing including Preliminary Title Report, Bailee Letter, Note, Mortgage/DOT, and any riders. This is a corrective condition indicating the collateral package was deficient and must be completed.",
+        "checked_fields": [
+          "Title Invoice fields",
+          "document_inventory"
+        ],
+        "actionable_instruction": "Deliver complete collateral package with all required documents to Collateral Department",
+        "documents_checked": [
+          "Title Invoice"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Credit: Credit Supplement for-",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Credit Supplement required showing mortgage payment status or other specific requirement",
+            "issue": "Condition text is incomplete ('for-') making it impossible to determine exact requirements. However, only a Credit Report is provided with no Credit Supplement document.",
+            "field_checked": "document_inventory",
+            "evidence": "Submitted documents contain Credit Report only; no Credit Supplement document present"
+          }
+        ],
+        "reasoning": "The condition specification is incomplete in the provided text, but the general requirement suggests a Credit Supplement is needed. Only a standard Credit Report dated 2025-09-16 is provided. A supplemental credit report would be a separate document providing updated information. This document is missing from submissions.",
+        "checked_fields": [
+          "document_list"
+        ],
+        "actionable_instruction": "Obtain updated Credit Supplement showing current mortgage status",
+        "documents_checked": [
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Credit: Letter of Explanation Regarding",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This is a generic condition template ('Regarding' is incomplete). Without knowing what specific issue requires explanation, this cannot be evaluated. The condition appears to be a placeholder that would be populated with specific requirements. No specific deficiency can be identified without knowing what explanation is required.",
+        "checked_fields": [],
+        "actionable_instruction": "No action required - condition text incomplete",
+        "documents_checked": [],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Income: Business Verification",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition requires verification of business existence for self-employed borrowers. The submitted URLA 1003 shows RAMIN DAILAMY with selfEmployed: false and employed: true status. Borrower is W2 employed, not self-employed. No business income is being documented. This condition does not apply to this W2 salaried borrower.",
+        "checked_fields": [
+          "selfEmployed",
+          "employedBy"
+        ],
+        "actionable_instruction": "No action required - borrower is W2 employed, not self-employed",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Misc: Business Purpose Disclosures",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Business Purpose and Occupancy Certifications executed by all Borrowers",
+            "issue": "Borrower Certification as to Business Purpose is signed by MARISOL DELGADO (dateSigned: 2025-11-04), but the primary borrower listed in URLA 1003 and Credit Report is RAMIN DAILAMY, not Marisol Delgado. The certification is for the wrong borrower.",
+            "field_checked": "Borrower Certification - firstName, lastName vs URLA 1003 borrowers[0]",
+            "evidence": "Business Purpose Certification shows Marisol Delgado signature; URLA 1003 primary borrower is Ramin Dailamy. Name mismatch indicates document may not apply to this borrower."
+          }
+        ],
+        "reasoning": "The Business Purpose Certification document is present and signed, but there is a critical mismatch between the signer name (Marisol Delgado) and the primary borrower in the loan application (Ramin Dailamy). For a Supreme program, the business purpose disclosure must be executed by the actual loan borrowers. This discrepancy indicates either the wrong document was submitted or there is confusion about borrower identity.",
+        "checked_fields": [
+          "Borrower Certification firstName/lastName",
+          "URLA 1003 borrowers[0]"
+        ],
+        "actionable_instruction": "Verify borrower identity and obtain correct Business Purpose Certification",
+        "documents_checked": [
+          "Borrower Certification as to Business Purpose",
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "FHA: SWT Completion",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition applies to FHA Solar Energy (SWT - Solar/Wind Technology) loans requiring escrow holdback documentation and completion requirements. The submitted loan is for Flex Supreme program, not FHA. No solar/wind technology financing is indicated. This condition does not apply to this Supreme program loan.",
+        "checked_fields": [
+          "loan_program_type"
+        ],
+        "actionable_instruction": "No action required - condition applies only to FHA SWT loans",
+        "documents_checked": [],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Income: Rental (Supreme)",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This condition applies to Flex Supreme loans using rental income. It specifies that income from subject property 1-4 family owner-occupied property may not be used on a purchase. The URLA 1003 shows no rental income being used to qualify the borrower. No rental properties or income are documented. This condition does not apply as no rental income is being used.",
+        "checked_fields": [
+          "purposeOfLoan",
+          "borrowerGross"
+        ],
+        "actionable_instruction": "No action required - no rental income documented",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "CORR: Property - Title Commitment",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Preliminary Title Commitment with 24-month Chain of Title. Must be signed by authorized agent and dated within 90 days prior to closing.",
+            "issue": "No Preliminary Title Commitment or Title Commitment document is included in submitted materials. Title Invoice is present but is an invoice/billing document, not a title commitment.",
+            "field_checked": "document_inventory",
+            "evidence": "Submitted documents do not contain Title Commitment or Preliminary Report. Only Title Invoice (billing document) is present."
+          }
+        ],
+        "reasoning": "This is a corrective condition indicating the property title commitment was deficient or missing. The required document (Preliminary Title Commitment with 24-month chain of title) is not present in submissions. Only a Title Invoice (billing document from title company) is submitted, which does not satisfy this requirement. The actual title commitment document must be obtained from the title company.",
+        "checked_fields": [
+          "document_inventory"
+        ],
+        "actionable_instruction": "Obtain executed Preliminary Title Commitment with 24-month chain of title",
+        "documents_checked": [
+          "Title Invoice"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Assets: Bank Statements (Conv)",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Provide two months most recent bank statements with all pages, source and document all large deposits per agency guidelines",
+            "issue": "Only ONE bank statement period is provided (2025-08-01 to 2025-08-31). Two months of statements are required.",
+            "field_checked": "statementPeriodFrom, statementPeriodTo",
+            "evidence": "Bank statement covers only August 2025 (08-01 to 08-31). No second month statement (July or September) is included."
+          },
+          {
+            "requirement": "Borrower name on bank statement must match loan application borrower",
+            "issue": "Bank statement account holders are RAMIN DAILAMY, matching the URLA 1003 borrower. However, the Business Purpose Certification is signed by MARISOL DELGADO, creating borrower identity confusion.",
+            "field_checked": "accountHolderPersons[0], URLA 1003 borrowers[0]",
+            "evidence": "Bank statement shows Ramin Dailamy accounts; URLA 1003 shows Ramin Dailamy; but Business Purpose document shows Marisol Delgado signature"
+          },
+          {
+            "requirement": "Large deposits must be sourced and documented",
+            "issue": "Bank statement shows hasLargeDepositWithdrawal: true on checking account but no source documentation (LOE for Large Deposits) is provided.",
+            "field_checked": "accounts[0].hasLargeDepositWithdrawal",
+            "evidence": "Checking account indicates large deposit/withdrawal occurred (hasLargeDepositWithdrawal: true) but no source documentation accompanies this"
+          }
+        ],
+        "reasoning": "The bank statement requirements for Conventional program are not fully met. Two complete months of statements are required, but only one month is submitted. Additionally, the large deposit flag indicates significant deposits that require sourcing documentation, which is missing. The borrower identity discrepancy between RAMIN DAILAMY in the application and MARISOL DELGADO in the business purpose certification adds to the compliance concern.",
+        "checked_fields": [
+          "statementPeriodFrom",
+          "statementPeriodTo",
+          "hasLargeDepositWithdrawal"
+        ],
+        "actionable_instruction": "Upload second month bank statement and source large deposits with LOE",
+        "documents_checked": [
+          "Bank Statement"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Closing: Final 1003-URLA/92900 A signed and dated by all parties.",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Final 1003/URLA signed and dated by all parties (borrower and loan officer)",
+            "issue": "URLA 1003 shows borrowers[0].signed: false and borrowers[0].dateSigned: empty. Document is not executed by borrower.",
+            "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+            "evidence": "Primary borrower Ramin Dailamy has signed: false, dateSigned field is empty"
+          },
+          {
+            "requirement": "Final 1003 must be signed by borrower at closing",
+            "issue": "Current URLA 1003 is not executed. This must be signed by borrower and dated at closing time.",
+            "field_checked": "borrowers[0].dateSigned",
+            "evidence": "No date signature on URLA 1003 document"
+          }
+        ],
+        "reasoning": "The Final 1003/URLA requirement specifies that this document must be fully executed (signed and dated) by all parties at closing. The submitted URLA 1003 is not signed by the borrower and contains no date signature. This is a critical closing document that requires borrower execution immediately before loan closing.",
+        "checked_fields": [
+          "borrowers[0].signed",
+          "borrowers[0].dateSigned"
+        ],
+        "actionable_instruction": "Obtain URLA 1003 signed and dated by borrower at closing",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Credit: Credit Refresh",
+        "status": "deficient",
+        "deficiencies": [
+          {
+            "requirement": "Credit Refresh within 10 days of Note to ensure no new debt(s) have been incurred by borrower(s)",
+            "issue": "Only an initial Credit Report dated 2025-09-16 is provided. No Credit Refresh document showing updated credit status near closing date is included.",
+            "field_checked": "document_inventory",
+            "evidence": "Submitted documents contain single Credit Report only; no Credit Refresh document present"
+          },
+          {
+            "requirement": "Borrower to address any new inquiries and certify no new debt resulted from the inquiry",
+            "issue": "No evidence of borrower certification or explanation regarding new inquiries is provided.",
+            "field_checked": "document_inventory",
+            "evidence": "No credit refresh or borrower certification document provided"
+          }
+        ],
+        "reasoning": "The Credit Refresh condition requires an updated credit report obtained within 10 days of the note date to verify no new debts have been incurred. This is a standard closing condition to ensure borrower's creditworthiness has not changed since initial underwriting. Only the initial credit report from September 16, 2025 is provided, with no refresh showing current status near closing.",
+        "checked_fields": [
+          "document_list"
+        ],
+        "actionable_instruction": "Obtain updated Credit Refresh within 10 days of closing",
+        "documents_checked": [
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "related_documents": ""
+      },
+      {
+        "condition_id": "Credit: New Credit report with the following corrections:",
+        "status": "not_applicable",
+        "deficiencies": [],
+        "reasoning": "This is a conditional template ('with the following corrections:') that would be populated with specific credit issues requiring correction. Without knowing what specific corrections are needed, this cannot be evaluated. The condition appears to be a placeholder awaiting specific requirements. No deficiency can be identified for a blank/incomplete condition.",
+        "checked_fields": [],
+        "actionable_instruction": "No action required - condition text incomplete",
+        "documents_checked": [],
+        "satisfied_by": null,
+        "related_documents": ""
+      }
+    ],
+    "_metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "input_tokens": 2884,
+      "output_tokens": 5281,
+      "cache_read_tokens": 0,
+      "cache_creation_tokens": 188480
+    }
+  },
+  "deficient_conditions": [
+    {
+      "condition_id": "Credit: Broker Signed 1003",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Initial 1003 disclosed by NP, Inc. signed by the borrower and wet signed by Loan Officer",
+          "issue": "URLA 1003 shows borrower (RAMIN DAILAMY) with signed field = false and dateSigned field empty. Document is not executed by borrower.",
+          "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+          "evidence": "Extracted data shows: signed: false, dateSigned: '' for primary borrower RAMIN DAILAMY"
+        },
+        {
+          "requirement": "URLA 1003 must be signed by Loan Officer",
+          "issue": "No loan officer signature field is populated in the extracted 1003 data. Broker/loan officer sign-off is missing.",
+          "field_checked": "signed1003Version, overall document signature section",
+          "evidence": "No loan officer signature data present in 1003 document extraction"
+        }
+      ],
+      "reasoning": "The URLA 1003 submitted is incomplete and unsigned. The condition requires the initial 1003 to be signed and dated by both the borrower and the loan officer (wet signed). The extracted data clearly shows the borrower signature fields are false/empty, and there is no evidence of loan officer signature. This must be corrected before proceeding.",
+      "checked_fields": [
+        "borrowers[0].signed",
+        "borrowers[0].dateSigned"
+      ],
+      "actionable_instruction": "Obtain fully executed URLA 1003 signed by borrower and loan officer",
+      "documents_checked": [
+        "URLA 1003"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "CORR: Collateral",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Collateral Package including Original Note, Bailee Letter and Allonge, True and Certified Copy of the Mortgage/Deed of Trust and all applicable Riders",
+          "issue": "Title Invoice document is present but not signed (signed: false, dateSigned: empty). This appears to be from title company but lacks proper execution. No evidence of Bailee Letter, Allonge, Mortgage/DOT, or Riders in submitted documents.",
+          "field_checked": "Title Invoice - signed, dateSigned",
+          "evidence": "Title Invoice shows borrower Francis Rocco with signed: false and dateSigned: empty"
+        },
+        {
+          "requirement": "Preliminary Title Report to be delivered to Collateral Department",
+          "issue": "No Preliminary Title Report or Title Commitment document is included in submitted materials.",
+          "field_checked": "document_list",
+          "evidence": "Submitted documents do not include Title Commitment or Preliminary Report"
+        }
+      ],
+      "reasoning": "The collateral correction condition requires a complete package of original collateral documents. The Title Invoice is incomplete and unsigned. Critical documents are missing including Preliminary Title Report, Bailee Letter, Note, Mortgage/DOT, and any riders. This is a corrective condition indicating the collateral package was deficient and must be completed.",
+      "checked_fields": [
+        "Title Invoice fields",
+        "document_inventory"
+      ],
+      "actionable_instruction": "Deliver complete collateral package with all required documents to Collateral Department",
+      "documents_checked": [
+        "Title Invoice"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "Credit: Credit Supplement for-",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Credit Supplement required showing mortgage payment status or other specific requirement",
+          "issue": "Condition text is incomplete ('for-') making it impossible to determine exact requirements. However, only a Credit Report is provided with no Credit Supplement document.",
+          "field_checked": "document_inventory",
+          "evidence": "Submitted documents contain Credit Report only; no Credit Supplement document present"
+        }
+      ],
+      "reasoning": "The condition specification is incomplete in the provided text, but the general requirement suggests a Credit Supplement is needed. Only a standard Credit Report dated 2025-09-16 is provided. A supplemental credit report would be a separate document providing updated information. This document is missing from submissions.",
+      "checked_fields": [
+        "document_list"
+      ],
+      "actionable_instruction": "Obtain updated Credit Supplement showing current mortgage status",
+      "documents_checked": [
+        "Credit Report"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "Misc: Business Purpose Disclosures",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Business Purpose and Occupancy Certifications executed by all Borrowers",
+          "issue": "Borrower Certification as to Business Purpose is signed by MARISOL DELGADO (dateSigned: 2025-11-04), but the primary borrower listed in URLA 1003 and Credit Report is RAMIN DAILAMY, not Marisol Delgado. The certification is for the wrong borrower.",
+          "field_checked": "Borrower Certification - firstName, lastName vs URLA 1003 borrowers[0]",
+          "evidence": "Business Purpose Certification shows Marisol Delgado signature; URLA 1003 primary borrower is Ramin Dailamy. Name mismatch indicates document may not apply to this borrower."
+        }
+      ],
+      "reasoning": "The Business Purpose Certification document is present and signed, but there is a critical mismatch between the signer name (Marisol Delgado) and the primary borrower in the loan application (Ramin Dailamy). For a Supreme program, the business purpose disclosure must be executed by the actual loan borrowers. This discrepancy indicates either the wrong document was submitted or there is confusion about borrower identity.",
+      "checked_fields": [
+        "Borrower Certification firstName/lastName",
+        "URLA 1003 borrowers[0]"
+      ],
+      "actionable_instruction": "Verify borrower identity and obtain correct Business Purpose Certification",
+      "documents_checked": [
+        "Borrower Certification as to Business Purpose",
+        "URLA 1003"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "CORR: Property - Title Commitment",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Preliminary Title Commitment with 24-month Chain of Title. Must be signed by authorized agent and dated within 90 days prior to closing.",
+          "issue": "No Preliminary Title Commitment or Title Commitment document is included in submitted materials. Title Invoice is present but is an invoice/billing document, not a title commitment.",
+          "field_checked": "document_inventory",
+          "evidence": "Submitted documents do not contain Title Commitment or Preliminary Report. Only Title Invoice (billing document) is present."
+        }
+      ],
+      "reasoning": "This is a corrective condition indicating the property title commitment was deficient or missing. The required document (Preliminary Title Commitment with 24-month chain of title) is not present in submissions. Only a Title Invoice (billing document from title company) is submitted, which does not satisfy this requirement. The actual title commitment document must be obtained from the title company.",
+      "checked_fields": [
+        "document_inventory"
+      ],
+      "actionable_instruction": "Obtain executed Preliminary Title Commitment with 24-month chain of title",
+      "documents_checked": [
+        "Title Invoice"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "Assets: Bank Statements (Conv)",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Provide two months most recent bank statements with all pages, source and document all large deposits per agency guidelines",
+          "issue": "Only ONE bank statement period is provided (2025-08-01 to 2025-08-31). Two months of statements are required.",
+          "field_checked": "statementPeriodFrom, statementPeriodTo",
+          "evidence": "Bank statement covers only August 2025 (08-01 to 08-31). No second month statement (July or September) is included."
+        },
+        {
+          "requirement": "Borrower name on bank statement must match loan application borrower",
+          "issue": "Bank statement account holders are RAMIN DAILAMY, matching the URLA 1003 borrower. However, the Business Purpose Certification is signed by MARISOL DELGADO, creating borrower identity confusion.",
+          "field_checked": "accountHolderPersons[0], URLA 1003 borrowers[0]",
+          "evidence": "Bank statement shows Ramin Dailamy accounts; URLA 1003 shows Ramin Dailamy; but Business Purpose document shows Marisol Delgado signature"
+        },
+        {
+          "requirement": "Large deposits must be sourced and documented",
+          "issue": "Bank statement shows hasLargeDepositWithdrawal: true on checking account but no source documentation (LOE for Large Deposits) is provided.",
+          "field_checked": "accounts[0].hasLargeDepositWithdrawal",
+          "evidence": "Checking account indicates large deposit/withdrawal occurred (hasLargeDepositWithdrawal: true) but no source documentation accompanies this"
+        }
+      ],
+      "reasoning": "The bank statement requirements for Conventional program are not fully met. Two complete months of statements are required, but only one month is submitted. Additionally, the large deposit flag indicates significant deposits that require sourcing documentation, which is missing. The borrower identity discrepancy between RAMIN DAILAMY in the application and MARISOL DELGADO in the business purpose certification adds to the compliance concern.",
+      "checked_fields": [
+        "statementPeriodFrom",
+        "statementPeriodTo",
+        "hasLargeDepositWithdrawal"
+      ],
+      "actionable_instruction": "Upload second month bank statement and source large deposits with LOE",
+      "documents_checked": [
+        "Bank Statement"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "Closing: Final 1003-URLA/92900 A signed and dated by all parties.",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Final 1003/URLA signed and dated by all parties (borrower and loan officer)",
+          "issue": "URLA 1003 shows borrowers[0].signed: false and borrowers[0].dateSigned: empty. Document is not executed by borrower.",
+          "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+          "evidence": "Primary borrower Ramin Dailamy has signed: false, dateSigned field is empty"
+        },
+        {
+          "requirement": "Final 1003 must be signed by borrower at closing",
+          "issue": "Current URLA 1003 is not executed. This must be signed by borrower and dated at closing time.",
+          "field_checked": "borrowers[0].dateSigned",
+          "evidence": "No date signature on URLA 1003 document"
+        }
+      ],
+      "reasoning": "The Final 1003/URLA requirement specifies that this document must be fully executed (signed and dated) by all parties at closing. The submitted URLA 1003 is not signed by the borrower and contains no date signature. This is a critical closing document that requires borrower execution immediately before loan closing.",
+      "checked_fields": [
+        "borrowers[0].signed",
+        "borrowers[0].dateSigned"
+      ],
+      "actionable_instruction": "Obtain URLA 1003 signed and dated by borrower at closing",
+      "documents_checked": [
+        "URLA 1003"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    },
+    {
+      "condition_id": "Credit: Credit Refresh",
+      "status": "deficient",
+      "deficiencies": [
+        {
+          "requirement": "Credit Refresh within 10 days of Note to ensure no new debt(s) have been incurred by borrower(s)",
+          "issue": "Only an initial Credit Report dated 2025-09-16 is provided. No Credit Refresh document showing updated credit status near closing date is included.",
+          "field_checked": "document_inventory",
+          "evidence": "Submitted documents contain single Credit Report only; no Credit Refresh document present"
+        },
+        {
+          "requirement": "Borrower to address any new inquiries and certify no new debt resulted from the inquiry",
+          "issue": "No evidence of borrower certification or explanation regarding new inquiries is provided.",
+          "field_checked": "document_inventory",
+          "evidence": "No credit refresh or borrower certification document provided"
+        }
+      ],
+      "reasoning": "The Credit Refresh condition requires an updated credit report obtained within 10 days of the note date to verify no new debts have been incurred. This is a standard closing condition to ensure borrower's creditworthiness has not changed since initial underwriting. Only the initial credit report from September 16, 2025 is provided, with no refresh showing current status near closing.",
+      "checked_fields": [
+        "document_list"
+      ],
+      "actionable_instruction": "Obtain updated Credit Refresh within 10 days of closing",
+      "documents_checked": [
+        "Credit Report"
+      ],
+      "satisfied_by": null,
+      "related_documents": ""
+    }
+  ],
+  "step4_5_latency": 49.15090823173523,
+  "step4_5_tokens": {
+    "model": "claude-haiku-4-5-20251001",
+    "input_tokens": 2884,
+    "output_tokens": 5281,
+    "cache_read_tokens": 0,
+    "cache_creation_tokens": 188480,
+    "total_tokens": 8165
+  },
+  "final_results": {
+    "scored_deficiencies": [
+      {
+        "condition_id": "Closing: Final 1003-URLA/92900 A signed and dated by all parties.",
+        "status": "deficient",
+        "detection_confidence": 0.89,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 1.0,
+          "evidence_type": 0.75,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.935,
+        "priority_dimensions": {
+          "severity": 0.95,
+          "impact": 0.95,
+          "urgency": 0.95,
+          "complexity": 0.2,
+          "explanation": "The unsigned Final 1003/URLA is a critical regulatory and legal requirement that must be executed before loan closing; without borrower signatures and dates, the loan cannot be funded and represents a compliance violation. Remediation is straightforward\u2014requiring only borrower signature and dating at closing\u2014making this the highest priority deficiency despite low complexity."
+        },
+        "related_documents": "",
+        "actionable_documents": "URLA 1003",
+        "actionable_instruction": "Obtain URLA 1003 signed and dated by borrower at closing",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Closing: Final 1003-URLA/92900 A signed and dated by all parties.",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Final 1003/URLA signed and dated by all parties (borrower and loan officer)",
+              "issue": "URLA 1003 shows borrowers[0].signed: false and borrowers[0].dateSigned: empty. Document is not executed by borrower.",
+              "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+              "evidence": "Primary borrower Ramin Dailamy has signed: false, dateSigned field is empty"
+            },
+            {
+              "requirement": "Final 1003 must be signed by borrower at closing",
+              "issue": "Current URLA 1003 is not executed. This must be signed by borrower and dated at closing time.",
+              "field_checked": "borrowers[0].dateSigned",
+              "evidence": "No date signature on URLA 1003 document"
+            }
+          ],
+          "reasoning": "The Final 1003/URLA requirement specifies that this document must be fully executed (signed and dated) by all parties at closing. The submitted URLA 1003 is not signed by the borrower and contains no date signature. This is a critical closing document that requires borrower execution immediately before loan closing.",
+          "checked_fields": [
+            "borrowers[0].signed",
+            "borrowers[0].dateSigned"
+          ],
+          "actionable_instruction": "Obtain URLA 1003 signed and dated by borrower at closing",
+          "documents_checked": [
+            "URLA 1003"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Credit: Broker Signed 1003",
+        "status": "deficient",
+        "detection_confidence": 0.8,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 0.7,
+          "evidence_type": 0.6,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.92,
+        "priority_dimensions": {
+          "severity": 0.95,
+          "impact": 0.95,
+          "urgency": 0.95,
+          "complexity": 0.35,
+          "explanation": "Missing borrower and loan officer signatures on the initial 1003 is a critical regulatory and legal requirement that prevents loan approval and poses significant compliance risk. This is a straightforward remediation requiring re-execution of the form by both parties, but must be completed immediately before any further processing."
+        },
+        "related_documents": "",
+        "actionable_documents": "URLA 1003",
+        "actionable_instruction": "Obtain fully executed URLA 1003 signed by borrower and loan officer",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Credit: Broker Signed 1003",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Initial 1003 disclosed by NP, Inc. signed by the borrower and wet signed by Loan Officer",
+              "issue": "URLA 1003 shows borrower (RAMIN DAILAMY) with signed field = false and dateSigned field empty. Document is not executed by borrower.",
+              "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+              "evidence": "Extracted data shows: signed: false, dateSigned: '' for primary borrower RAMIN DAILAMY"
+            },
+            {
+              "requirement": "URLA 1003 must be signed by Loan Officer",
+              "issue": "No loan officer signature field is populated in the extracted 1003 data. Broker/loan officer sign-off is missing.",
+              "field_checked": "signed1003Version, overall document signature section",
+              "evidence": "No loan officer signature data present in 1003 document extraction"
+            }
+          ],
+          "reasoning": "The URLA 1003 submitted is incomplete and unsigned. The condition requires the initial 1003 to be signed and dated by both the borrower and the loan officer (wet signed). The extracted data clearly shows the borrower signature fields are false/empty, and there is no evidence of loan officer signature. This must be corrected before proceeding.",
+          "checked_fields": [
+            "borrowers[0].signed",
+            "borrowers[0].dateSigned"
+          ],
+          "actionable_instruction": "Obtain fully executed URLA 1003 signed by borrower and loan officer",
+          "documents_checked": [
+            "URLA 1003"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "CORR: Property - Title Commitment",
+        "status": "deficient",
+        "detection_confidence": 0.83,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.5,
+          "field_specificity": 1.0,
+          "evidence_type": 0.75,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.901,
+        "priority_dimensions": {
+          "severity": 0.95,
+          "impact": 0.92,
+          "urgency": 0.9,
+          "complexity": 0.35,
+          "explanation": "The Preliminary Title Commitment is a mandatory legal requirement for loan closing and investor delivery; without it, the lender cannot verify clear title or proceed to funding. This deficiency is straightforward to resolve through a simple request to the title company for the actual commitment document rather than the invoice."
+        },
+        "related_documents": "",
+        "actionable_documents": "Title Invoice",
+        "actionable_instruction": "Obtain executed Preliminary Title Commitment with 24-month chain of title",
+        "documents_checked": [
+          "Title Invoice"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "CORR: Property - Title Commitment",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Preliminary Title Commitment with 24-month Chain of Title. Must be signed by authorized agent and dated within 90 days prior to closing.",
+              "issue": "No Preliminary Title Commitment or Title Commitment document is included in submitted materials. Title Invoice is present but is an invoice/billing document, not a title commitment.",
+              "field_checked": "document_inventory",
+              "evidence": "Submitted documents do not contain Title Commitment or Preliminary Report. Only Title Invoice (billing document) is present."
+            }
+          ],
+          "reasoning": "This is a corrective condition indicating the property title commitment was deficient or missing. The required document (Preliminary Title Commitment with 24-month chain of title) is not present in submissions. Only a Title Invoice (billing document from title company) is submitted, which does not satisfy this requirement. The actual title commitment document must be obtained from the title company.",
+          "checked_fields": [
+            "document_inventory"
+          ],
+          "actionable_instruction": "Obtain executed Preliminary Title Commitment with 24-month chain of title",
+          "documents_checked": [
+            "Title Invoice"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "CORR: Collateral",
+        "status": "deficient",
+        "detection_confidence": 0.82,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 0.7,
+          "evidence_type": 0.7,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.86,
+        "priority_dimensions": {
+          "severity": 0.9,
+          "impact": 0.95,
+          "urgency": 0.95,
+          "complexity": 0.75,
+          "explanation": "This is a critical collateral deficiency that prevents loan closing. Multiple essential documents required for legal/regulatory compliance and investor delivery are missing or improperly executed, including the unsigned Title Invoice, Preliminary Title Report, Bailee Letter, Original Note, and Mortgage/DOT, creating both legal risk and funding blockers that must be resolved immediately before proceeding."
+        },
+        "related_documents": "",
+        "actionable_documents": "Title Invoice",
+        "actionable_instruction": "Deliver complete collateral package with all required documents to Collateral Department",
+        "documents_checked": [
+          "Title Invoice"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "CORR: Collateral",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Collateral Package including Original Note, Bailee Letter and Allonge, True and Certified Copy of the Mortgage/Deed of Trust and all applicable Riders",
+              "issue": "Title Invoice document is present but not signed (signed: false, dateSigned: empty). This appears to be from title company but lacks proper execution. No evidence of Bailee Letter, Allonge, Mortgage/DOT, or Riders in submitted documents.",
+              "field_checked": "Title Invoice - signed, dateSigned",
+              "evidence": "Title Invoice shows borrower Francis Rocco with signed: false and dateSigned: empty"
+            },
+            {
+              "requirement": "Preliminary Title Report to be delivered to Collateral Department",
+              "issue": "No Preliminary Title Report or Title Commitment document is included in submitted materials.",
+              "field_checked": "document_list",
+              "evidence": "Submitted documents do not include Title Commitment or Preliminary Report"
+            }
+          ],
+          "reasoning": "The collateral correction condition requires a complete package of original collateral documents. The Title Invoice is incomplete and unsigned. Critical documents are missing including Preliminary Title Report, Bailee Letter, Note, Mortgage/DOT, and any riders. This is a corrective condition indicating the collateral package was deficient and must be completed.",
+          "checked_fields": [
+            "Title Invoice fields",
+            "document_inventory"
+          ],
+          "actionable_instruction": "Deliver complete collateral package with all required documents to Collateral Department",
+          "documents_checked": [
+            "Title Invoice"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Misc: Business Purpose Disclosures",
+        "status": "deficient",
+        "detection_confidence": 0.8,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.5,
+          "field_specificity": 0.7,
+          "evidence_type": 0.9,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.849,
+        "priority_dimensions": {
+          "severity": 0.85,
+          "impact": 0.88,
+          "urgency": 0.9,
+          "complexity": 0.35,
+          "explanation": "This is a critical deficiency requiring immediate resolution as Business Purpose Certification must be executed by the actual loan borrower(s) to satisfy regulatory and guideline requirements; the mismatch between signer and primary borrower creates a legal/compliance risk that blocks closing. Remediation is straightforward\u2014obtain the correct certification signed by Ramin Dailamy\u2014but must be completed before loan funding."
+        },
+        "related_documents": "",
+        "actionable_documents": "Borrower Certification as to Business Purpose",
+        "actionable_instruction": "Verify borrower identity and obtain correct Business Purpose Certification",
+        "documents_checked": [
+          "Borrower Certification as to Business Purpose",
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Misc: Business Purpose Disclosures",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Business Purpose and Occupancy Certifications executed by all Borrowers",
+              "issue": "Borrower Certification as to Business Purpose is signed by MARISOL DELGADO (dateSigned: 2025-11-04), but the primary borrower listed in URLA 1003 and Credit Report is RAMIN DAILAMY, not Marisol Delgado. The certification is for the wrong borrower.",
+              "field_checked": "Borrower Certification - firstName, lastName vs URLA 1003 borrowers[0]",
+              "evidence": "Business Purpose Certification shows Marisol Delgado signature; URLA 1003 primary borrower is Ramin Dailamy. Name mismatch indicates document may not apply to this borrower."
+            }
+          ],
+          "reasoning": "The Business Purpose Certification document is present and signed, but there is a critical mismatch between the signer name (Marisol Delgado) and the primary borrower in the loan application (Ramin Dailamy). For a Supreme program, the business purpose disclosure must be executed by the actual loan borrowers. This discrepancy indicates either the wrong document was submitted or there is confusion about borrower identity.",
+          "checked_fields": [
+            "Borrower Certification firstName/lastName",
+            "URLA 1003 borrowers[0]"
+          ],
+          "actionable_instruction": "Verify borrower identity and obtain correct Business Purpose Certification",
+          "documents_checked": [
+            "Borrower Certification as to Business Purpose",
+            "URLA 1003"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Assets: Bank Statements (Conv)",
+        "status": "deficient",
+        "detection_confidence": 0.815,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 1.0,
+          "field_specificity": 0.4,
+          "evidence_type": 0.825,
+          "reasoning_quality": 0.7
+        },
+        "priority_score": 0.797,
+        "priority_dimensions": {
+          "severity": 0.85,
+          "impact": 0.82,
+          "urgency": 0.88,
+          "complexity": 0.65,
+          "explanation": "This deficiency presents significant underwriting risk due to missing required documentation (second month of statements and large deposit sourcing) combined with a critical borrower identity discrepancy that must be resolved before loan approval. The missing large deposit documentation and incomplete bank statement history violate conventional loan guidelines and create regulatory compliance concerns that prevent closing."
+        },
+        "related_documents": "",
+        "actionable_documents": "Bank Statement",
+        "actionable_instruction": "Upload second month bank statement and source large deposits with LOE",
+        "documents_checked": [
+          "Bank Statement"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Assets: Bank Statements (Conv)",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Provide two months most recent bank statements with all pages, source and document all large deposits per agency guidelines",
+              "issue": "Only ONE bank statement period is provided (2025-08-01 to 2025-08-31). Two months of statements are required.",
+              "field_checked": "statementPeriodFrom, statementPeriodTo",
+              "evidence": "Bank statement covers only August 2025 (08-01 to 08-31). No second month statement (July or September) is included."
+            },
+            {
+              "requirement": "Borrower name on bank statement must match loan application borrower",
+              "issue": "Bank statement account holders are RAMIN DAILAMY, matching the URLA 1003 borrower. However, the Business Purpose Certification is signed by MARISOL DELGADO, creating borrower identity confusion.",
+              "field_checked": "accountHolderPersons[0], URLA 1003 borrowers[0]",
+              "evidence": "Bank statement shows Ramin Dailamy accounts; URLA 1003 shows Ramin Dailamy; but Business Purpose document shows Marisol Delgado signature"
+            },
+            {
+              "requirement": "Large deposits must be sourced and documented",
+              "issue": "Bank statement shows hasLargeDepositWithdrawal: true on checking account but no source documentation (LOE for Large Deposits) is provided.",
+              "field_checked": "accounts[0].hasLargeDepositWithdrawal",
+              "evidence": "Checking account indicates large deposit/withdrawal occurred (hasLargeDepositWithdrawal: true) but no source documentation accompanies this"
+            }
+          ],
+          "reasoning": "The bank statement requirements for Conventional program are not fully met. Two complete months of statements are required, but only one month is submitted. Additionally, the large deposit flag indicates significant deposits that require sourcing documentation, which is missing. The borrower identity discrepancy between RAMIN DAILAMY in the application and MARISOL DELGADO in the business purpose certification adds to the compliance concern.",
+          "checked_fields": [
+            "statementPeriodFrom",
+            "statementPeriodTo",
+            "hasLargeDepositWithdrawal"
+          ],
+          "actionable_instruction": "Upload second month bank statement and source large deposits with LOE",
+          "documents_checked": [
+            "Bank Statement"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Credit: Credit Refresh",
+        "status": "deficient",
+        "detection_confidence": 0.92,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 1.0,
+          "evidence_type": 0.9,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.785,
+        "priority_dimensions": {
+          "severity": 0.75,
+          "impact": 0.8,
+          "urgency": 0.85,
+          "complexity": 0.25,
+          "explanation": "Credit Refresh is a standard closing condition required to verify no material change in borrower creditworthiness before funding, making it a guideline violation with moderate-high severity. The deficiency is straightforward to resolve (simple credit report request) but time-sensitive as it must be obtained within 10 days of note date and prior to loan funding."
+        },
+        "related_documents": "",
+        "actionable_documents": "Credit Report",
+        "actionable_instruction": "Obtain updated Credit Refresh within 10 days of closing",
+        "documents_checked": [
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Credit: Credit Refresh",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Credit Refresh within 10 days of Note to ensure no new debt(s) have been incurred by borrower(s)",
+              "issue": "Only an initial Credit Report dated 2025-09-16 is provided. No Credit Refresh document showing updated credit status near closing date is included.",
+              "field_checked": "document_inventory",
+              "evidence": "Submitted documents contain single Credit Report only; no Credit Refresh document present"
+            },
+            {
+              "requirement": "Borrower to address any new inquiries and certify no new debt resulted from the inquiry",
+              "issue": "No evidence of borrower certification or explanation regarding new inquiries is provided.",
+              "field_checked": "document_inventory",
+              "evidence": "No credit refresh or borrower certification document provided"
+            }
+          ],
+          "reasoning": "The Credit Refresh condition requires an updated credit report obtained within 10 days of the note date to verify no new debts have been incurred. This is a standard closing condition to ensure borrower's creditworthiness has not changed since initial underwriting. Only the initial credit report from September 16, 2025 is provided, with no refresh showing current status near closing.",
+          "checked_fields": [
+            "document_list"
+          ],
+          "actionable_instruction": "Obtain updated Credit Refresh within 10 days of closing",
+          "documents_checked": [
+            "Credit Report"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Credit: Credit Supplement for-",
+        "status": "deficient",
+        "detection_confidence": 0.83,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.5,
+          "field_specificity": 1.0,
+          "evidence_type": 0.75,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.71,
+        "priority_dimensions": {
+          "severity": 0.7,
+          "impact": 0.7,
+          "urgency": 0.8,
+          "complexity": 0.4,
+          "explanation": "A Credit Supplement is a standard underwriting requirement for most loan programs to verify current credit status and mortgage payment history; its absence represents a guideline compliance gap that must be resolved before closing. The document is straightforward to obtain from the borrower or credit provider, making remediation simple despite the moderate time sensitivity required to meet closing deadlines."
+        },
+        "related_documents": "",
+        "actionable_documents": "Credit Report",
+        "actionable_instruction": "Obtain updated Credit Supplement showing current mortgage status",
+        "documents_checked": [
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Credit: Credit Supplement for-",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Credit Supplement required showing mortgage payment status or other specific requirement",
+              "issue": "Condition text is incomplete ('for-') making it impossible to determine exact requirements. However, only a Credit Report is provided with no Credit Supplement document.",
+              "field_checked": "document_inventory",
+              "evidence": "Submitted documents contain Credit Report only; no Credit Supplement document present"
+            }
+          ],
+          "reasoning": "The condition specification is incomplete in the provided text, but the general requirement suggests a Credit Supplement is needed. Only a standard Credit Report dated 2025-09-16 is provided. A supplemental credit report would be a separate document providing updated information. This document is missing from submissions.",
+          "checked_fields": [
+            "document_list"
+          ],
+          "actionable_instruction": "Obtain updated Credit Supplement showing current mortgage status",
+          "documents_checked": [
+            "Credit Report"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      }
+    ],
+    "top_n": [
+      {
+        "condition_id": "Closing: Final 1003-URLA/92900 A signed and dated by all parties.",
+        "status": "deficient",
+        "detection_confidence": 0.89,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 1.0,
+          "evidence_type": 0.75,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.935,
+        "priority_dimensions": {
+          "severity": 0.95,
+          "impact": 0.95,
+          "urgency": 0.95,
+          "complexity": 0.2,
+          "explanation": "The unsigned Final 1003/URLA is a critical regulatory and legal requirement that must be executed before loan closing; without borrower signatures and dates, the loan cannot be funded and represents a compliance violation. Remediation is straightforward\u2014requiring only borrower signature and dating at closing\u2014making this the highest priority deficiency despite low complexity."
+        },
+        "related_documents": "",
+        "actionable_documents": "URLA 1003",
+        "actionable_instruction": "Obtain URLA 1003 signed and dated by borrower at closing",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Closing: Final 1003-URLA/92900 A signed and dated by all parties.",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Final 1003/URLA signed and dated by all parties (borrower and loan officer)",
+              "issue": "URLA 1003 shows borrowers[0].signed: false and borrowers[0].dateSigned: empty. Document is not executed by borrower.",
+              "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+              "evidence": "Primary borrower Ramin Dailamy has signed: false, dateSigned field is empty"
+            },
+            {
+              "requirement": "Final 1003 must be signed by borrower at closing",
+              "issue": "Current URLA 1003 is not executed. This must be signed by borrower and dated at closing time.",
+              "field_checked": "borrowers[0].dateSigned",
+              "evidence": "No date signature on URLA 1003 document"
+            }
+          ],
+          "reasoning": "The Final 1003/URLA requirement specifies that this document must be fully executed (signed and dated) by all parties at closing. The submitted URLA 1003 is not signed by the borrower and contains no date signature. This is a critical closing document that requires borrower execution immediately before loan closing.",
+          "checked_fields": [
+            "borrowers[0].signed",
+            "borrowers[0].dateSigned"
+          ],
+          "actionable_instruction": "Obtain URLA 1003 signed and dated by borrower at closing",
+          "documents_checked": [
+            "URLA 1003"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Credit: Broker Signed 1003",
+        "status": "deficient",
+        "detection_confidence": 0.8,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 0.7,
+          "evidence_type": 0.6,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.92,
+        "priority_dimensions": {
+          "severity": 0.95,
+          "impact": 0.95,
+          "urgency": 0.95,
+          "complexity": 0.35,
+          "explanation": "Missing borrower and loan officer signatures on the initial 1003 is a critical regulatory and legal requirement that prevents loan approval and poses significant compliance risk. This is a straightforward remediation requiring re-execution of the form by both parties, but must be completed immediately before any further processing."
+        },
+        "related_documents": "",
+        "actionable_documents": "URLA 1003",
+        "actionable_instruction": "Obtain fully executed URLA 1003 signed by borrower and loan officer",
+        "documents_checked": [
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Credit: Broker Signed 1003",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Initial 1003 disclosed by NP, Inc. signed by the borrower and wet signed by Loan Officer",
+              "issue": "URLA 1003 shows borrower (RAMIN DAILAMY) with signed field = false and dateSigned field empty. Document is not executed by borrower.",
+              "field_checked": "borrowers[0].signed, borrowers[0].dateSigned",
+              "evidence": "Extracted data shows: signed: false, dateSigned: '' for primary borrower RAMIN DAILAMY"
+            },
+            {
+              "requirement": "URLA 1003 must be signed by Loan Officer",
+              "issue": "No loan officer signature field is populated in the extracted 1003 data. Broker/loan officer sign-off is missing.",
+              "field_checked": "signed1003Version, overall document signature section",
+              "evidence": "No loan officer signature data present in 1003 document extraction"
+            }
+          ],
+          "reasoning": "The URLA 1003 submitted is incomplete and unsigned. The condition requires the initial 1003 to be signed and dated by both the borrower and the loan officer (wet signed). The extracted data clearly shows the borrower signature fields are false/empty, and there is no evidence of loan officer signature. This must be corrected before proceeding.",
+          "checked_fields": [
+            "borrowers[0].signed",
+            "borrowers[0].dateSigned"
+          ],
+          "actionable_instruction": "Obtain fully executed URLA 1003 signed by borrower and loan officer",
+          "documents_checked": [
+            "URLA 1003"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "CORR: Property - Title Commitment",
+        "status": "deficient",
+        "detection_confidence": 0.83,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.5,
+          "field_specificity": 1.0,
+          "evidence_type": 0.75,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.901,
+        "priority_dimensions": {
+          "severity": 0.95,
+          "impact": 0.92,
+          "urgency": 0.9,
+          "complexity": 0.35,
+          "explanation": "The Preliminary Title Commitment is a mandatory legal requirement for loan closing and investor delivery; without it, the lender cannot verify clear title or proceed to funding. This deficiency is straightforward to resolve through a simple request to the title company for the actual commitment document rather than the invoice."
+        },
+        "related_documents": "",
+        "actionable_documents": "Title Invoice",
+        "actionable_instruction": "Obtain executed Preliminary Title Commitment with 24-month chain of title",
+        "documents_checked": [
+          "Title Invoice"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "CORR: Property - Title Commitment",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Preliminary Title Commitment with 24-month Chain of Title. Must be signed by authorized agent and dated within 90 days prior to closing.",
+              "issue": "No Preliminary Title Commitment or Title Commitment document is included in submitted materials. Title Invoice is present but is an invoice/billing document, not a title commitment.",
+              "field_checked": "document_inventory",
+              "evidence": "Submitted documents do not contain Title Commitment or Preliminary Report. Only Title Invoice (billing document) is present."
+            }
+          ],
+          "reasoning": "This is a corrective condition indicating the property title commitment was deficient or missing. The required document (Preliminary Title Commitment with 24-month chain of title) is not present in submissions. Only a Title Invoice (billing document from title company) is submitted, which does not satisfy this requirement. The actual title commitment document must be obtained from the title company.",
+          "checked_fields": [
+            "document_inventory"
+          ],
+          "actionable_instruction": "Obtain executed Preliminary Title Commitment with 24-month chain of title",
+          "documents_checked": [
+            "Title Invoice"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "CORR: Collateral",
+        "status": "deficient",
+        "detection_confidence": 0.82,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 0.7,
+          "evidence_type": 0.7,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.86,
+        "priority_dimensions": {
+          "severity": 0.9,
+          "impact": 0.95,
+          "urgency": 0.95,
+          "complexity": 0.75,
+          "explanation": "This is a critical collateral deficiency that prevents loan closing. Multiple essential documents required for legal/regulatory compliance and investor delivery are missing or improperly executed, including the unsigned Title Invoice, Preliminary Title Report, Bailee Letter, Original Note, and Mortgage/DOT, creating both legal risk and funding blockers that must be resolved immediately before proceeding."
+        },
+        "related_documents": "",
+        "actionable_documents": "Title Invoice",
+        "actionable_instruction": "Deliver complete collateral package with all required documents to Collateral Department",
+        "documents_checked": [
+          "Title Invoice"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "CORR: Collateral",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Collateral Package including Original Note, Bailee Letter and Allonge, True and Certified Copy of the Mortgage/Deed of Trust and all applicable Riders",
+              "issue": "Title Invoice document is present but not signed (signed: false, dateSigned: empty). This appears to be from title company but lacks proper execution. No evidence of Bailee Letter, Allonge, Mortgage/DOT, or Riders in submitted documents.",
+              "field_checked": "Title Invoice - signed, dateSigned",
+              "evidence": "Title Invoice shows borrower Francis Rocco with signed: false and dateSigned: empty"
+            },
+            {
+              "requirement": "Preliminary Title Report to be delivered to Collateral Department",
+              "issue": "No Preliminary Title Report or Title Commitment document is included in submitted materials.",
+              "field_checked": "document_list",
+              "evidence": "Submitted documents do not include Title Commitment or Preliminary Report"
+            }
+          ],
+          "reasoning": "The collateral correction condition requires a complete package of original collateral documents. The Title Invoice is incomplete and unsigned. Critical documents are missing including Preliminary Title Report, Bailee Letter, Note, Mortgage/DOT, and any riders. This is a corrective condition indicating the collateral package was deficient and must be completed.",
+          "checked_fields": [
+            "Title Invoice fields",
+            "document_inventory"
+          ],
+          "actionable_instruction": "Deliver complete collateral package with all required documents to Collateral Department",
+          "documents_checked": [
+            "Title Invoice"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Misc: Business Purpose Disclosures",
+        "status": "deficient",
+        "detection_confidence": 0.8,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.5,
+          "field_specificity": 0.7,
+          "evidence_type": 0.9,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.849,
+        "priority_dimensions": {
+          "severity": 0.85,
+          "impact": 0.88,
+          "urgency": 0.9,
+          "complexity": 0.35,
+          "explanation": "This is a critical deficiency requiring immediate resolution as Business Purpose Certification must be executed by the actual loan borrower(s) to satisfy regulatory and guideline requirements; the mismatch between signer and primary borrower creates a legal/compliance risk that blocks closing. Remediation is straightforward\u2014obtain the correct certification signed by Ramin Dailamy\u2014but must be completed before loan funding."
+        },
+        "related_documents": "",
+        "actionable_documents": "Borrower Certification as to Business Purpose",
+        "actionable_instruction": "Verify borrower identity and obtain correct Business Purpose Certification",
+        "documents_checked": [
+          "Borrower Certification as to Business Purpose",
+          "URLA 1003"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Misc: Business Purpose Disclosures",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Business Purpose and Occupancy Certifications executed by all Borrowers",
+              "issue": "Borrower Certification as to Business Purpose is signed by MARISOL DELGADO (dateSigned: 2025-11-04), but the primary borrower listed in URLA 1003 and Credit Report is RAMIN DAILAMY, not Marisol Delgado. The certification is for the wrong borrower.",
+              "field_checked": "Borrower Certification - firstName, lastName vs URLA 1003 borrowers[0]",
+              "evidence": "Business Purpose Certification shows Marisol Delgado signature; URLA 1003 primary borrower is Ramin Dailamy. Name mismatch indicates document may not apply to this borrower."
+            }
+          ],
+          "reasoning": "The Business Purpose Certification document is present and signed, but there is a critical mismatch between the signer name (Marisol Delgado) and the primary borrower in the loan application (Ramin Dailamy). For a Supreme program, the business purpose disclosure must be executed by the actual loan borrowers. This discrepancy indicates either the wrong document was submitted or there is confusion about borrower identity.",
+          "checked_fields": [
+            "Borrower Certification firstName/lastName",
+            "URLA 1003 borrowers[0]"
+          ],
+          "actionable_instruction": "Verify borrower identity and obtain correct Business Purpose Certification",
+          "documents_checked": [
+            "Borrower Certification as to Business Purpose",
+            "URLA 1003"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Assets: Bank Statements (Conv)",
+        "status": "deficient",
+        "detection_confidence": 0.815,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 1.0,
+          "field_specificity": 0.4,
+          "evidence_type": 0.825,
+          "reasoning_quality": 0.7
+        },
+        "priority_score": 0.797,
+        "priority_dimensions": {
+          "severity": 0.85,
+          "impact": 0.82,
+          "urgency": 0.88,
+          "complexity": 0.65,
+          "explanation": "This deficiency presents significant underwriting risk due to missing required documentation (second month of statements and large deposit sourcing) combined with a critical borrower identity discrepancy that must be resolved before loan approval. The missing large deposit documentation and incomplete bank statement history violate conventional loan guidelines and create regulatory compliance concerns that prevent closing."
+        },
+        "related_documents": "",
+        "actionable_documents": "Bank Statement",
+        "actionable_instruction": "Upload second month bank statement and source large deposits with LOE",
+        "documents_checked": [
+          "Bank Statement"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Assets: Bank Statements (Conv)",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Provide two months most recent bank statements with all pages, source and document all large deposits per agency guidelines",
+              "issue": "Only ONE bank statement period is provided (2025-08-01 to 2025-08-31). Two months of statements are required.",
+              "field_checked": "statementPeriodFrom, statementPeriodTo",
+              "evidence": "Bank statement covers only August 2025 (08-01 to 08-31). No second month statement (July or September) is included."
+            },
+            {
+              "requirement": "Borrower name on bank statement must match loan application borrower",
+              "issue": "Bank statement account holders are RAMIN DAILAMY, matching the URLA 1003 borrower. However, the Business Purpose Certification is signed by MARISOL DELGADO, creating borrower identity confusion.",
+              "field_checked": "accountHolderPersons[0], URLA 1003 borrowers[0]",
+              "evidence": "Bank statement shows Ramin Dailamy accounts; URLA 1003 shows Ramin Dailamy; but Business Purpose document shows Marisol Delgado signature"
+            },
+            {
+              "requirement": "Large deposits must be sourced and documented",
+              "issue": "Bank statement shows hasLargeDepositWithdrawal: true on checking account but no source documentation (LOE for Large Deposits) is provided.",
+              "field_checked": "accounts[0].hasLargeDepositWithdrawal",
+              "evidence": "Checking account indicates large deposit/withdrawal occurred (hasLargeDepositWithdrawal: true) but no source documentation accompanies this"
+            }
+          ],
+          "reasoning": "The bank statement requirements for Conventional program are not fully met. Two complete months of statements are required, but only one month is submitted. Additionally, the large deposit flag indicates significant deposits that require sourcing documentation, which is missing. The borrower identity discrepancy between RAMIN DAILAMY in the application and MARISOL DELGADO in the business purpose certification adds to the compliance concern.",
+          "checked_fields": [
+            "statementPeriodFrom",
+            "statementPeriodTo",
+            "hasLargeDepositWithdrawal"
+          ],
+          "actionable_instruction": "Upload second month bank statement and source large deposits with LOE",
+          "documents_checked": [
+            "Bank Statement"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Credit: Credit Refresh",
+        "status": "deficient",
+        "detection_confidence": 0.92,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.8,
+          "field_specificity": 1.0,
+          "evidence_type": 0.9,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.785,
+        "priority_dimensions": {
+          "severity": 0.75,
+          "impact": 0.8,
+          "urgency": 0.85,
+          "complexity": 0.25,
+          "explanation": "Credit Refresh is a standard closing condition required to verify no material change in borrower creditworthiness before funding, making it a guideline violation with moderate-high severity. The deficiency is straightforward to resolve (simple credit report request) but time-sensitive as it must be obtained within 10 days of note date and prior to loan funding."
+        },
+        "related_documents": "",
+        "actionable_documents": "Credit Report",
+        "actionable_instruction": "Obtain updated Credit Refresh within 10 days of closing",
+        "documents_checked": [
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Credit: Credit Refresh",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Credit Refresh within 10 days of Note to ensure no new debt(s) have been incurred by borrower(s)",
+              "issue": "Only an initial Credit Report dated 2025-09-16 is provided. No Credit Refresh document showing updated credit status near closing date is included.",
+              "field_checked": "document_inventory",
+              "evidence": "Submitted documents contain single Credit Report only; no Credit Refresh document present"
+            },
+            {
+              "requirement": "Borrower to address any new inquiries and certify no new debt resulted from the inquiry",
+              "issue": "No evidence of borrower certification or explanation regarding new inquiries is provided.",
+              "field_checked": "document_inventory",
+              "evidence": "No credit refresh or borrower certification document provided"
+            }
+          ],
+          "reasoning": "The Credit Refresh condition requires an updated credit report obtained within 10 days of the note date to verify no new debts have been incurred. This is a standard closing condition to ensure borrower's creditworthiness has not changed since initial underwriting. Only the initial credit report from September 16, 2025 is provided, with no refresh showing current status near closing.",
+          "checked_fields": [
+            "document_list"
+          ],
+          "actionable_instruction": "Obtain updated Credit Refresh within 10 days of closing",
+          "documents_checked": [
+            "Credit Report"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      },
+      {
+        "condition_id": "Credit: Credit Supplement for-",
+        "status": "deficient",
+        "detection_confidence": 0.83,
+        "confidence_breakdown": {
+          "evidence_completeness": 1.0,
+          "deficiency_count_score": 0.5,
+          "field_specificity": 1.0,
+          "evidence_type": 0.75,
+          "reasoning_quality": 0.8
+        },
+        "priority_score": 0.71,
+        "priority_dimensions": {
+          "severity": 0.7,
+          "impact": 0.7,
+          "urgency": 0.8,
+          "complexity": 0.4,
+          "explanation": "A Credit Supplement is a standard underwriting requirement for most loan programs to verify current credit status and mortgage payment history; its absence represents a guideline compliance gap that must be resolved before closing. The document is straightforward to obtain from the borrower or credit provider, making remediation simple despite the moderate time sensitivity required to meet closing deadlines."
+        },
+        "related_documents": "",
+        "actionable_documents": "Credit Report",
+        "actionable_instruction": "Obtain updated Credit Supplement showing current mortgage status",
+        "documents_checked": [
+          "Credit Report"
+        ],
+        "satisfied_by": null,
+        "original_deficiency": {
+          "condition_id": "Credit: Credit Supplement for-",
+          "status": "deficient",
+          "deficiencies": [
+            {
+              "requirement": "Credit Supplement required showing mortgage payment status or other specific requirement",
+              "issue": "Condition text is incomplete ('for-') making it impossible to determine exact requirements. However, only a Credit Report is provided with no Credit Supplement document.",
+              "field_checked": "document_inventory",
+              "evidence": "Submitted documents contain Credit Report only; no Credit Supplement document present"
+            }
+          ],
+          "reasoning": "The condition specification is incomplete in the provided text, but the general requirement suggests a Credit Supplement is needed. Only a standard Credit Report dated 2025-09-16 is provided. A supplemental credit report would be a separate document providing updated information. This document is missing from submissions.",
+          "checked_fields": [
+            "document_list"
+          ],
+          "actionable_instruction": "Obtain updated Credit Supplement showing current mortgage status",
+          "documents_checked": [
+            "Credit Report"
+          ],
+          "satisfied_by": null,
+          "related_documents": ""
+        }
+      }
+    ],
+    "summary": {
+      "total_deficiencies_evaluated": 8,
+      "average_detection_confidence": 0.838,
+      "average_priority_score": 0.845,
+      "high_priority_count": 8,
+      "medium_priority_count": 0,
+      "low_priority_count": 0
+    },
+    "_metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "input_tokens": 2884,
+      "output_tokens": 5281,
+      "cache_read_tokens": 0,
+      "cache_creation_tokens": 188480
+    }
+  },
+  "step6_7_latency": 17.32326364517212,
+  "step6_7_tokens": {
+    "model": "claude-haiku-4-5-20251001",
+    "input_tokens": 2884,
+    "output_tokens": 5281,
+    "cache_read_tokens": 0,
+    "total_tokens": 8165
+  },
+  "total_latency": 113.6916275024414,
+  "total_tokens": {
+    "step_3_embeddings": {
+      "model": "text-embedding-3-large",
+      "estimated_embedding_tokens": 850
+    },
+    "step_4_5_detection": {
+      "model": "claude-haiku-4-5-20251001",
+      "input_tokens": 2884,
+      "output_tokens": 5281,
+      "cache_read_tokens": 0,
+      "cache_creation_tokens": 188480,
+      "total_tokens": 8165
+    },
+    "step_6_7_scoring": {
+      "model": "claude-haiku-4-5-20251001",
+      "input_tokens": 2884,
+      "output_tokens": 5281,
+      "cache_read_tokens": 0,
+      "total_tokens": 8165
+    },
+    "grand_total": {
+      "total_input_tokens": 5768,
+      "total_output_tokens": 10562,
+      "total_tokens": 16330
+    }
+  },
+  "logs": [
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:00:17.634063",
+      "step": "STEP_1",
+      "event_type": "start",
+      "message": "Obtaining compartment labels for all documents"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:00:29.462728",
+      "step": "STEP_1",
+      "event_type": "complete",
+      "message": "Found 7 unique compartment(s) across 5 document(s)",
+      "compartments": [
+        "Loan & Property Information",
+        "Acknowledgments & Agreements",
+        "Assets & Liabilities",
+        "Continuation / Additional Information",
+        "Declarations",
+        "Employment & Income",
+        "Borrower Information"
+      ],
+      "latency_ms": 11828.56559753418
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:00:29.472606",
+      "step": "STEP_2",
+      "event_type": "start",
+      "message": "Filtering requirements"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:00:43.009321",
+      "step": "STEP_2",
+      "event_type": "complete",
+      "message": "Filtered to 31 requirements",
+      "count": 31,
+      "latency_ms": 13536.70620918274
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:00:43.021391",
+      "step": "STEP_3",
+      "event_type": "start",
+      "message": "Ranking requirements by similarity"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:01:04.788170",
+      "step": "STEP_3",
+      "event_type": "complete",
+      "message": "Ranked top 5 requirements",
+      "count": 5,
+      "latency_ms": 21766.772508621216,
+      "tokens": {
+        "model": "text-embedding-3-large",
+        "estimated_embedding_tokens": 850
+      }
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:01:04.811524",
+      "step": "STEP_4_5",
+      "event_type": "start",
+      "message": "Detecting deficiencies with LLM"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:01:04.970619",
+      "step": "STEP_4_5",
+      "event_type": "info",
+      "message": "Limited to 20 conditions for efficiency"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:01:04.970659",
+      "step": "STEP_4_5",
+      "event_type": "info",
+      "message": "Checking 20 conditions across 5 document(s)"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:01:53.962445",
+      "step": "STEP_4_5",
+      "event_type": "complete",
+      "message": "Found 8 deficiencies",
+      "total_checked": 20,
+      "deficiencies_found": 8,
+      "latency_ms": 49150.90823173523,
+      "tokens": {
+        "model": "claude-haiku-4-5-20251001",
+        "input_tokens": 2884,
+        "output_tokens": 5281,
+        "cache_read_tokens": 0,
+        "cache_creation_tokens": 188480,
+        "total_tokens": 8165
+      }
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:01:53.983317",
+      "step": "STEP_6_7",
+      "event_type": "start",
+      "message": "Scoring and ranking deficiencies"
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:02:11.306579",
+      "step": "STEP_6_7",
+      "event_type": "complete",
+      "message": "Scored 8 top deficiencies",
+      "total_scored": 8,
+      "top_n": 8,
+      "latency_ms": 17323.26364517212,
+      "tokens": {
+        "model": "claude-haiku-4-5-20251001",
+        "input_tokens": 2884,
+        "output_tokens": 5281,
+        "cache_read_tokens": 0,
+        "total_tokens": 8165
+      }
+    },
+    {
+      "execution_id": "9a0cae15-1f13-482d-8fd1-63a40a022825",
+      "timestamp": "2025-11-12T06:02:11.325707",
+      "step": "FINALIZE",
+      "event_type": "complete",
+      "message": "Pipeline execution finished",
+      "total_latency_s": 113.6916275024414,
+      "total_latency_ms": 113691.6275024414,
+      "total_tokens": {
+        "total_input_tokens": 5768,
+        "total_output_tokens": 10562,
+        "total_tokens": 16330
+      }
+    }
+  ]
+}
