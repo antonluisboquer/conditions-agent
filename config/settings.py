@@ -1,13 +1,17 @@
 """Application settings and configuration."""
-from pydantic_settings import BaseSettings
 from typing import Optional
+
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # LangSmith Configuration
-    langsmith_api_key: Optional[str] = None
+    rewoo_langsmith_api_key: Optional[str] = Field(
+        default=None, alias="REWOO_LANGSMITH_API_KEY"
+    )
     langsmith_project: str = "conditions-agent"
     langsmith_tracing_v2: bool = True
 

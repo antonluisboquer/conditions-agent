@@ -22,7 +22,7 @@ class TracingManager:
     def _setup_langsmith(self):
         """Set up LangSmith environment variables."""
         os.environ["LANGCHAIN_TRACING_V2"] = str(settings.langsmith_tracing_v2).lower()
-        os.environ["LANGCHAIN_API_KEY"] = settings.langsmith_api_key
+        os.environ["LANGCHAIN_API_KEY"] = settings.rewoo_langsmith_api_key or ""
         os.environ["LANGCHAIN_PROJECT"] = settings.langsmith_project
         logger.info(f"LangSmith tracing enabled for project: {settings.langsmith_project}")
     
