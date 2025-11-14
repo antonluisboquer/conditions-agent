@@ -14,6 +14,7 @@ This guide covers workflows, data transformations, troubleshooting, bug fixes, a
 4. [Edge Case Handling](#edge-case-handling)
 5. [Airflow DAG Troubleshooting](#airflow-dag-troubleshooting)
 6. [Performance & Optimization](#performance--optimization)
+7. [Team Onboarding & AWS Setup](#team-onboarding--aws-setup)
 
 ---
 
@@ -757,6 +758,310 @@ Each node completion triggers a streaming event to the frontend.
 **For Setup**: See `SETUP_GUIDE.md`
 **For Testing**: See `tests/test_rewoo_scenarios.py`
 **For API**: See `api/main.py`
+
+---
+
+## Team Onboarding & AWS Setup
+
+### AWS SSO Configuration for Team Members
+
+The Conditions Agent uses **AWS IAM Identity Center (SSO)** for authentication. Team members with `AWSReservedSSO_PowerUserAccess_d933572f88f33718` permission set can assume the `ConditionsAgentRole` for S3 access.
+
+---
+
+### Prerequisites
+
+Each team member needs:
+- ✅ AWS CLI version 2 installed
+- ✅ Access to Cybersoft AWS organization through SSO
+- ✅ Python 3.8+ installed
+- ✅ Git installed
+
+---
+
+### Quick Setup (10 minutes)
+
+#### Step 1: Install AWS CLI v2
+
+**Windows:**
+```powershell
+# Download and install
+https://awscli.amazonaws.com/AWSCLIV2.msi
+
+# Verify
+aws --version  # Should show: aws-cli/2.x.x
+```
+
+**macOS:**
+```bash
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+```
+
+**Linux:**
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+---
+
+#### Step 2: Configure SSO
+
+```bash
+aws configure sso
+```
+
+**Enter these values:**
+
+| Prompt | Value |
+|--------|-------|
+| SSO session name | `conditions-agent` |
+| SSO start URL | `https://cybersoft.awsapps.com/start` |
+| SSO region | `ap-southeast-1` |
+| SSO registration scopes | `sso:account:access` (press Enter for default) |
+
+**Browser will open for authentication.**
+
+**When prompted, select:**
+- Account: `872194582181`
+- Role: `PowerUserAccess`
+- Default region: `us-east-1`
+- Output format: `json`
+- Profile name: `PowerUserAccess-872194582181`
+
+---
+
+#### Step 3: Clone & Setup Project
+
+```bash
+# Clone repository
+git clone <repo-url>
+cd conditions-agent
+
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# Windows:
+.venv\Scripts\Activate.ps1
+# macOS/Linux:
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+---
+
+#### Step 4: Configure .env
+
+```bash
+# AWS Configuration (Same for everyone)
+AWS_ROLE_ARN=arn:aws:iam::872194582181:role/ConditionsAgentRole
+AWS_PROFILE=PowerUserAccess-872194582181
+AWS_REGION=us-east-1
+S3_OUTPUT_BUCKET=rm-conditions
+
+# Personal Settings
+LANGSMITH_API_KEY=your_personal_langsmith_key
+LANGSMITH_PROJECT=conditions-agent
+LANGSMITH_TRACING_V2=true
+
+# Shared Configuration
+AIRFLOW_BASE_URL=<shared_airflow_url>
+AIRFLOW_USERNAME=<your_username>
+AIRFLOW_PASSWORD=<your_password>
+PRECONDITIONS_DEPLOYMENT_URL=<shared_deployment_url>
+PRECONDITIONS_API_KEY=<shared_api_key>
+```
+
+---
+
+#### Step 5: Login & Test
+
+```bash
+# Login to SSO (do this daily or when credentials expire)
+aws sso login --profile PowerUserAccess-872194582181
+
+# Test S3 access
+python tests/test_s3_access.py
+
+# Should show: ✅ Successfully assumed role and connected to S3!
+```
+
+---
+
+### How Authentication Works
+
+```
+1. SSO Login (PowerUserAccess role)
+   ↓
+2. Code reads AWS_PROFILE from .env
+   ↓
+3. boto3 uses SSO cached credentials
+   ↓
+4. Code automatically assumes ConditionsAgentRole
+   ↓
+5. Uses that role's credentials for S3 access
+   ↓
+6. Auto-refreshes when expired
+```
+
+**Key Points**:
+- ✅ Each person uses their own SSO credentials
+- ✅ Everyone assumes the same `ConditionsAgentRole`
+- ✅ Role has S3 permissions
+- ✅ Credentials auto-refresh (no manual copying!)
+
+---
+
+### Daily Workflow
+
+```bash
+# Morning: Login to SSO
+aws sso login --profile PowerUserAccess-872194582181
+
+# Activate virtual environment
+# Windows:
+.venv\Scripts\Activate.ps1
+# macOS/Linux:
+source .venv/bin/activate
+
+# Start working
+python api/main.py
+# or
+python tests/test_rewoo_scenarios.py
+```
+
+---
+
+### Troubleshooting
+
+#### "Unable to locate credentials"
+
+**Solution:**
+```bash
+aws sso login --profile PowerUserAccess-872194582181
+```
+
+---
+
+#### "Profile not found"
+
+**Solution:**
+```bash
+aws configure sso  # Re-run configuration
+```
+
+---
+
+#### "AWS CLI version 1" or "aws configure sso not found"
+
+**Problem:** Old AWS CLI doesn't support SSO.
+
+**Solution:**
+```bash
+# Uninstall v1
+pip uninstall awscli
+
+# Install v2 (download from https://aws.amazon.com/cli/)
+# Restart terminal
+aws --version  # Verify v2
+```
+
+---
+
+#### "Access Denied" when assuming role
+
+**Problem:** Missing permissions.
+
+**Solution:**
+- Verify you have PowerUserAccess through SSO
+- Contact AWS admin if role assignment is missing
+- Check you're in the correct AWS account (872194582181)
+
+---
+
+#### load_dotenv issues in tests
+
+**Problem:** Test scripts can't find AWS credentials from .env.
+
+**Solution:**
+Add to top of test file:
+```python
+from dotenv import load_dotenv
+load_dotenv()  # Load .env before importing settings
+```
+
+---
+
+### Important Configuration Values
+
+| Setting | Value |
+|---------|-------|
+| **SSO Start URL** | `https://cybersoft.awsapps.com/start` |
+| **SSO Region** | `ap-southeast-1` |
+| **AWS Account** | `872194582181` |
+| **Role ARN** | `arn:aws:iam::872194582181:role/ConditionsAgentRole` |
+| **S3 Bucket** | `rm-conditions` |
+| **Default Region** | `us-east-1` |
+| **Profile Name** | `PowerUserAccess-872194582181` |
+
+---
+
+### Common Commands
+
+```bash
+# SSO Login
+aws sso login --profile PowerUserAccess-872194582181
+
+# Check AWS Identity
+aws sts get-caller-identity --profile PowerUserAccess-872194582181
+
+# Test S3 Access
+python tests/test_s3_access.py
+
+# Run Agent
+python api/main.py
+
+# Run Test Scenarios
+python tests/test_rewoo_scenarios.py
+
+# SSO Logout
+aws sso logout
+```
+
+---
+
+### Security Best Practices
+
+**Never commit:**
+- ❌ `.env` file (contains secrets)
+- ❌ `.aws/` directory (contains credentials)
+- ❌ Any files with API keys or passwords
+
+**Safe to share:**
+- ✅ SSO start URL
+- ✅ Role ARN
+- ✅ Account ID
+- ✅ S3 bucket name
+- ✅ AWS region
+
+**Personal/secret:**
+- 🔐 LangSmith API key
+- 🔐 Airflow credentials
+- 🔐 SSO session credentials
+
+---
+
+### Additional Resources
+
+- **Full Setup Guide:** `SETUP_GUIDE.md`
+- **API Documentation:** `http://localhost:8000/docs` (when running)
+- **Architecture:** `ARCHITECTURE.md`
+- **AWS CLI v2 Docs:** https://docs.aws.amazon.com/cli/latest/userguide/
 
 ---
 
