@@ -23,8 +23,10 @@ class TracingManager:
         """Set up LangSmith environment variables."""
         os.environ["LANGCHAIN_TRACING_V2"] = str(settings.langsmith_tracing_v2).lower()
         os.environ["LANGCHAIN_API_KEY"] = settings.rewoo_langsmith_api_key or ""
-        os.environ["LANGCHAIN_PROJECT"] = settings.langsmith_project
-        logger.info(f"LangSmith tracing enabled for project: {settings.langsmith_project}")
+        os.environ["LANGCHAIN_PROJECT"] = settings.rewoo_langsmith_project
+        logger.info(
+            f"LangSmith tracing enabled for project: {settings.rewoo_langsmith_project}"
+        )
     
     def get_trace_url(self, run_id: Optional[str] = None) -> Optional[str]:
         """
@@ -38,12 +40,12 @@ class TracingManager:
         """
         try:
             if run_id:
-                return f"https://smith.langchain.com/o/{settings.langsmith_project}/runs/{run_id}"
+                return f"https://smith.langchain.com/o/{settings.rewoo_langsmith_project}/runs/{run_id}"
             
             # Try to get current run
             run_tree = get_current_run_tree()
             if run_tree and run_tree.id:
-                return f"https://smith.langchain.com/o/{settings.langsmith_project}/runs/{run_tree.id}"
+                return f"https://smith.langchain.com/o/{settings.rewoo_langsmith_project}/runs/{run_tree.id}"
         except Exception as e:
             logger.warning(f"Could not generate trace URL: {e}")
         
