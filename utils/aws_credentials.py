@@ -24,16 +24,49 @@ class RefreshableS3Client:
     
     def _create_client(self):
         """Create or refresh S3 client."""
-        if settings.aws_access_key_id and settings.aws_secret_access_key:
-            logger.info("Creating S3 client with explicit credentials")
+        if settings.aws_role_arn:
+            # Use STS to assume the specified role (recommended for production)
+            logger.info(f"Assuming IAM role: {settings.aws_role_arn}")
+            sts_client = boto3.client('sts', region_name=settings.aws_region)
+            assumed_role = sts_client.assume_role(
+                RoleArn=settings.aws_role_arn,
+                RoleSessionName='conditions-agent-session',
+                DurationSeconds=3600  # 1 hour
+            )
+            credentials = assumed_role['Credentials']
             self._client = boto3.client(
                 's3',
-                aws_access_key_id=settings.aws_access_key_id,
-                aws_secret_access_key=settings.aws_secret_access_key,
+                aws_access_key_id=credentials['AccessKeyId'],
+                aws_secret_access_key=credentials['SecretAccessKey'],
+                aws_session_token=credentials['SessionToken'],
                 region_name=settings.aws_region
             )
-            # Assume session tokens expire in 1 hour (adjust as needed)
-            self._credentials_expire_at = datetime.utcnow() + timedelta(hours=1)
+            # Set expiration time from STS response
+            self._credentials_expire_at = credentials['Expiration'].replace(tzinfo=None)
+            logger.info(f"Assumed role successfully, credentials expire at {self._credentials_expire_at}")
+        elif settings.aws_access_key_id and settings.aws_secret_access_key:
+            # Use provided credentials (with or without session token)
+            if settings.aws_session_token:
+                logger.info("Creating S3 client with temporary credentials (session token)")
+                self._client = boto3.client(
+                    's3',
+                    aws_access_key_id=settings.aws_access_key_id,
+                    aws_secret_access_key=settings.aws_secret_access_key,
+                    aws_session_token=settings.aws_session_token,
+                    region_name=settings.aws_region
+                )
+                # Temporary credentials typically expire in 1 hour (conservative estimate)
+                self._credentials_expire_at = datetime.utcnow() + timedelta(hours=1)
+            else:
+                logger.info("Creating S3 client with explicit static credentials")
+                self._client = boto3.client(
+                    's3',
+                    aws_access_key_id=settings.aws_access_key_id,
+                    aws_secret_access_key=settings.aws_secret_access_key,
+                    region_name=settings.aws_region
+                )
+                # Static credentials don't expire
+                self._credentials_expire_at = datetime.utcnow() + timedelta(days=365)
         else:
             logger.info("Creating S3 client with default credential chain")
             # Use default credential chain (IAM role, AWS CLI profile, etc.)

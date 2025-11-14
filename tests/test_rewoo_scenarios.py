@@ -6,6 +6,12 @@ Tests different user instructions to verify the planner chooses the right tools:
 2. Document validation only → call_conditions_ai_api  
 3. S3 access check only → retrieve_s3_document
 4. Full evaluation → call_preconditions_api + call_conditions_ai_api
+
+Test scenarios are loaded from JSON files in the tests/ directory:
+- scenario_1_deficiencies_only.json
+- scenario_2_validation_only.json
+- scenario_3_s3_access.json
+- scenario_4_full_evaluation.json
 """
 import sys
 import os
@@ -20,86 +26,19 @@ from utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 
-# Load real test data
-def load_test_metadata():
-    """Load metadata from new_preconditions_input.json"""
-    input_file = os.path.join(os.path.dirname(__file__), 'new_preconditions_input.json')
-    with open(input_file, 'r') as f:
+# Load test scenarios from JSON files
+def load_scenario(filename: str) -> dict:
+    """Load a scenario from a JSON file."""
+    scenario_file = os.path.join(os.path.dirname(__file__), filename)
+    with open(scenario_file, 'r') as f:
         return json.load(f)
 
 
-# Scenario 1: Predict deficiencies only
-SCENARIO_1_DEFICIENCIES_ONLY = {
-    "metadata": load_test_metadata(),
-    "instructions": "Determine what conditions are deficient for this borrower and loan. I only need to know what might be missing based on the loan program and documents provided.",
-    "s3_pdf_paths": []
-}
-
-# Scenario 2: Validate documents only (with pre-known conditions)
-SCENARIO_2_VALIDATION_ONLY = {
-    "metadata": {
-        "conditions": [
-            {
-                "condition_id": 1,
-                "condition_name": "Bank Statements - 2 Months",
-                "description": "Provide 2 consecutive months of bank statements showing sufficient funds",
-                "category": "Assets"
-            },
-            {
-                "condition_id": 2,
-                "condition_name": "Credit Report",
-                "description": "Provide current credit report (within 90 days)",
-                "category": "Credit"
-            }
-        ]
-    },
-    "instructions": "Check if the uploaded documents satisfy these specific conditions. I already know what conditions are needed, just verify if the documents fulfill them.",
-    "s3_pdf_paths": [
-        "rm-conditions/Bank Statement - August 2025.pdf",
-        "rm-conditions/Credit Report - September 2025.pdf"
-    ]
-}
-
-# Scenario 3: S3 access check only
-SCENARIO_3_S3_ACCESS = {
-    "metadata": {},
-    "instructions": "Verify that you can access these S3 documents and retrieve their metadata. Just confirm the files exist and are readable.",
-    "s3_pdf_paths": [
-        "rm-conditions/Encompass Docs - Preliminary Title Report dtd 9-4-25.pdf",
-        "rm-conditions/Flood Certification - Flood Certificate.pdf"
-    ]
-}
-
-# Scenario 4: Full loan evaluation
-SCENARIO_4_FULL_EVALUATION = {
-    "metadata": load_test_metadata(),
-    "instructions": "Perform a complete loan conditions evaluation. First predict what conditions might be deficient, then check if the uploaded documents satisfy those conditions.",
-    "s3_pdf_paths": [
-        "rm-conditions/Bank Statement - August 2025.pdf",
-        "rm-conditions/URLA 1003 Application.pdf",
-        "rm-conditions/Credit Report - September 2025.pdf"
-    ]
-}
-
-# Scenario 5: Specific question about documents
-SCENARIO_5_DOCUMENT_QUESTION = {
-    "metadata": load_test_metadata(),
-    "instructions": "Based on this loan application, do I have all the required income documentation? Tell me what income documents are typically required and if they're present.",
-    "s3_pdf_paths": [
-        "rm-conditions/Bank Statement - August 2025.pdf",
-        "rm-conditions/W2 - 2024.pdf"
-    ]
-}
-
-# Scenario 6: Historical data query
-SCENARIO_6_HISTORICAL = {
-    "metadata": {
-        "loan_program": "Flex Supreme",
-        "borrower_type": "W2"
-    },
-    "instructions": "What are the most common deficient conditions for W2 borrowers in the Flex Supreme program? Look at historical data.",
-    "s3_pdf_paths": []
-}
+# Load scenarios from JSON files
+SCENARIO_1_DEFICIENCIES_ONLY = load_scenario('scenario_1_deficiencies_only.json')
+SCENARIO_2_VALIDATION_ONLY = load_scenario('scenario_2_validation_only.json')
+SCENARIO_3_S3_ACCESS = load_scenario('scenario_3_s3_access.json')
+SCENARIO_4_FULL_EVALUATION = load_scenario('scenario_4_full_evaluation.json')
 
 
 async def test_scenario(scenario_name: str, input_data: dict):
@@ -188,8 +127,6 @@ async def run_all_scenarios():
         ("2. Document Validation Only", SCENARIO_2_VALIDATION_ONLY),
         ("3. S3 Access Check", SCENARIO_3_S3_ACCESS),
         ("4. Full Evaluation", SCENARIO_4_FULL_EVALUATION),
-        ("5. Specific Document Question", SCENARIO_5_DOCUMENT_QUESTION),
-        ("6. Historical Data Query", SCENARIO_6_HISTORICAL),
     ]
     
     results = []
@@ -228,8 +165,6 @@ async def run_single_scenario(scenario_num: int):
         2: ("Document Validation Only", SCENARIO_2_VALIDATION_ONLY),
         3: ("S3 Access Check", SCENARIO_3_S3_ACCESS),
         4: ("Full Evaluation", SCENARIO_4_FULL_EVALUATION),
-        5: ("Specific Document Question", SCENARIO_5_DOCUMENT_QUESTION),
-        6: ("Historical Data Query", SCENARIO_6_HISTORICAL),
     }
     
     if scenario_num not in scenarios:
@@ -250,17 +185,15 @@ if __name__ == "__main__":
     print("  2. Document validation only (Conditions AI)")
     print("  3. S3 access check (retrieve_s3_document)")
     print("  4. Full evaluation (PreConditions + Conditions AI)")
-    print("  5. Specific document question")
-    print("  6. Historical data query")
     print("  all - Run all scenarios")
     print()
     
-    choice = input("Select test [1-6/all] (default: all): ").strip().lower() or "all"
+    choice = input("Select test [1-4/all] (default: all): ").strip().lower() or "all"
     
     if choice == "all":
         print("\n🔬 Running ALL scenarios...")
         asyncio.run(run_all_scenarios())
-    elif choice.isdigit() and 1 <= int(choice) <= 6:
+    elif choice.isdigit() and 1 <= int(choice) <= 4:
         print(f"\n🔬 Running scenario {choice}...")
         asyncio.run(run_single_scenario(int(choice)))
     else:

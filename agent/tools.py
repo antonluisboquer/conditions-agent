@@ -5,7 +5,10 @@ from typing import Any, Dict, List, Optional
 
 from services.preconditions import preconditions_client
 from services.conditions_ai import conditions_ai_client
-from utils.transformers import transform_preconditions_to_conditions_ai
+from utils.transformers import (
+    transform_preconditions_to_conditions_ai,
+    transform_metadata_to_conditions_ai
+)
 
 
 class ConditionsAgentTools:
@@ -23,27 +26,50 @@ class ConditionsAgentTools:
         """
         Call the Conditions AI workflow.
 
-        The payload can contain either a `transformed_input` (ready for the DAG)
-        or a `preconditions_output` plus optional `documents`.
+        The payload can contain:
+        - `transformed_input`: Already formatted for the DAG (ready to use)
+        - `preconditions_output`: PreConditions API output to be transformed
+        - `metadata`: Raw conditions to be transformed (validation-only scenarios)
         """
+        # Option 1: Already transformed input
         transformed_input = payload.get("transformed_input")
         if transformed_input:
             return await conditions_ai_client.evaluate(transformed_input)
 
+        # Option 2: Transform from preconditions output
         preconditions_output = payload.get("preconditions_output")
-        if not preconditions_output:
-            raise ValueError("call_conditions_ai_api requires transformed_input or preconditions_output.")
+        if preconditions_output:
+            documents = payload.get("documents") or self.default_documents
+            if not documents:
+                raise ValueError("call_conditions_ai_api requires at least one document path.")
 
-        documents = payload.get("documents") or self.default_documents
-        if not documents:
-            raise ValueError("call_conditions_ai_api requires at least one document path.")
+            primary_doc = documents[0]
+            transformed = transform_preconditions_to_conditions_ai(
+                cloud_output=preconditions_output,
+                s3_pdf_path=primary_doc,
+            )
+            return await conditions_ai_client.evaluate(transformed)
 
-        primary_doc = documents[0]
-        transformed = transform_preconditions_to_conditions_ai(
-            cloud_output=preconditions_output,
-            s3_pdf_path=primary_doc,
+        # Option 3: Transform from raw metadata (validation-only scenario)
+        metadata = payload.get("metadata")
+        if metadata:
+            documents = payload.get("documents") or self.default_documents
+            if not documents:
+                raise ValueError("call_conditions_ai_api requires at least one document path.")
+            
+            output_destination = payload.get("output_destination")
+            transformed = transform_metadata_to_conditions_ai(
+                metadata=metadata,
+                s3_pdf_paths=documents,
+                output_destination=output_destination
+            )
+            return await conditions_ai_client.evaluate(transformed)
+
+        # No valid input provided
+        raise ValueError(
+            "call_conditions_ai_api requires one of: "
+            "transformed_input, preconditions_output, or metadata"
         )
-        return await conditions_ai_client.evaluate(transformed)
 
     async def retrieve_s3_document(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         """

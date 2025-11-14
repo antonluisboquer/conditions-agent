@@ -265,9 +265,17 @@ CONDITIONS_AI_API_URL=https://uat-airflow-llm.cybersoftbpo.ai
 AIRFLOW_USERNAME=your_username
 AIRFLOW_PASSWORD=your_password
 
-# S3 Configuration
-AWS_ACCESS_KEY_ID=your_aws_access_key
-AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+# S3 Configuration (Choose one authentication method)
+# Option 1: IAM Role Assumption (Recommended)
+AWS_ROLE_ARN=arn:aws:iam::123456789012:role/YourS3AccessRole
+# Option 2: Temporary Credentials with Session Token
+# AWS_ACCESS_KEY_ID=ASIA...
+# AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+# AWS_SESSION_TOKEN=your_session_token
+# Option 3: Static Credentials (Legacy - not recommended)
+# AWS_ACCESS_KEY_ID=AKIA...
+# AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+# Option 4: Default Credential Chain (leave all unset)
 AWS_REGION=us-east-1
 S3_OUTPUT_BUCKET=quick-quote-demo
 

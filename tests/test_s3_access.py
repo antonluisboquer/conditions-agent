@@ -27,14 +27,40 @@ logger = get_logger(__name__)
 
 def get_s3_client():
     """Get S3 client with proper credentials."""
-    if settings.aws_access_key_id and settings.aws_secret_access_key:
-        logger.info("Using explicit AWS credentials")
+    # Priority: Role ARN > Temporary Credentials > Static Keys > Default Credential Chain
+    if settings.aws_role_arn:
+        logger.info(f"Assuming IAM role: {settings.aws_role_arn}")
+        sts_client = boto3.client('sts', region_name=settings.aws_region)
+        assumed_role = sts_client.assume_role(
+            RoleArn=settings.aws_role_arn,
+            RoleSessionName='conditions-agent-test-session'
+        )
+        credentials = assumed_role['Credentials']
         return boto3.client(
             's3',
-            aws_access_key_id=settings.aws_access_key_id,
-            aws_secret_access_key=settings.aws_secret_access_key,
+            aws_access_key_id=credentials['AccessKeyId'],
+            aws_secret_access_key=credentials['SecretAccessKey'],
+            aws_session_token=credentials['SessionToken'],
             region_name=settings.aws_region
         )
+    elif settings.aws_access_key_id and settings.aws_secret_access_key:
+        if settings.aws_session_token:
+            logger.info("Using temporary credentials with session token")
+            return boto3.client(
+                's3',
+                aws_access_key_id=settings.aws_access_key_id,
+                aws_secret_access_key=settings.aws_secret_access_key,
+                aws_session_token=settings.aws_session_token,
+                region_name=settings.aws_region
+            )
+        else:
+            logger.info("Using static AWS credentials")
+            return boto3.client(
+                's3',
+                aws_access_key_id=settings.aws_access_key_id,
+                aws_secret_access_key=settings.aws_secret_access_key,
+                region_name=settings.aws_region
+            )
     else:
         logger.info("Using default AWS credential chain")
         return boto3.client('s3', region_name=settings.aws_region)
@@ -49,7 +75,17 @@ async def test_s3_connectivity():
     
     print("\n📋 Configuration:")
     print(f"   Region: {settings.aws_region}")
-    print(f"   Access Key: {'*' * 10}{settings.aws_access_key_id[-4:] if settings.aws_access_key_id else 'NOT SET (using default)'}")
+    if settings.aws_role_arn:
+        print(f"   Auth Method: IAM Role Assumption")
+        print(f"   Role ARN: {settings.aws_role_arn}")
+    elif settings.aws_access_key_id:
+        auth_type = "Temporary (with session token)" if settings.aws_session_token else "Static"
+        print(f"   Auth Method: {auth_type} credentials")
+        print(f"   Access Key: {'*' * 10}{settings.aws_access_key_id[-4:]}")
+        if settings.aws_session_token:
+            print(f"   Session Token: {'*' * 10}{settings.aws_session_token[-4:]}")
+    else:
+        print(f"   Auth Method: Default credential chain")
     print(f"   Default Bucket: {settings.s3_output_bucket or 'NOT SET'}")
     
     try:

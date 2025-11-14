@@ -56,9 +56,9 @@
   },
   "instructions": "Perform a complete loan conditions evaluation. First predict what conditions might be deficient, then check if the uploaded documents satisfy those conditions.",
   "s3_pdf_paths": [
-    "rm-conditions/Bank Statement - August 2025.pdf",
-    "rm-conditions/URLA 1003 Application.pdf",
-    "rm-conditions/Credit Report - September 2025.pdf"
+    "s3://rm-conditions/Encompass Docs - Preliminary Title Report dtd 9-4-25.pdf",
+    "s3://rm-conditions/Flood Certification - Flood Certificate.pdf",
+    "s3://rm-conditions/Full Access Letter - demo.pdf"
   ]
 }
 

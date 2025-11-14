@@ -23,9 +23,9 @@
   },
   "instructions": "Check if the uploaded documents satisfy these specific conditions. I already know what conditions are needed, just verify if the documents fulfill them.",
   "s3_pdf_paths": [
-    "rm-conditions/Bank Statement - August 2025.pdf",
-    "rm-conditions/Credit Report - September 2025.pdf",
-    "rm-conditions/Encompass Docs - Preliminary Title Report dtd 9-4-25.pdf"
+    "s3://rm-conditions/Encompass Docs - Preliminary Title Report dtd 9-4-25.pdf",
+    "s3://rm-conditions/Flood Certification - Flood Certificate.pdf",
+    "s3://rm-conditions/Full Access Letter - demo.pdf"
   ]
 }
 

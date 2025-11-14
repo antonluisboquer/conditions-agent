@@ -177,6 +177,22 @@ async def classify_results_node(state: AgentState) -> Dict[str, Any]:
     
     logger.info("Classifying evaluation results")
     
+    # Check if this is a "no relevant documents" scenario
+    processing_status = conditions_ai_output.get('processing_status')
+    if processing_status == 'completed_no_relevant_documents':
+        logger.info("No relevant documents found - skipping classification")
+        return {
+            "fulfilled_conditions": [],
+            "not_fulfilled_conditions": [],
+            "requires_human_review": False,
+            "auto_approved_count": 0,
+            "node_outputs": state.get("node_outputs", []) + [{
+                "node": "classify_results",
+                "completed_at": datetime.utcnow().isoformat(),
+                "output_summary": "No relevant documents found"
+            }]
+        }
+    
     try:
         # Extract fulfilled and not fulfilled conditions
         fulfilled, not_fulfilled = extract_fulfilled_and_not_fulfilled(conditions_ai_output)
@@ -302,44 +318,70 @@ async def store_results_node(state: AgentState) -> Dict[str, Any]:
     
     logger.info("Preparing final results")
     
-    # Format all conditions for frontend
-    all_conditions = []
+    # Check if this is a "no relevant documents" scenario
+    processing_status = conditions_ai_output.get('processing_status')
+    is_no_relevant_docs = processing_status == 'completed_no_relevant_documents'
     
-    for cond in fulfilled_conditions:
-        all_conditions.append(format_condition_for_frontend(cond, is_fulfilled=True))
+    if is_no_relevant_docs:
+        logger.info("No relevant documents found - preparing special result")
+        final_results = {
+            "execution_id": execution_metadata.get("execution_id"),
+            "trace_id": execution_metadata.get("trace_id"),
+            "status": "completed_no_relevant_documents",
+            "timestamp": datetime.utcnow().isoformat(),
+            "summary": {
+                "total_conditions": 0,
+                "fulfilled": 0,
+                "not_fulfilled": 0,
+                "auto_approved": 0,
+                "requires_review": 0,
+                "no_relevant_documents": True,
+                "message": "No uploaded documents were relevant to the specified conditions"
+            },
+            "conditions": [],
+            "usage": conditions_ai_output.get('api_usage_summary', {}),
+            "workflow_info": conditions_ai_output.get('workflow_info', {}),
+            "note": conditions_ai_output.get('message', 'No relevant documents found')
+        }
+    else:
+        # Normal processing - format conditions
+        all_conditions = []
+        
+        for cond in fulfilled_conditions:
+            all_conditions.append(format_condition_for_frontend(cond, is_fulfilled=True))
+        
+        for cond in not_fulfilled_conditions:
+            all_conditions.append(format_condition_for_frontend(cond, is_fulfilled=False))
+        
+        # Calculate totals
+        api_usage = conditions_ai_output.get('api_usage_summary', {})
+        condition_analysis = api_usage.get('condition_analysis', {})
+        
+        final_results = {
+            "execution_id": execution_metadata.get("execution_id"),
+            "trace_id": execution_metadata.get("trace_id"),
+            "status": "completed",
+            "timestamp": datetime.utcnow().isoformat(),
+            "summary": {
+                "total_conditions": len(all_conditions),
+                "fulfilled": len(fulfilled_conditions),
+                "not_fulfilled": len(not_fulfilled_conditions),
+                "auto_approved": len(fulfilled_conditions),
+                "requires_review": len(not_fulfilled_conditions)
+            },
+            "conditions": all_conditions,
+            "usage": {
+                "total_tokens": condition_analysis.get('total_tokens', 0),
+                "total_cost_usd": condition_analysis.get('total_cost_usd', 0),
+                "total_latency_ms": condition_analysis.get('total_latency_ms', 0),
+                "avg_latency_ms": condition_analysis.get('avg_latency_ms', 0)
+            },
+            "workflow_info": conditions_ai_output.get('workflow_info', {})
+        }
     
-    for cond in not_fulfilled_conditions:
-        all_conditions.append(format_condition_for_frontend(cond, is_fulfilled=False))
-    
-    # Calculate totals
-    api_usage = conditions_ai_output.get('api_usage_summary', {})
-    condition_analysis = api_usage.get('condition_analysis', {})
-    
-    final_results = {
-        "execution_id": execution_metadata.get("execution_id"),
-        "trace_id": execution_metadata.get("trace_id"),
-        "status": "completed",
-        "timestamp": datetime.utcnow().isoformat(),
-        "summary": {
-            "total_conditions": len(all_conditions),
-            "fulfilled": len(fulfilled_conditions),
-            "not_fulfilled": len(not_fulfilled_conditions),
-            "auto_approved": len(fulfilled_conditions),
-            "requires_review": len(not_fulfilled_conditions)
-        },
-        "conditions": all_conditions,
-        "usage": {
-            "total_tokens": condition_analysis.get('total_tokens', 0),
-            "total_cost_usd": condition_analysis.get('total_cost_usd', 0),
-            "total_latency_ms": condition_analysis.get('total_latency_ms', 0),
-            "avg_latency_ms": condition_analysis.get('avg_latency_ms', 0)
-        },
-        "workflow_info": conditions_ai_output.get('workflow_info', {})
-    }
-    
-    logger.info(f"Final results prepared: {len(all_conditions)} total conditions")
-    logger.info(f"Auto-approved: {len(fulfilled_conditions)}")
-    logger.info(f"Needs review: {len(not_fulfilled_conditions)}")
+    logger.info(f"Final results prepared: {final_results.get('summary', {}).get('total_conditions', 0)} total conditions")
+    logger.info(f"Auto-approved: {final_results.get('summary', {}).get('fulfilled', 0)}")
+    logger.info(f"Needs review: {final_results.get('summary', {}).get('not_fulfilled', 0)}")
     
     # TODO: Store to PostgreSQL
     # await repository.store_execution(...)

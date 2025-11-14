@@ -33,7 +33,9 @@ class Settings(BaseSettings):
     # S3 Configuration (for fetching Conditions AI results)
     aws_access_key_id: Optional[str] = None
     aws_secret_access_key: Optional[str] = None
+    aws_session_token: Optional[str] = None  # For temporary credentials
     aws_region: str = "us-east-1"
+    aws_role_arn: Optional[str] = None  # Role ARN to assume for S3 access
     s3_output_bucket: Optional[str] = None
     
     # Database Configuration

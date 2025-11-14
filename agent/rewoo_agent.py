@@ -230,9 +230,12 @@ async def worker_node(state: ReWOOState) -> Dict[str, Any]:
                 payload.setdefault("metadata", metadata)
                 result = await tools.call_preconditions_api(payload)
             elif tool_name == "call_conditions_ai_api":
+                # Check if we have preconditions_output to use
                 existing_output = payload.get("preconditions_output")
                 if isinstance(existing_output, str):
                     payload.pop("preconditions_output")
+                
+                # Try to get preconditions_output from evidence if not provided
                 if "preconditions_output" not in payload:
                     from_step = payload.get("from_step")
                     if isinstance(from_step, int):
@@ -244,9 +247,14 @@ async def worker_node(state: ReWOOState) -> Dict[str, Any]:
                     elif evidence:
                         latest_key = list(evidence.keys())[-1]
                         payload["preconditions_output"] = evidence[latest_key]
-                    else:
-                        payload["preconditions_output"] = {}
+                    # If still no preconditions_output, use metadata if available
+                    elif metadata and metadata.get("conditions"):
+                        logger.info("No preconditions_output found, using metadata for validation-only scenario")
+                        payload["metadata"] = metadata
+                        payload.pop("preconditions_output", None)  # Remove empty preconditions_output
+                
                 payload.setdefault("documents", s3_pdf_paths)
+                payload.setdefault("output_destination", state.get("output_destination"))
                 result = await tools.call_conditions_ai_api(payload)
             elif tool_name == "retrieve_s3_document":
                 result = await tools.retrieve_s3_document(payload)
