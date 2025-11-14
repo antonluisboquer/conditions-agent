@@ -12,7 +12,9 @@ class Settings(BaseSettings):
     rewoo_langsmith_api_key: Optional[str] = Field(
         default=None, alias="REWOO_LANGSMITH_API_KEY"
     )
-    langsmith_project: str = "conditions-agent"
+    rewoo_langsmith_project: str = Field(
+        default="conditions-agent", alias="REWOO_LANGSMITH_PROJECT"
+    )
     langsmith_tracing_v2: bool = True
 
     # LLM Configuration
