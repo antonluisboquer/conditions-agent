@@ -8,17 +8,24 @@ import sys
 import asyncio
 import os
 from pathlib import Path
-from langgraph_sdk import get_client
 from dotenv import load_dotenv
+from langgraph_sdk import get_client
+
 load_dotenv()
 
 # ============================================================================
 # CONFIGURATION - Update these with your deployment details
 # ============================================================================
 
-DEPLOYMENT_URL = os.getenv("PRECONDITIONS_DEPLOYMENT_URL")  # From LangSmith Deployments
-API_KEY = os.getenv("PRECONDITIONS_LANGSMITH_API_KEY") # From LangSmith Settings → API Keys
-ASSISTANT_ID = os.getenv("PRECONDITIONS_ASSISTANT_ID")  # Your graph name
+DEPLOYMENT_URL = (
+    os.getenv("LG_DEPLOYMENT_URL") or os.getenv("PRECONDITIONS_DEPLOYMENT_URL")
+)
+API_KEY = (
+    os.getenv("LG_API_KEY") or os.getenv("PRECONDITIONS_LANGSMITH_API_KEY")
+)
+ASSISTANT_ID = (
+    os.getenv("LG_ASSISTANT_ID") or os.getenv("PRECONDITIONS_ASSISTANT_ID")
+)
 
 # ============================================================================
 # MAIN SCRIPT
@@ -32,11 +39,12 @@ async def main():
     print("=" * 70)
     
     # Check configuration
-    if "your-deployment" in DEPLOYMENT_URL or "your_api_key" in API_KEY:
+    if not DEPLOYMENT_URL or not API_KEY or not ASSISTANT_ID:
         print("\n❌ ERROR: Please update the configuration at the top of this script!")
         print("\nYou need to set:")
-        print("  1. DEPLOYMENT_URL - Found in LangSmith → Deployments → Your deployment")
-        print("  2. API_KEY - Found in LangSmith → Settings → API Keys")
+        print("  1. LG_DEPLOYMENT_URL (or PRECONDITIONS_DEPLOYMENT_URL)")
+        print("  2. LG_API_KEY (or PRECONDITIONS_LANGSMITH_API_KEY)")
+        print("  3. LG_ASSISTANT_ID (or PRECONDITIONS_ASSISTANT_ID)")
         sys.exit(1)
     
     # Load input data

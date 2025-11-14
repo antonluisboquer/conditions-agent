@@ -19,6 +19,10 @@ from datetime import datetime
 from typing import Optional
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from config.settings import settings
 from utils.logging_config import get_logger
 
